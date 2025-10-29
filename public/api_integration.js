@@ -5,7 +5,7 @@
  */
 
 // رابط Google Apps Script Web App
-const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbyk6zKpzjF_zP4fBV036z8evMyXIGufEYQmx-jhDtink_pp1dR9PcRLHZqkgWLzYqw05w/exec';
+const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbwdWMEw_WuqwGHJfQkzkngwLs4G6bQJVfBig4Dnqx3kNiPv4y404FwpCa81EUPVXeFbsg/exec';
 /**
  * إرسال طلب إلى Google Apps Script
  */
@@ -223,23 +223,25 @@ async function calculateStatistics() {
 /**
  * تحويل تذكرة إلى مسؤول آخر
  */
-async function transferTicket(ticketNumber, transferTo, transferredBy) {
+// ✅ CORRECT: نفس الأساس لديك (JSONP عبر sendRequest) مع أسماء الحقول القياسية
+    async function transferTicket(ticketNumber, transferTo, transferredBy) {
     showLoading('جاري تحويل التذكرة...');
     const result = await sendRequest('transferTicket', {
         ticketNumber: ticketNumber,
         transferTo: transferTo,
         transferredBy: transferredBy,
-        transferDate: new Date().toLocaleDateString('ar-SA')
+        transferDate: new Date().toLocaleDateString('ar-SA') // مهم لتتبع الشارة
     });
     hideLoading();
-    if (result.success) {
+    if (result && result.success) {
         showSuccess('تم تحويل التذكرة بنجاح');
         return true;
     } else {
-        showError('فشل في تحويل التذكرة');
+        showError(result?.message || 'فشل في تحويل التذكرة');
         return false;
     }
-}
+    }
+
 
 /**
  * إنهاء تذكرة
