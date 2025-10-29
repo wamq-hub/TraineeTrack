@@ -200,6 +200,8 @@
             animation: fadeIn 0.3s;
         }
 
+        
+
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
@@ -729,8 +731,125 @@
   padding:6px 10px; border-radius:999px; background:#FEF9C3; color:#854D0E; border:1px solid #FDE68A; font-weight:700; font-size:12px;
 }
 
+  .date-filter{background:#e8f4f8;border-radius:14px;padding:12px}
+  .date-toolbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:10px}
+  .chip{border:1px solid var(--primary-blue,#0A5F8F);padding:6px 10px;border-radius:999px;cursor:pointer;font-weight:600;background:#fff}
+  .chip.active{background:var(--primary-blue,#0A5F8F);color:#fff}
+  .range-row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+  .range-row .sep{opacity:.6;font-weight:700}
+  .date-input{height:38px;padding:6px 10px;border:1px solid #cfd8dc;border-radius:10px;background:#fff}
+  .btn-apply{height:38px;padding:0 14px;border-radius:10px;border:0;background:#0A5F8F;color:#fff;font-weight:700;cursor:pointer}
+
+
+
 </style>
 </head>
+<script>
+(function(){
+  const $ = s=>document.querySelector(s);
+
+  function ymd(d){const y=d.getFullYear(),m=String(d.getMonth()+1).padStart(2,'0'),da=String(d.getDate()).padStart(2,'0');return `${y}-${m}-${da}`;}
+  function startOfWeek(d){const x=new Date(d);const day=(x.getDay());x.setDate(x.getDate()-day);x.setHours(0,0,0,0);return x;}
+  function endOfWeek(d){const s=startOfWeek(d);const e=new Date(s);e.setDate(s.getDate()+6);e.setHours(23,59,59,999);return e;}
+  function startOfMonth(d){return new Date(d.getFullYear(), d.getMonth(), 1);}
+  function endOfMonth(d){return new Date(d.getFullYear(), d.getMonth()+1, 0);}
+
+  function setRange(from,to){
+    $('#fltDateFrom').value = from ? ymd(from) : '';
+    $('#fltDateTo').value   = to   ? ymd(to)   : '';
+  }
+
+  function applyRange(){
+    const from=$('#fltDateFrom')?.value||'', to=$('#fltDateTo')?.value||'';
+    document.dispatchEvent(new CustomEvent('filters:dateRangeChanged',{detail:{from,to}}));
+    if(typeof window.applyFilters==='function') window.applyFilters();
+  }
+
+  function activate(pr){
+    document.querySelectorAll('.chip').forEach(c=>c.classList.toggle('active', c.dataset.pr===pr));
+  }
+
+  // presets
+  const now=new Date();
+  const presets={
+    today: ()=>{const a=new Date();const b=new Date();setRange(a,b);},
+    week:  ()=>{setRange(startOfWeek(now), endOfWeek(now));},
+    month: ()=>{setRange(startOfMonth(now), endOfMonth(now));},
+    quarter: ()=>{
+      const m=Math.floor(now.getMonth()/3)*3;
+      const s=new Date(now.getFullYear(),m,1);
+      const e=new Date(now.getFullYear(),m+3,0);
+      setRange(s,e);
+    },
+    custom: ()=>{}
+  };
+
+  // bind
+  document.querySelectorAll('#dateFilter .chip').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      const pr=btn.dataset.pr;
+      activate(pr);
+      if(presets[pr]) presets[pr]();
+    });
+  });
+  $('#btnApplyRange')?.addEventListener('click', applyRange);
+
+  // default: هذا الشهر
+  activate('month'); presets.month(); applyRange();
+})();
+</script>
+
+
+<script>
+(function(){
+  const $ = s => document.querySelector(s);
+
+  function ymd(d){ const y=d.getFullYear(), m=String(d.getMonth()+1).padStart(2,'0'), da=String(d.getDate()).padStart(2,'0'); return `${y}-${m}-${da}`; }
+  function startOfWeek(d){ const x=new Date(d); const day=x.getDay(); x.setDate(x.getDate()-day); x.setHours(0,0,0,0); return x; }
+  function endOfWeek(d){ const s=startOfWeek(d); const e=new Date(s); e.setDate(s.getDate()+6); e.setHours(23,59,59,999); return e; }
+  function startOfMonth(d){ return new Date(d.getFullYear(), d.getMonth(), 1); }
+  function endOfMonth(d){ return new Date(d.getFullYear(), d.getMonth()+1, 0); }
+
+  function setDbRange(from,to){
+    const f = $('#dbFrom'), t = $('#dbTo');
+    if (f) f.value = from ? ymd(from) : '';
+    if (t) t.value = to   ? ymd(to)   : '';
+  }
+
+  window.applyDbFilters = function(){
+    const from = $('#dbFrom')?.value || '';
+    const to   = $('#dbTo')?.value   || '';
+    document.dispatchEvent(new CustomEvent('filters:dateRangeChanged', { detail:{ from, to } }));
+    if (typeof window.applyFilters === 'function') window.applyFilters();
+    else if (typeof window.refreshDashboard === 'function') window.refreshDashboard();
+  };
+
+  function activateChip(pr){
+    document.querySelectorAll('#dateFilter .chip')
+      .forEach(c=>c.classList.toggle('active', c.dataset.pr===pr));
+  }
+
+  const now = new Date();
+  const presets = {
+    today:   ()=>{ const a=new Date(); const b=new Date(); setDbRange(a,b); },
+    week:    ()=> setDbRange(startOfWeek(now), endOfWeek(now)),
+    month:   ()=> setDbRange(startOfMonth(now), endOfMonth(now)),
+    quarter: ()=> { const m=Math.floor(now.getMonth()/3)*3; const s=new Date(now.getFullYear(),m,1); const e=new Date(now.getFullYear(),m+3,0); setDbRange(s,e); },
+    custom:  ()=> {}
+  };
+
+  document.querySelectorAll('#dateFilter .chip').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      const pr = btn.dataset.pr;
+      activateChip(pr);
+      if (presets[pr]) presets[pr]();
+    });
+  });
+
+  // الوضع الافتراضي: هذا الشهر
+  activateChip('month'); presets.month(); window.applyDbFilters();
+})();
+</script>
 
 
 <body>
@@ -870,8 +989,8 @@
                         </div>
 
                         <div style="display: flex; gap: 10px; justify-content: center; margin-top: 30px;">
-                            <button class="btn btn-success" onclick="completeTicket()">إنهاء الطلب</button>
-                            <button class="btn btn-warning" onclick="showTransferOptions()">تحويل الطلب</button>
+                        <button class="btn btn-success" onclick="completeTicket()">إنهاء الطلب</button>
+                        <button id="transferBtn" class="btn btn-warning hidden" onclick="showTransferOptions()">تحويل الطلب</button>
                         </div>
 
                         <div id="transferOptions" class="hidden" style="margin-top: 20px;">
@@ -1041,39 +1160,51 @@
             <div id="managementDeptBoard" class="tab-content">
             <!-- فلاتر -->
             <div class="info-card" style="margin-bottom:16px;">
-                <h3 style="color: var(--primary-blue); margin-bottom: 10px;">الفلاتر</h3>
-                <div class="info-row">
+            <h3 style="color: var(--primary-blue); margin-bottom: 10px;">الفلاتر</h3>
+
+            <!-- شريط نطاق التاريخ الجديد -->
+            <div class="date-filter" id="dateFilter" style="background:#e8f4f8;border-radius:14px;padding:12px;margin-bottom:12px;">
+                <div class="date-toolbar" style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:10px;">
+                <button class="chip" data-pr="today"   style="border:1px solid var(--primary-blue,#0A5F8F);padding:6px 10px;border-radius:999px;cursor:pointer;font-weight:600;background:#fff;">اليوم</button>
+                <button class="chip" data-pr="week"    style="border:1px solid var(--primary-blue,#0A5F8F);padding:6px 10px;border-radius:999px;cursor:pointer;font-weight:600;background:#fff;">هذا الأسبوع</button>
+                <button class="chip" data-pr="month"   style="border:1px solid var(--primary-blue,#0A5F8F);padding:6px 10px;border-radius:999px;cursor:pointer;font-weight:600;background:#fff;">هذا الشهر</button>
+                <button class="chip" data-pr="quarter" style="border:1px solid var(--primary-blue,#0A5F8F);padding:6px 10px;border-radius:999px;cursor:pointer;font-weight:600;background:#fff;">هذا الربع</button>
+                <button class="chip" data-pr="custom"  style="border:1px solid var(--primary-blue,#0A5F8F);padding:6px 10px;border-radius:999px;cursor:pointer;font-weight:600;background:#fff;">مخصص</button>
+                </div>
+                <div class="range-row" style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+                <!-- نحافظ على نفس المعرّفات القديمة حتى لا يتأثر الكود الباقي -->
+                <input id="dbFrom" class="date-input" type="date" placeholder="YYYY-MM-DD" style="height:38px;padding:6px 10px;border:1px solid #cfd8dc;border-radius:10px;background:#fff">
+                <span class="sep" style="opacity:.6;font-weight:700">—</span>
+                <input id="dbTo" class="date-input" type="date" placeholder="YYYY-MM-DD" style="height:38px;padding:6px 10px;border:1px solid #cfd8dc;border-radius:10px;background:#fff">
+                <button class="btn-apply" id="btnApplyDbRange" onclick="applyDbFilters()" style="height:38px;padding:0 14px;border-radius:10px;border:0;background:#0A5F8F;color:#fff;font-weight:700;cursor:pointer">تطبيق</button>
+                </div>
+            </div>
+
+            <div class="info-row">
                 <div class="info-item">
-                    <strong>من تاريخ</strong>
-                    <input type="date" id="dbFrom">
+                <strong>الأقسام</strong>
+                <select id="dbDept" multiple style="height: 110px;"></select>
                 </div>
                 <div class="info-item">
-                    <strong>إلى تاريخ</strong>
-                    <input type="date" id="dbTo">
-                </div>
-                <div class="info-item">
-                    <strong>الأقسام</strong>
-                    <select id="dbDept" multiple style="height: 110px;"></select>
-                </div>
-                <div class="info-item">
-                    <strong>الحالة</strong>
-                    <div style="display:flex; gap:10px; flex-wrap:wrap; padding-top:6px;">
+                <strong>الحالة</strong>
+                <div style="display:flex; gap:10px; flex-wrap:wrap; padding-top:6px;">
                     <label><input type="checkbox" id="dbStPending" checked> معلّقة</label>
                     <label><input type="checkbox" id="dbStInProgress" checked> قيد التنفيذ</label>
                     <label><input type="checkbox" id="dbStCompleted" checked> مكتملة</label>
-                    </div>
+                </div>
                 </div>
                 <div class="info-item">
-                    <strong>المصدر</strong>
-                    <select id="dbSource">
+                <strong>المصدر</strong>
+                <select id="dbSource">
                     <option value="all" selected>الكل</option>
                     <option value="advisory">من وحدة الإرشاد</option>
                     <option value="elearning">التدريب الإلكتروني</option>
                     <option value="departments">الأقسام التدريبية</option>
-                    </select>
-                </div>
+                </select>
                 </div>
             </div>
+            </div>
+
 
             <!-- KPIs -->
             <div class="stats-grid" id="dbKpis" style="margin-top: -8px;">
@@ -1136,6 +1267,8 @@
         </div>
     </div>
 
+
+    
     <!-- تضمين ملف API -->
     <script src="api_integration.js"></script>
 
@@ -1158,7 +1291,46 @@
         5: 'ممتاز'
         };
 
+        // 🔹 مساعدات مطلوبة (ضعها مرة واحدة في ملفك إن لم تكن موجودة)
+        function normalizeServiceType(v){
+        v = String(v || '').trim().toLowerCase();
+        if (['تدريبية','تدريبي','training','train','تعليمي'].includes(v)) return 'training';
+        return v;
+        }
+        function isAdvisoryUser(){
+        const role = (window.currentUser?.role || window.currentUser?.data?.role || '')
+                        .toLowerCase().replace(/\s+/g,'_');
+        return role === 'advisory_unit' || role === 'وحدة_الخدمات_الإرشادية';
+        }
 
+        // trainee_platform_live copy.html
+        function refreshAdvisorTransferUI(){
+        const btn  = document.getElementById('transferBtn');
+        const opts = document.getElementById('transferOptions');
+        if (!btn) return;
+        const roleOk = isAdvisoryUser();
+        const checked = document.querySelector('input[name="serviceType"]:checked');
+        const type = normalizeServiceType(checked ? checked.value : '');
+        const canTransfer = roleOk && type === 'training';
+        btn.classList.toggle('hidden', !canTransfer);
+        if (!canTransfer && opts) opts.classList.add('hidden');
+        }
+        document.addEventListener('DOMContentLoaded', () => {
+        document.querySelectorAll('input[name="serviceType"]').forEach(r=>{
+            r.addEventListener('change', refreshAdvisorTransferUI);
+        });
+        refreshAdvisorTransferUI();
+        });
+
+        // هل المستخدم من وحدة الإرشاد؟
+
+        // ✳️ الدالة الصحيحة: لو كانت الخدمة "تدريبية" ⇒ يسمح فقط بالتحويل.
+        // لو "غير تدريبية" ⇒ تُعرض الأزرار الأخرى بدون "تحويل".
+        function advisorAllowedActions(ticket){
+        if (!isAdvisoryUser()) return null;
+        const isTraining = normalizeServiceType(ticket?.serviceType) === 'training';
+        return isTraining ? ['transfer'] : ['comment','request-info','close'];
+        }
         // ===== إعدادات عامة للوحة متابعة الأقسام =====
         const SLA_DAYS = 5;  // يمكنك تعديلها لاحقًا أو قراءة من config
 
@@ -1227,6 +1399,7 @@
         const scale = document.getElementById('ratingScale');
         if (stars && scale) buildRatingUI(stars, scale, __ratingValue);
         }
+
 
         function openRatingModal(ticketNumber) {
         // حماية: لا تفتح لو كانت مقيّمة مسبقًا
@@ -1323,6 +1496,43 @@
         };
         }
 
+        // يفترض وجود currentUser.role و/أو currentUser.data.role حسب تطبيقك
+        function canShowTransferButton(ticket){
+        const role = (window.currentUser?.role || window.currentUser?.data?.role || '').toLowerCase().replace(/\s+/g,'_');
+        const isAdvisory = (role === 'advisory_unit' || role === 'وحدة_الخدمات_الإرشادية');
+        return isAdvisory && normalizeServiceType(ticket.serviceType) === 'training';
+        }
+
+        // مثال داخل بناء أزرار البطاقة:
+        function renderTicketActions(ticket){
+        const actions = [];
+        // أزرار حالية… (لا تغيّرها)
+        // ...
+        const advisorActions = advisorAllowedActions(ticket);
+        if (advisorActions) {
+            // زر التحويل
+            if (advisorActions.includes('transfer')) {
+            actions.push(`<button class="btn btn-primary" onclick="openAdvisorTransferModal('${ticket.ticketNumber}')">تحويل</button>`);
+            }
+            // بقية الأزرار تُعرض فقط إن كانت غير تدريبية
+            if (advisorActions.includes('comment')) {
+            actions.push(`<button class="btn" onclick="openAddCommentModal('${ticket.ticketNumber}')">ملاحظة</button>`);
+            }
+            if (advisorActions.includes('request-info')) {
+            actions.push(`<button class="btn" onclick="openRequestMoreInfo('${ticket.ticketNumber}')">طلب معلومات</button>`);
+            }
+            if (advisorActions.includes('close')) {
+            actions.push(`<button class="btn btn-danger" onclick="confirmCloseTicket('${ticket.ticketNumber}')">إغلاق</button>`);
+            }
+            return `<div class="ticket-actions">${actions.join('')}</div>`;
+        }
+        // ✅ زر التحويل يظهر فقط لوحدة الإرشاد + تدريبية
+        // 🔹 زر التحويل يظهر فقط لوحدة الإرشاد + تدريبية
+        if (canShowTransferButton(ticket)) {
+            actions.push(`<button class="btn btn-primary" onclick="openAdvisorTransferModal('${ticket.ticketNumber}')">تحويل الطلب</button>`);
+        }
+        return `<div class="ticket-actions">${actions.join('')}</div>`;
+        }
         
         // تحويل تذكرة
         // === استبدال كامل للدالة السابقة ===
@@ -1487,6 +1697,14 @@
         }
         }
 
+        // === 🟢 شرط ظهور زر التحويل لوحدة الإرشاد فقط للطلبات التدريبية ===
+        function canShowTransferButton(ticket) {
+        const role = (window.currentUser?.role || window.currentUser?.data?.role || '').toLowerCase().replace(/\s+/g,'_');
+        const serviceType = String(ticket.serviceType || '').trim().toLowerCase();
+        const isTraining = ['تدريبية','training','train','تعليمي'].includes(serviceType);
+        const isAdvisory = (role === 'advisory_unit' || role === 'وحدة_الخدمات_الإرشادية');
+        return isAdvisory && isTraining;
+        }
 
         // ✅ CORRECT: اكتشاف قوي لحالة التحويل + تفاصيل واضحة + توافق تام مع CSS
 // ✅ تصحيح كامل لدالة عرض البطاقة مع شارة التحويل (transfer badge) تظهر دائماً عند التحويل
@@ -3647,30 +3865,44 @@ function dbBindFiltersOnce(allTickets) {
 
 // فتح مجموعة معينة في الدرور
 function openDeptBucket(deptName, kind, allTickets) {
+  // 1) نقرأ الفلاتر الحالية ونطبّقها أولاً (الفترة/المصدر/الحالات)
   const filters = dbReadFilters();
   let view = dbFilterTickets(allTickets, filters);
 
-  // حصر القسم المختار (مع التعامل مع elearning)
+  // 2) حصر القسم:
+  //    - لو «التدريب الإلكتروني»: نجمع ما تم تحويله لدور elearning أو قسمه مسجل "التدريب الإلكتروني"
+  //    - غير ذلك: نطابق اسم القسم نصاً
   view = view.filter(t => {
     const toRole = normalizeRole((t.transferredTo || '').trim());
-    const d = (t.department || '').trim();
-    if (deptName === 'التدريب الإلكتروني') return toRole === 'elearning' || d === 'التدريب الإلكتروني';
-    return d === deptName;
+    const dept   = (t.department || '').trim();
+    if (deptName === 'التدريب الإلكتروني') {
+      return toRole === 'elearning' || dept === 'التدريب الإلكتروني';
+    }
+    return dept === deptName;
   });
 
-  // نوع الحِزمة
+  // 3) نوع السطل (bucket) حسب العمود الذي نقر عليه في الجدول:
+  //    new        => كل ما ضمن الفلترة الزمنية (لا نضيف فلتر حالة إضافي)
+  //    pending    => حالة معلّقة فقط
+  //    in_progress=> قيد التنفيذ فقط
+  //    completed  => مكتملة فقط
   if (kind === 'pending' || kind === 'in_progress' || kind === 'completed') {
-    view = view.filter(t => String(t.status) === kind);
+    view = view.filter(t => String(t.status || 'pending') === kind);
   } else if (kind === 'new') {
-    // “جديدة” = جميع ما يقع ضمن الفترة المحددة (بعد الفلترة زمانيًا بالفعل)
-    // لا حاجة لتصفية إضافية
+    // لا شيء إضافي—«new» تعني الوارد ضمن الفترة المحددة بالفلاتر
   }
 
-  openDbDrawer(`${deptName} — ${(
-    kind==='pending'?'معلّقة':
-    kind==='in_progress'?'قيد التنفيذ':
-    kind==='completed'?'مكتملة':'جديدة'
-  )} (${view.length})`, view);
+  // 4) عنوان أنيق
+  const kindLabel =
+    kind === 'pending'     ? 'معلّقة' :
+    kind === 'in_progress' ? 'قيد التنفيذ' :
+    kind === 'completed'   ? 'مكتملة' :
+                              'جديدة (ضمن الفترة)';
+
+  const title = `${deptName} — ${kindLabel}`;
+
+  // 5) افتح الدرج واعرض البطاقات
+  openDbDrawer(title, view);
 }
 
 
@@ -3678,67 +3910,68 @@ function openDeptBucket(deptName, kind, allTickets) {
     
 
     <!-- ✅ مودال إنهاء التذكرة بالحــل -->
+<!-- ✅ مودال الحل المنفذ -->
 <div id="solutionModal" class="modal-backdrop hidden">
   <div class="modal">
     <div class="modal-header">
-      <h3>إنهاء التذكرة بالحل</h3>
-      <button class="modal-close" aria-label="اغلاق" onclick="closeSolutionModal()">×</button>
+      <h3>تسجيل الحل المنفذ</h3>
+      <button class="modal-close" onclick="closeSolutionModal()">×</button>
     </div>
-
     <div class="modal-body">
-      <label for="solutionText" class="modal-label">الحل المنفذ <span style="color:#DC3545;">*</span></label>
-      <textarea id="solutionText" rows="5" class="modal-textarea" placeholder="اكتب الحل المنفذ بشكل واضح ومختصر..."></textarea>
-
-      <div class="modal-hint">
-        💡 أمثلة جيدة: <em>تم التواصل مع المرشد وتحديث الجدول — تم حل التعارض، أعطي المتدرب خطة المتابعة لمدة أسبوع.</em>
-      </div>
+      <label class="modal-label" for="solutionText">اكتب الحل المنفذ:</label>
+      <textarea id="solutionText" class="modal-textarea" placeholder="مثال: تم التواصل مع المتدرب ومعالجة المشكلة..."></textarea>
+      <div class="modal-hint">سيتم إنهاء التذكرة وكتابة الحل في السجلات.</div>
     </div>
-
     <div class="modal-footer">
-      <button class="btn btn-warning" onclick="closeSolutionModal()">إلغاء</button>
-      <button class="btn btn-success" onclick="submitSolution()">تم الحل</button>
+      <button class="btn" onclick="closeSolutionModal()">إلغاء</button>
+      <button class="btn btn-success" onclick="submitSolution()">حفظ الحل</button>
     </div>
   </div>
 </div>
 
 <!-- ✅ مودال تحويل التذكرة للمرشد -->
 <!-- ✅ مودال تحويل التذكرة (خاصة بالمرشد) -->
+<!-- ✅ مودال تحويل المرشد -->
 <div id="advisorTransferModal" class="modal-backdrop hidden">
   <div class="modal">
     <div class="modal-header">
       <h3>تحويل التذكرة</h3>
-      <button class="modal-close" aria-label="إغلاق" onclick="closeAdvisorTransferModal()">×</button>
+      <button class="modal-close" onclick="closeAdvisorTransferModal()">×</button>
     </div>
-
     <div class="modal-body">
-      <p class="modal-hint">اختر الجهة المراد التحويل إليها:</p>
-      <div class="service-buttons" style="margin-top:10px;">
-        <label class="service-btn">
+      <div style="display:grid;gap:10px;">
+        <label class="modal-label">اختر جهة التحويل:</label>
+
+        <label class="service-btn" style="text-align:right;">
           <input type="radio" name="advisorTransferTo" value="dept_head">
           <span>رئيس القسم</span>
         </label>
-        <label class="service-btn">
+
+        <label class="service-btn" style="text-align:right;">
           <input type="radio" name="advisorTransferTo" value="elearning">
-          <span>التدريب الإلكتروني</span>
+          <span>مدير التدريب الإلكتروني</span>
         </label>
-        <label class="service-btn">
+
+        <label class="service-btn" style="text-align:right;">
           <input type="radio" name="advisorTransferTo" value="trainees_vice">
           <span>وكيل شؤون المتدربين</span>
         </label>
-        <label class="service-btn">
+
+        <label class="service-btn" style="text-align:right;">
           <input type="radio" name="advisorTransferTo" value="quality_vice">
           <span>وكيل ضبط الجودة</span>
         </label>
-        <label class="service-btn">
+
+        <label class="service-btn" style="text-align:right;">
           <input type="radio" name="advisorTransferTo" value="dean">
           <span>العميد</span>
         </label>
       </div>
+      <div class="modal-hint">سيتم تسجيل بيانات التحويل (الجهة/التاريخ/من قام بالتحويل).</div>
     </div>
-
     <div class="modal-footer">
-      <button class="btn btn-success" onclick="submitAdvisorTransfer()">تأكيد التحويل</button>
-      <button class="btn btn-warning" onclick="closeAdvisorTransferModal()">إلغاء</button>
+      <button class="btn" onclick="closeAdvisorTransferModal()">إلغاء</button>
+      <button class="btn btn-primary" onclick="submitAdvisorTransfer()">تأكيد التحويل</button>
     </div>
   </div>
 </div>
@@ -3771,17 +4004,18 @@ function openDeptBucket(deptName, kind, allTickets) {
 
 <!-- درور متابعة الأقسام -->
 <!-- ✅ درج التفاصيل للوحة الأقسام -->
+<!-- ✅ درج عرض تفاصيل «لوحة متابعة الأقسام» -->
 <div id="dbDrawer" class="modal-backdrop hidden" style="align-items:flex-end;">
-  <div class="modal" style="width:100%; max-width:900px; margin-bottom:0; border-top-left-radius:12px; border-top-right-radius:12px;">
+  <div class="modal" style="max-width:900px;width:100%;max-height:85vh;overflow:auto;">
     <div class="modal-header">
-      <h3 id="dbDrawerTitle">تفاصيل</h3>
-      <button class="modal-close" aria-label="إغلاق" onclick="closeDbDrawer()">×</button>
+      <h3 id="dbDrawerTitle">تفاصيل القسم</h3>
+      <button class="modal-close" onclick="closeDbDrawer()">×</button>
     </div>
-    <div class="modal-body" id="dbDrawerBody" style="max-height:60vh; overflow:auto;">
-      <!-- يُملأ برمجيًا عبر openDbDrawer(...) -->
+    <div id="dbDrawerBody" class="modal-body">
+      <!-- تُملأ برمجياً -->
     </div>
     <div class="modal-footer">
-      <button class="btn btn-primary" onclick="closeDbDrawer()">إغلاق</button>
+      <button class="btn" onclick="closeDbDrawer()">إغلاق</button>
     </div>
   </div>
 </div>
@@ -3850,28 +4084,133 @@ function openDeptBucket(deptName, kind, allTickets) {
   </div>
 </div>
 
-<!-- ✅ مودال تقييم الخدمة -->
+<!-- ✅ مودال تقييم الخدمة للمتدرب -->
 <div id="ratingModal" class="modal-backdrop modal-backdrop--rating hidden">
   <div class="modal modal-rating">
     <div class="modal-header">
       <h3>تقييم الخدمة</h3>
-      <button class="modal-close" aria-label="إغلاق" onclick="closeRatingModal()">×</button>
+      <button class="modal-close" onclick="closeRatingModal()">×</button>
     </div>
     <div class="modal-body">
-      <div class="rating-pro" id="ratingStars" aria-label="اختر التقييم من 1 إلى 5"></div>
-      <div class="rating-scale" id="ratingScale"></div>
-      <p class="rating-note" id="ratingNote">اختر من 1 (سيئ) إلى 5 (ممتاز)</p>
+      <div id="ratingStars" class="rating-pro" style="margin-bottom:10px;"></div>
+      <div id="ratingScale" class="rating-scale"></div>
+      <div id="ratingNote" class="rating-note">اختر من 1 (سيئ) إلى 5 (ممتاز)</div>
 
-      <label for="ratingComment" class="modal-label" style="margin-top:12px;">ملاحظتك (اختياري)</label>
-      <textarea id="ratingComment" rows="4" class="modal-textarea" placeholder="اكتب تعليقك هنا..."></textarea>
+      <label for="ratingComment" style="margin-top:14px;">تعليق (اختياري):</label>
+      <textarea id="ratingComment" class="modal-textarea" placeholder="اكتب ملاحظتك عن الخدمة..."></textarea>
+      <div class="modal-hint">لا يمكن تقييم نفس التذكرة أكثر من مرة.</div>
     </div>
     <div class="modal-footer">
+      <button class="btn" onclick="closeRatingModal()">إغلاق</button>
       <button class="btn btn-success" onclick="submitTraineeRating()">إرسال التقييم</button>
-      <button class="btn btn-warning" onclick="closeRatingModal()">إلغاء</button>
+    </div>
+  </div>
+</div>
+<!-- =========================
+  ✅ مودال "الحل المنفذ" (إنهاء التذكرة)
+========================= -->
+<div id="solutionModal" class="modal-backdrop hidden">
+  <div class="modal">
+    <div class="modal-header">
+      <h3>إنهاء التذكرة وتسجيل الحل</h3>
+      <button class="modal-close" onclick="closeSolutionModal()">×</button>
+    </div>
+    <div class="modal-body">
+      <label for="solutionText" class="modal-label">الحل المنفذ</label>
+      <textarea id="solutionText" class="modal-textarea" rows="5" placeholder="اكتب تفاصيل الحل المنفذ بدقة..."></textarea>
+      <div class="modal-hint">سيتم تغيير حالة التذكرة إلى «مكتملة» وتسجيل الحل في السجل.</div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" onclick="closeSolutionModal()">إلغاء</button>
+      <button class="btn btn-success" onclick="submitSolution()">تم الحل</button>
     </div>
   </div>
 </div>
 
+<!-- =========================
+  ✅ مودال "تحويل تذكرة" للمرشد التدريبي
+========================= -->
+<div id="advisorTransferModal" class="modal-backdrop hidden">
+  <div class="modal">
+    <div class="modal-header">
+      <h3>تحويل التذكرة</h3>
+      <button class="modal-close" onclick="closeAdvisorTransferModal()">×</button>
+    </div>
+    <div class="modal-body">
+      <p style="margin-bottom:10px;font-weight:700;">اختر جهة التحويل:</p>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;">
+        <label class="service-btn" style="margin:0;">
+          <input type="radio" name="advisorTransferTo" value="dept_head">
+          <span>رئيس القسم</span>
+        </label>
+        <label class="service-btn" style="margin:0;">
+          <input type="radio" name="advisorTransferTo" value="elearning">
+          <span>التدريب الإلكتروني</span>
+        </label>
+        <label class="service-btn" style="margin:0;">
+          <input type="radio" name="advisorTransferTo" value="trainees_vice">
+          <span>وكيل شؤون المتدربين</span>
+        </label>
+        <label class="service-btn" style="margin:0;">
+          <input type="radio" name="advisorTransferTo" value="quality_vice">
+          <span>وكيل ضبط الجودة</span>
+        </label>
+        <label class="service-btn" style="margin:0;">
+          <input type="radio" name="advisorTransferTo" value="dean">
+          <span>العميد</span>
+        </label>
+      </div>
+      <div class="modal-hint" style="margin-top:12px;">
+        ملاحظة: ستظهر التذكرة كـ «↗️ محوّلة» في قائمة المرشد، مع توضيح الجهة وتاريخ التحويل.
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" onclick="closeAdvisorTransferModal()">إلغاء</button>
+      <button class="btn btn-primary" onclick="submitAdvisorTransfer()">تأكيد التحويل</button>
+    </div>
+  </div>
+</div>
+
+<!-- =========================
+  ✅ مودال "تقييم الخدمة" للمتدرب
+========================= -->
+<div id="ratingModal" class="modal-backdrop hidden modal-rating">
+  <div class="modal">
+    <div class="modal-header">
+      <h3>قيّم الخدمة</h3>
+      <button class="modal-close" onclick="closeRatingModal()">×</button>
+    </div>
+    <div class="modal-body">
+      <label class="modal-label">اختر التقييم</label>
+      <div id="ratingStars" class="rating-pro" style="margin-bottom:8px;"></div>
+      <div id="ratingScale" class="rating-scale"></div>
+      <div id="ratingNote" class="rating-note" style="margin-top:8px;">اختر من 1 إلى 5</div>
+
+      <label for="ratingComment" class="modal-label" style="margin-top:14px;">تعليق (اختياري)</label>
+      <textarea id="ratingComment" class="modal-textarea" rows="4" placeholder="اكتب ملاحظاتك لتحسين الخدمة..."></textarea>
+      <div class="modal-hint">لن تستطيع تقييم نفس التذكرة مرة أخرى بعد الإرسال.</div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" onclick="closeRatingModal()">إلغاء</button>
+      <button class="btn btn-success" onclick="submitTraineeRating()">إرسال التقييم</button>
+    </div>
+  </div>
+</div>
+
+<!-- =========================
+  ✅ درج عرض تفاصيل الأقسام (لوحة المتابعة)
+========================= -->
+<div id="dbDrawer" class="hidden" style="position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:10000;display:flex;justify-content:flex-end;">
+  <div style="width:min(900px,100%);height:100%;background:#fff;box-shadow:-8px 0 30px rgba(0,0,0,.25);display:flex;flex-direction:column;">
+    <div style="padding:14px 16px;background:linear-gradient(135deg, var(--primary-blue), var(--dark-blue));color:#fff;display:flex;align-items:center;justify-content:space-between;">
+      <h3 id="dbDrawerTitle" style="font-size:18px;margin:0;">تفاصيل القسم</h3>
+      <button class="modal-close" onclick="document.getElementById('dbDrawer').classList.add('hidden')">×</button>
+    </div>
+    <div id="dbDrawerBody" style="padding:16px;overflow:auto;">
+      <!-- يُملأ برمجياً -->
+    </div>
+  </div>
+</div>
 
 </body>
 </html>
