@@ -1045,44 +1045,67 @@
 
         <!-- Training Advisor Interface -->
         <div id="advisorInterface" class="hidden">
-            <div class="header">
-                <button class="logout-btn" onclick="logout()">تسجيل الخروج</button>
-                <h1>المرشد التدريبي</h1>
-                <p id="advisorWelcome"></p>
+          <div class="header">
+            <button class="logout-btn" onclick="logout()">تسجيل الخروج</button>
+            <h1>المرشد التدريبي</h1>
+            <p id="advisorWelcome"></p>
+          </div>
+
+          <div class="content">
+            <div class="tabs">
+              <button class="tab active" onclick="switchTab(event, 'assignedTickets')">التذاكر المحولة لي</button>
+              <button class="tab" onclick="switchTab(event, 'advisorRequests')">طلباتي</button>
+              <button class="tab" id="advisorRatingsTab" onclick="switchTab(event, 'advisorRatings')">التقييمات</button>
             </div>
-            <div class="content">
-                <div class="tabs">
-                    <button class="tab active" onclick="switchTab(event, 'assignedTickets')">التذاكر المحولة لي</button>
-                    <button class="tab" onclick="switchTab(event, 'advisorRequests')">طلباتي</button>
-                    <button class="tab" id="advisorRatingsTab" onclick="switchTab(event, 'advisorRatings')">التقييمات</button>
-                </div>
 
-                <div id="assignedTickets" class="tab-content active">
-                    <h2 style="color: var(--primary-blue); margin-bottom: 25px;">التذاكر المحولة لي</h2>
-                    <div id="advisorTicketsList">
-                        <p style="text-align: center; color: #999;">جاري تحميل التذاكر...</p>
-                    </div>
-                    <div class="alert alert-info" style="margin-top: 30px;">
-                        <span>ℹ️</span>
-                        <span>نأمل إبلاغ المتدرب بتقييم مستوى الخدمة بعد الانتهاء للدخول وتقييم الخدمة المقدمة له</span>
-                    </div>
-                </div>
+            <!-- 🟦 التبويب الأول -->
+            <div id="assignedTickets" class="tab-content active">
+              <h2 style="color: var(--primary-blue); margin-bottom: 25px;">التذاكر المحولة لي</h2>
 
-                <div id="advisorRequests" class="tab-content">
-                    <h2 style="color: var(--primary-blue); margin-bottom: 25px;">طلباتي</h2>
-                    <div id="advisorRequestsList">
-                        <p style="text-align: center; color: #999;">جاري تحميل الطلبات...</p>
-                    </div>
-                </div>
+              <div id="advisorTicketsList">
+                <p style="text-align: center; color: #999;">جاري تحميل التذاكر...</p>
+              </div>
 
-                <!-- ✅ تبويب التقييمات للمرشد التدريبي -->
-                <div id="advisorRatings" class="tab-content">
-                    <h2 style="color: var(--primary-blue); margin-bottom: 25px;">التقييمات</h2>
-                    <div id="advisorRatingsList">
-                        <p style="text-align: center; color: #999;">جاري تحميل التقييمات...</p>
-                    </div>
+              <!-- ℹ️ تنبيه معلوماتي -->
+              <div class="alert alert-info" style="margin-top: 30px;">
+                <span>ℹ️</span>
+                <span>نأمل إبلاغ المتدرب بتقييم مستوى الخدمة بعد الانتهاء للدخول وتقييم الخدمة المقدمة له</span>
+              </div>
+
+              <!-- ⚠️ تنبيه مهم لوحدة الخدمات الإرشادية -->
+              <div class="alert alert-warning" style="
+                margin-top: 12px;
+                display: flex; gap: 10px; align-items: flex-start;
+                background: #FFF7E6; border: 1px solid #F5C26B; color: #7A4B00;
+                padding: 12px 14px; border-radius: 10px; line-height: 1.7; font-size: 14.5px;">
+                <span aria-label='تنبيه' title='تنبيه' style='font-size: 18px;'>⚠️</span>
+                <div>
+                  <strong style='display:inline-block; margin-bottom:4px;'>تنبيه:</strong>
+                  <div>
+                    يظهر لديك <u>فقط</u> الحالات <strong>التدريبية</strong> التي تم تحويلها إليك.
+                    توجد حالات أخرى للمتدربين لدى المدربين ضمن الإرشاد التدريبي وهي <strong>خاصة</strong> ولا تُعرض هنا حفاظًا على الخصوصية.
+                    لمعرفة هذه الحالات أو التنسيق بشأنها، نأمل التواصل مع <strong>وحدة الخدمات الإرشادية</strong>.
+                  </div>
                 </div>
+              </div>
+            </div> <!-- ✅ إغلاق التبويب الأول -->
+
+            <!-- 🟩 التبويب الثاني -->
+            <div id="advisorRequests" class="tab-content">
+              <h2 style="color: var(--primary-blue); margin-bottom: 25px;">طلباتي</h2>
+              <div id="advisorRequestsList">
+                <p style="text-align: center; color: #999;">جاري تحميل الطلبات...</p>
+              </div>
             </div>
+
+            <!-- 🟨 التبويب الثالث -->
+            <div id="advisorRatings" class="tab-content">
+              <h2 style="color: var(--primary-blue); margin-bottom: 25px;">التقييمات</h2>
+              <div id="advisorRatingsList">
+                <p style="text-align: center; color: #999;">جاري تحميل التقييمات...</p>
+              </div>
+            </div>
+          </div>
         </div>
 
 
@@ -2900,41 +2923,41 @@ async function loadAdvisorTicketsView() {
         }).join('');
         }
 
-        function attachManagementActions(containerId){
+      /* ===== [FIX] attachManagementActions: افتح مودال التحويل بدل prompt ===== */
+      function attachManagementActions(containerId){
         const container = document.getElementById(containerId);
         if (!container) return;
 
         container.onclick = async (ev) => {
-            const btn = ev.target.closest('button[data-action]');
-            if (!btn) return;
+          const btn = ev.target.closest('button[data-action]');
+          if (!btn) return;
 
-            const action = btn.getAttribute('data-action');
-            const ticketNumber = btn.getAttribute('data-ticket');
-            if (!ticketNumber) { showError('رقم التذكرة غير معروف'); return; }
+          const action = btn.getAttribute('data-action');
+          const ticketNumber = btn.getAttribute('data-ticket');
+          if (!ticketNumber) { showError('رقم التذكرة غير معروف'); return; }
 
-            try {
+          try {
             if (action === 'start') {
-                const ok = await updateTicketStatus(ticketNumber, {
+              const ok = await updateTicketStatus(ticketNumber, {
                 status: 'in_progress',
-                startedBy: currentUser.data.name,
+                startedBy: currentUser?.data?.name || currentUser?.name || 'مشرف',
                 startDate: new Date().toLocaleDateString('ar-SA')
-                });
-                if (ok) await loadManagementTicketsView();
+              });
+              if (ok) await loadManagementTicketsView();
 
             } else if (action === 'complete') {
-                openSolutionModal(ticketNumber);
+              openSolutionModal(ticketNumber);
 
             } else if (action === 'transfer') {
-                const to = prompt('حوّل إلى من؟ (اسم/دور: advisor / dept_head / elearning / trainees_vice ...)');
-                if (!to || !to.trim()) { showError('لم يتم تحديد جهة التحويل'); return; }
-                const ok = await transferTicket(ticketNumber, to.trim(), currentUser.data.name);
-                if (ok) await loadManagementTicketsView();
+              openAdvisorTransferModal(ticketNumber); // ✅ لا prompt
             }
-            } catch (err) {
+          } catch (err) {
             showError(err?.message || String(err));
-            }
+          }
         };
-        }
+      }
+
+
 
 
         const caps = getRoleCapabilities(currentUser.data);
@@ -3309,26 +3332,125 @@ async function loadAdvisorTicketsView() {
         });
         }
 
+
+
+        // ===== تطبيع الأدوار إلى مفاتيح موحّدة =====
+      function normalizeRoleId(rawRole) {
+        if (!rawRole) return '';
+        const r = String(rawRole).trim().toLowerCase().replace(/\s+/g, '_');
+
+        // خرائط مرادفات عربية/إنجليزية لكل دور
+        const MAP = {
+          // رئيس القسم
+          dept_head: new Set([
+            'dept_head','department_head','head_of_department','hod',
+            'رئيس_القسم','رئيس-القسم','رئيس القسم','رئيس/القسم','رئيسالقسم'
+          ]),
+          // المرشد التدريبي
+          advisor: new Set([
+            'advisor','training_advisor','student_counselor',
+            'المرشد','المرشد_التدريبي','مرشد_تدريبي','مرشد تدريبي'
+          ]),
+          // مدير التدريب الإلكتروني
+          elearning: new Set([
+            'elearning','e_learning','e-learning','مدير_التدريب_الإلكتروني','مدير التدريب الإلكتروني'
+          ]),
+          // وكيل شؤون المتدربين
+          trainees_vice: new Set([
+            'trainees_vice','vice_dean_trainees','وكيل_شؤون_المتدربين','وكيل شؤون المتدربين'
+          ]),
+          // وكيل شؤون المدربين (اختياري)
+          trainers_vice: new Set([
+            'trainers_vice','vice_dean_trainers','وكيل_شؤون_المدربين','وكيل شؤون المدربين'
+          ]),
+          // وكيل ضبط الجودة
+          quality_vice: new Set([
+            'quality_vice','vice_dean_quality','وكيل_ضبط_الجودة','وكيل ضبط الجودة'
+          ]),
+          // العميد
+          dean: new Set([
+            'dean','العميد'
+          ])
+        };
+
+        for (const [key, variants] of Object.entries(MAP)) {
+          if (variants.has(r)) return key;
+        }
+        // لو ما تطابق شيء نرجّع النص بعد تبسيطه — معناه دور غير معروف لكن سنعرضه كخيار عام
+        return r;
+      }
+
         // ============================================
         // ✅ دوال مودال التحويل للمرشد
         // ============================================
+
+        // ===== [FIX] فتح مودال التحويل ببناء الخيارات حسب دور المستخدم =====
+        /* ===== [FIX] openAdvisorTransferModal: بناء الخيارات حسب الدور الحالي ===== */
         let __advisorTransferTicketNumber = null;
 
         function openAdvisorTransferModal(ticketNumber) {
-        __advisorTransferTicketNumber = ticketNumber;
-        const modal = document.getElementById('advisorTransferModal');
-        if (modal) {
-            modal.classList.remove('hidden');
-            // إلغاء تحديد أي اختيار سابق
-            document.querySelectorAll('input[name="advisorTransferTo"]').forEach(inp => inp.checked = false);
-        }
+          __advisorTransferTicketNumber = ticketNumber;
+
+          // عناوين العرض لكل دور
+          const LABELS = {
+            advisor:        'المرشد التدريبي',
+            dept_head:      'رئيس القسم',
+            elearning:      'مدير التدريب الإلكتروني',
+            trainees_vice:  'وكيل شؤون المتدربين',
+            trainers_vice:  'وكيل شؤون المدربين',   // ✅ مضاف
+            quality_vice:   'وكيل ضبط الجودة',
+            dean:           'العميد'
+          };
+
+          // القائمة الافتراضية
+          let base = [
+            'dept_head',
+            'elearning',
+            'trainees_vice',
+            'trainers_vice', // ✅ مضاف
+            'quality_vice',
+            'dean',
+            'advisor'
+          ];
+
+          const myRole = (currentUser?.role || currentUser?.data?.role || '').trim();
+
+          // لا تظهر نفس الدور في جهات التحويل
+          base = base.filter(r => r && r !== myRole);
+
+          // تخصيص: إن كان المستخدم رئيس قسم، لا تعرض "رئيس القسم" وأبرز "المرشد التدريبي"
+          if (myRole === 'dept_head') {
+            base = base.filter(r => r !== 'dept_head');
+            if (!base.includes('advisor')) base.unshift('advisor');
+          }
+
+          // حقن الخيارات داخل المودال
+          const listEl = document.querySelector('#advisorTransferModal .transfer-options, #advisorTransferModal .transfer-targets');
+          if (listEl) {
+            listEl.innerHTML = base.map(role => {
+              const id = `transfer_to_${role}`;
+              return `
+                <label for="${id}" class="transfer-card">
+                  <input type="radio" id="${id}" name="advisorTransferTo" value="${role}">
+                  <span>${LABELS[role] || role}</span>
+                </label>
+              `;
+            }).join('');
+          } else {
+            console.warn('لم يتم العثور على .transfer-options داخل #advisorTransferModal');
+          }
+
+          // افتح المودال
+          document.getElementById('advisorTransferModal')?.classList.remove('hidden');
+          document.body.classList.add('modal-open');
         }
 
         function closeAdvisorTransferModal() {
-        const modal = document.getElementById('advisorTransferModal');
-        if (modal) modal.classList.add('hidden');
-        __advisorTransferTicketNumber = null;
+          document.getElementById('advisorTransferModal')?.classList.add('hidden');
+          document.body.classList.remove('modal-open');
         }
+
+
 
         async function submitAdvisorTransfer() {
         const selected = document.querySelector('input[name="advisorTransferTo"]:checked');
