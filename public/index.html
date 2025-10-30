@@ -4,20 +4,51 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>سجل المواقف اليومية للمتدربين - المؤسسة العامة للتدريب التقني والمهني</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --tvtc-primary: #006341;
+            --tvtc-primary-700: #0B5C3F;
+            --tvtc-primary-100: #E6F1EC;
+            --tvtc-secondary: #C8A55C;
+            --tvtc-accent: #00A287;
+            --tvtc-text: #1F2937;
+            --tvtc-text-muted: #6B7280;
+            --success: #1E7F5C;
+            --warning: #C38E00;
+            --error: #C0392B;
+            --info: #2563EB;
+            --border: #E5E7EB;
+            --card: #FFFFFF;
+            --surface: #F7FAF9;
+            
+            /* Compatibility aliases */
+            --primary-blue: var(--tvtc-primary);
+            --secondary-green: var(--success);
+            --accent-gold: var(--tvtc-secondary);
+            --light-blue: var(--tvtc-primary-100);
+            --dark-blue: var(--tvtc-primary-700);
+            --white: #FFFFFF;
+            --gray: var(--surface);
+            --text-dark: var(--tvtc-text);
+            --border-color: var(--border);
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Cairo', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
         :root {
-            --primary-blue: #0A5F8F;
-            --secondary-green: #2C9A4F;
-            --accent-gold: #D4AF37;
-            --light-blue: #E8F4F8;
-            --dark-blue: #053D5C;
+            --primary-blue: var(--tvtc-primary);
+            --secondary-green: var(--success);
+            --accent-gold: var(--tvtc-secondary);
+            --light-blue: var(--tvtc-primary-100);
+            --dark-blue: var(--tvtc-primary-700);
             --white: #FFFFFF;
             --gray: #F5F5F5;
             --text-dark: #333333;
@@ -207,6 +238,11 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
         .info-card {
             background: var(--light-blue);
             padding: 20px;
@@ -384,11 +420,55 @@
         }
 
         .footer {
-            background: var(--gray);
-            padding: 20px;
+            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--dark-blue) 100%);
+            padding: 30px 20px;
             text-align: center;
-            color: var(--text-dark);
-            border-top: 3px solid var(--accent-gold);
+            color: white;
+            border-top: 4px solid var(--accent-gold);
+            box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .footer-content {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .footer-main {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            letter-spacing: 0.5px;
+        }
+
+        .footer-divider {
+            width: 80px;
+            height: 3px;
+            background: var(--accent-gold);
+            margin: 15px auto;
+            border-radius: 2px;
+        }
+
+        .footer-details {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            font-size: 15px;
+            opacity: 0.95;
+            margin-bottom: 12px;
+        }
+
+        .footer-separator {
+            color: var(--accent-gold);
+            font-weight: bold;
+        }
+
+        .footer-version {
+            font-size: 13px;
+            opacity: 0.85;
+            margin-top: 10px;
+            font-style: italic;
         }
 
         .service-buttons {
@@ -630,7 +710,7 @@
 
 .badge.badge-transfer{
   display:inline-block;padding:.2rem .5rem;border-radius:999px;font-size:.75rem;font-weight:700;
-  background:#2C9A4F;color:#fff;vertical-align:middle
+  background:var(--success);color:#fff;vertical-align:middle
 }
 .ticket-card{border:1px solid #ddd;border-radius:10px;padding:12px;background:#fff;margin-bottom:10px}
 .ticket-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
@@ -701,7 +781,7 @@
 }
 .rating-pro .star:hover { transform: scale(1.12); }
 .rating-pro .star.dim { color: #D1D5DB; }          /* غير مُفعّل */
-.rating-pro .star.lit { color: #D4AF37; }          /* مُضاءة */
+.rating-pro .star.lit { color: var(--tvtc-secondary); }          /* مُضاءة */
 
 .rating-scale {
   display: grid; grid-template-columns: repeat(5, minmax(0,1fr));
@@ -733,12 +813,12 @@
 
   .date-filter{background:#e8f4f8;border-radius:14px;padding:12px}
   .date-toolbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:10px}
-  .chip{border:1px solid var(--primary-blue,#0A5F8F);padding:6px 10px;border-radius:999px;cursor:pointer;font-weight:600;background:#fff}
-  .chip.active{background:var(--primary-blue,#0A5F8F);color:#fff}
+  .chip{border:1px solid var(--primary-blue,var(--tvtc-primary));padding:6px 10px;border-radius:999px;cursor:pointer;font-weight:600;background:#fff}
+  .chip.active{background:var(--primary-blue,var(--tvtc-primary));color:#fff}
   .range-row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
   .range-row .sep{opacity:.6;font-weight:700}
   .date-input{height:38px;padding:6px 10px;border:1px solid #cfd8dc;border-radius:10px;background:#fff}
-  .btn-apply{height:38px;padding:0 14px;border-radius:10px;border:0;background:#0A5F8F;color:#fff;font-weight:700;cursor:pointer}
+  .btn-apply{height:38px;padding:0 14px;border-radius:10px;border:0;background:var(--tvtc-primary);color:#fff;font-weight:700;cursor:pointer}
 
 
 
@@ -858,8 +938,6 @@
         <div id="loginScreen">
             <div class="header">
                 <h1>سجل المواقف اليومية للمتدربين</h1>
-                <p>وكالة شؤون المتدربين - وحدة الخدمات الإرشادية</p>
-                <p style="font-size: 14px; margin-top: 10px;">المؤسسة العامة للتدريب التقني والمهني</p>
             </div>
             <div class="content">
                 <div class="login-form">
@@ -1127,7 +1205,11 @@
             <button class="tab hidden" id="tabRatings" onclick="switchTab(event, 'managementRatings')">التقييمات</button>
             <!-- زر تبويب لوحة متابعة الأقسام (لذوي الصلاحيات العليا فقط) -->
             <button class="tab hidden" id="tabDeptBoard" onclick="switchTab(event, 'managementDeptBoard')">لوحة متابعة الأقسام</button>
-            </div>
+            <!-- ✅ زر التقارير الإدارية المضاف -->
+            <button class="btn" 
+                    style="background:var(--tvtc-primary);color:#fff;border:0;padding:8px 14px;border-radius:8px;font-weight:600;margin-right:10px;"
+                    onclick="openAdminReports()">📊 التقارير الإدارية</button>
+        </div>
 
             <!-- تبويب جميع الطلبات -->
             <div id="managementAll" class="tab-content active">
@@ -1188,18 +1270,18 @@
             <!-- شريط نطاق التاريخ الجديد -->
             <div class="date-filter" id="dateFilter" style="background:#e8f4f8;border-radius:14px;padding:12px;margin-bottom:12px;">
                 <div class="date-toolbar" style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:10px;">
-                <button class="chip" data-pr="today"   style="border:1px solid var(--primary-blue,#0A5F8F);padding:6px 10px;border-radius:999px;cursor:pointer;font-weight:600;background:#fff;">اليوم</button>
-                <button class="chip" data-pr="week"    style="border:1px solid var(--primary-blue,#0A5F8F);padding:6px 10px;border-radius:999px;cursor:pointer;font-weight:600;background:#fff;">هذا الأسبوع</button>
-                <button class="chip" data-pr="month"   style="border:1px solid var(--primary-blue,#0A5F8F);padding:6px 10px;border-radius:999px;cursor:pointer;font-weight:600;background:#fff;">هذا الشهر</button>
-                <button class="chip" data-pr="quarter" style="border:1px solid var(--primary-blue,#0A5F8F);padding:6px 10px;border-radius:999px;cursor:pointer;font-weight:600;background:#fff;">هذا الربع</button>
-                <button class="chip" data-pr="custom"  style="border:1px solid var(--primary-blue,#0A5F8F);padding:6px 10px;border-radius:999px;cursor:pointer;font-weight:600;background:#fff;">مخصص</button>
+                <button class="chip" data-pr="today"   style="border:1px solid var(--primary-blue,var(--tvtc-primary));padding:6px 10px;border-radius:999px;cursor:pointer;font-weight:600;background:#fff;">اليوم</button>
+                <button class="chip" data-pr="week"    style="border:1px solid var(--primary-blue,var(--tvtc-primary));padding:6px 10px;border-radius:999px;cursor:pointer;font-weight:600;background:#fff;">هذا الأسبوع</button>
+                <button class="chip" data-pr="month"   style="border:1px solid var(--primary-blue,var(--tvtc-primary));padding:6px 10px;border-radius:999px;cursor:pointer;font-weight:600;background:#fff;">هذا الشهر</button>
+                <button class="chip" data-pr="quarter" style="border:1px solid var(--primary-blue,var(--tvtc-primary));padding:6px 10px;border-radius:999px;cursor:pointer;font-weight:600;background:#fff;">هذا الربع</button>
+                <button class="chip" data-pr="custom"  style="border:1px solid var(--primary-blue,var(--tvtc-primary));padding:6px 10px;border-radius:999px;cursor:pointer;font-weight:600;background:#fff;">مخصص</button>
                 </div>
                 <div class="range-row" style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
                 <!-- نحافظ على نفس المعرّفات القديمة حتى لا يتأثر الكود الباقي -->
                 <input id="dbFrom" class="date-input" type="date" placeholder="YYYY-MM-DD" style="height:38px;padding:6px 10px;border:1px solid #cfd8dc;border-radius:10px;background:#fff">
                 <span class="sep" style="opacity:.6;font-weight:700">—</span>
                 <input id="dbTo" class="date-input" type="date" placeholder="YYYY-MM-DD" style="height:38px;padding:6px 10px;border:1px solid #cfd8dc;border-radius:10px;background:#fff">
-                <button class="btn-apply" id="btnApplyDbRange" onclick="applyDbFilters()" style="height:38px;padding:0 14px;border-radius:10px;border:0;background:#0A5F8F;color:#fff;font-weight:700;cursor:pointer">تطبيق</button>
+                <button class="btn-apply" id="btnApplyDbRange" onclick="applyDbFilters()" style="height:38px;padding:0 14px;border-radius:10px;border:0;background:var(--tvtc-primary);color:#fff;font-weight:700;cursor:pointer">تطبيق</button>
                 </div>
             </div>
 
@@ -1286,7 +1368,16 @@
         </div>
 
         <div class="footer">
-            <p>© 2025 المؤسسة العامة للتدريب التقني والمهني - جميع الحقوق محفوظة</p>
+            <div class="footer-content">
+                <div class="footer-main">الكلية التقنية حقل</div>
+                <div class="footer-divider"></div>
+                <div class="footer-details">
+                    <span>وكالة شؤون المتدربين</span>
+                    <span class="footer-separator">•</span>
+                    <span>وحدة الخدمات الإرشادية</span>
+                </div>
+                <div class="footer-version">الإصدار 1.0 | © 2025 المؤسسة العامة للتدريب التقني والمهني</div>
+            </div>
         </div>
     </div>
 
@@ -1304,6 +1395,104 @@
 
         let __lastTraineeTickets = [];   // آخر قائمة لتذاكر المتدرب
         let __ratingSubmitting   = false; // يمنع النقر المكرر أثناء الإرسال
+
+        /**
+         * ✅ دالة تنسيق التاريخ - تحويل أي صيغة تاريخ إلى صيغة عربية مقروءة
+         * @param {string|Date} dateInput - التاريخ بأي صيغة
+         * @param {boolean} includeTime - هل نعرض الوقت أيضاً؟
+         * @returns {string} - التاريخ بصيغة عربية مقروءة
+         */
+        function formatArabicDate(dateInput, includeTime = false) {
+            if (!dateInput) return '-';
+            
+            try {
+                // تحويل إلى Date object
+                let date;
+                if (dateInput instanceof Date) {
+                    date = dateInput;
+                } else if (typeof dateInput === 'string') {
+                    // معالجة التواريخ بصيغة ISO (مثل: 2025-10-28T21:00:00.000Z)
+                    date = new Date(dateInput);
+                    
+                    // إذا كان التاريخ invalid
+                    if (isNaN(date.getTime())) {
+                        // محاولة معالجة صيغ أخرى
+                        const parts = dateInput.match(/(\d{4})-(\d{2})-(\d{2})/);
+                        if (parts) {
+                            date = new Date(parts[1], parseInt(parts[2]) - 1, parts[3]);
+                        } else {
+                            return dateInput; // إرجاع القيمة كما هي إذا فشل التحويل
+                        }
+                    }
+                } else {
+                    return '-';
+                }
+
+                // التأكد من صحة التاريخ
+                if (isNaN(date.getTime())) {
+                    return dateInput.toString();
+                }
+
+                // تنسيق التاريخ
+                const year = date.getFullYear();
+                const month = String(date.getMonth() + 1).padStart(2, '0');
+                const day = String(date.getDate()).padStart(2, '0');
+                
+                let formatted = `${year}-${month}-${day}`;
+                
+                // إضافة الوقت إذا طُلب
+                if (includeTime) {
+                    const hours = String(date.getHours()).padStart(2, '0');
+                    const minutes = String(date.getMinutes()).padStart(2, '0');
+                    const seconds = String(date.getSeconds()).padStart(2, '0');
+                    formatted += ` ${hours}:${minutes}:${seconds}`;
+                }
+                
+                return formatted;
+            } catch (error) {
+                console.error('خطأ في تنسيق التاريخ:', error);
+                return dateInput.toString();
+            }
+        }
+
+        /**
+         * ✅ دالة تنسيق التاريخ للعرض العربي الكامل (مع اسم اليوم)
+         */
+        function formatArabicDateFull(dateInput) {
+            if (!dateInput) return '-';
+            
+            try {
+                const date = new Date(dateInput);
+                if (isNaN(date.getTime())) return dateInput.toString();
+                
+                const days = ['الأحد', 'الاثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'الجمعة', 'السبت'];
+                const dayName = days[date.getDay()];
+                
+                return `${dayName} ${formatArabicDate(dateInput, false)}`;
+            } catch (error) {
+                return formatArabicDate(dateInput, false);
+            }
+        }
+
+        /**
+         * ✅ دالة مساعدة لتنسيق الوقت فقط
+         */
+        function formatTimeOnly(dateInput) {
+            if (!dateInput) return '-';
+            
+            try {
+                const date = new Date(dateInput);
+                if (isNaN(date.getTime())) return '-';
+                
+                const hours = String(date.getHours()).padStart(2, '0');
+                const minutes = String(date.getMinutes()).padStart(2, '0');
+                const seconds = String(date.getSeconds()).padStart(2, '0');
+                
+                return `${hours}:${minutes}:${seconds}`;
+            } catch (error) {
+                return '-';
+            }
+        }
 
 
         const RATING_LABELS = {
@@ -1803,7 +1992,7 @@
                     <small>
                         ${byRaw   ? ('محول بواسطة: ' + byRaw) : ''}
                         ${toLabel ? (byRaw ? ' | ' : '') + 'إلى: ' + toLabel : ''}
-                        ${dateRaw ? ' | بتاريخ: ' + dateRaw : ''}
+                        ${dateRaw ? ' | بتاريخ: ' + formatArabicDate(dateRaw, true) : ''}
                     </small>
                     </div>`
                 : ''
@@ -2315,21 +2504,33 @@
         // ✅ حساب متوسط التقييمات للصلاحيات العليا فقط
         let averageRatingHtml = '';
         if (hasFullAccess()) {
-            const total = rated.reduce((sum, t) => sum + (Number(t.rating) || 0), 0);
-            const average = (total / rated.length).toFixed(2);
-            const stars = '★'.repeat(Math.round(average));
-            const emptyStars = '☆'.repeat(5 - Math.round(average));
-            
-            averageRatingHtml = `
-            <div style="background: linear-gradient(135deg, #0A5F8F 0%, #053D5C 100%); color: white; padding: 20px; border-radius: 8px; margin-bottom: 20px; text-align: center;">
-                <div style="font-size: 28px; margin-bottom: 8px;">
-                    <span style="color: #FFD700;">${stars}${emptyStars}</span>
+            const validRatings = rated.filter(t => Number(t.rating) > 0);
+            if (validRatings.length > 0) {
+                const total = validRatings.reduce((sum, t) => sum + (Number(t.rating) || 0), 0);
+                const average = (total / validRatings.length).toFixed(1);
+                const roundedAvg = Math.round(parseFloat(average));
+                const stars = '★'.repeat(roundedAvg);
+                const emptyStars = '☆'.repeat(5 - roundedAvg);
+                
+                averageRatingHtml = `
+                <div style="background: linear-gradient(135deg, var(--tvtc-primary) 0%, var(--tvtc-secondary) 100%); color: white; padding: 20px; border-radius: 12px; margin-bottom: 20px; text-align: center; box-shadow: 0 4px 15px rgba(0, 99, 65, 0.2);">
+                    <div style="font-size: 32px; margin-bottom: 8px;">
+                        <span style="color: #FFD700; text-shadow: 0 2px 4px rgba(0,0,0,0.2);">${stars}${emptyStars}</span>
+                    </div>
+                    <div style="font-size: 36px; font-weight: bold; margin-bottom: 4px;">${average}</div>
+                    <div style="font-size: 16px; opacity: 0.9; margin-bottom: 4px;">من 5 نجوم</div>
+                    <div style="font-size: 14px; opacity: 0.85;">متوسط التقييمات</div>
+                    <div style="font-size: 13px; margin-top: 8px; opacity: 0.8; background: rgba(255,255,255,0.15); padding: 4px 12px; border-radius: 12px; display: inline-block;">${validRatings.length} تقييم</div>
                 </div>
-                <div style="font-size: 24px; font-weight: bold; margin-bottom: 4px;">${average}/5</div>
-                <div style="font-size: 14px; opacity: 0.9;">متوسط التقييمات</div>
-                <div style="font-size: 12px; margin-top: 8px; opacity: 0.8;">(${rated.length} تقييم)</div>
-            </div>
-            `;
+                `;
+            } else {
+                averageRatingHtml = `
+                <div style="background: linear-gradient(135deg, var(--tvtc-primary) 0%, var(--tvtc-secondary) 100%); color: white; padding: 20px; border-radius: 12px; margin-bottom: 20px; text-align: center;">
+                    <div style="font-size: 32px; margin-bottom: 8px;">☆☆☆☆☆</div>
+                    <div style="font-size: 18px; opacity: 0.9;">لا توجد تقييمات بعد</div>
+                </div>
+                `;
+            }
         }
 
         const card = (t) => {
@@ -2353,7 +2554,7 @@
                 <div class="ticket-row"><span class="k">الرقم التدريبي:</span><span class="v">${t.traineeId || '-'}</span></div>
                 <div class="ticket-row"><span class="k">القسم:</span><span class="v">${t.department || '-'}</span></div>
                 <div class="ticket-row"><span class="k">نوع الخدمة:</span><span class="v">${t.serviceType || '-'}</span></div>
-                <div class="ticket-row"><span class="k">تاريخ الإنهاء:</span><span class="v">${t.completionDate || t.date || '-'}</span></div>
+                <div class="ticket-row"><span class="k">تاريخ الإنهاء:</span><span class="v">${formatArabicDate(t.completionDate || t.date)}</span></div>
                 </div>
 
                 <div class="ticket-details">
@@ -2477,11 +2678,11 @@
             createdBy:      currentUser.data.name
         };
 
-        showLoading('جاري إنشاء التذكرة...');
+        showLoading('جاري الإرسال...');
         const createRes = await saveNewTicket(payload);
-        hideLoading();
 
         if (!createRes?.success || !createRes.ticketNumber) {
+            hideLoading();
             showError('تعذّر إنشاء التذكرة');
             return;
         }
@@ -2491,7 +2692,6 @@
         // 2) إكمال التذكرة فورًا — هذا ما يكتب "الحل المنفذ" في الأعمدة الصحيحة + السجل اليومي
         const completionDate = now.toLocaleDateString('ar-SA');
 
-        showLoading('جاري إنهاء التذكرة وتسجيل الحل...');
         const ok = await completeTicketRequest(ticketNumber, solutionText, currentUser.data.name, completionDate);
         hideLoading();
 
@@ -2550,7 +2750,10 @@
             createdBy:      currentUser.data.name
         };
 
+        showLoading('جاري الإرسال...');
         const result = await saveNewTicket(ticketData);
+        hideLoading();
+        
         if (result.success) resetTicketForm();
         }
 
@@ -2699,14 +2902,14 @@ async function loadAdvisorTicketsView() {
             <div class="ticket-row"><span class="k">الرقم التدريبي:</span> <span class="v">${t.traineeId || '-'}</span></div>
             <div class="ticket-row"><span class="k">القسم:</span> <span class="v">${t.department || '-'}</span></div>
             <div class="ticket-row"><span class="k">نوع الخدمة:</span> <span class="v">${t.serviceType || '-'}</span></div>
-            <div class="ticket-row"><span class="k">التاريخ:</span> <span class="v">${t.date || '-'}</span></div>
+            <div class="ticket-row"><span class="k">التاريخ:</span> <span class="v">${formatArabicDate(t.date)}</span></div>
 
             ${(() => {
                 let statusDisplay = '📋 بانتظار البدء';
                 if (isTransferredByMe) {
                     // ✅ عرض واضح جداً: "محول إلى"
-                    statusDisplay = `📤 <strong style="color:#FF9800; font-size:16px;">محول إلى:</strong> <strong style="color:#0A5F8F; font-size:17px;">${transferDestination}</strong>`;
-                    if (t.transferDate) statusDisplay += ` <span style="color:#6B7280;">— بتاريخ ${t.transferDate}</span>`;
+                    statusDisplay = `📤 <strong style="color:#FF9800; font-size:16px;">محول إلى:</strong> <strong style="color:var(--tvtc-primary); font-size:17px;">${transferDestination}</strong>`;
+                    if (t.transferDate) statusDisplay += ` <span style="color:#6B7280;">— بتاريخ ${formatArabicDate(t.transferDate, true)}</span>`;
                 } else if (String(t.status) === 'in_progress' && t.startedBy) {
                     statusDisplay = `⏱️ قيد المعالجة منذ: ${t.startDate || '—'} (بواسطة ${t.startedBy})`;
                 } else if (String(t.status) === 'pending') {
@@ -2724,9 +2927,9 @@ async function loadAdvisorTicketsView() {
             <div class="transfer-info" style="background:#FFF3E0; border:2px solid #FFE0B2; border-right:4px solid #FF9800; padding:14px;">
                 <div style="font-size:17px; margin-bottom:10px; font-weight:700;">
                     <strong style="color:#E65100;">📍 محول إلى:</strong> 
-                    <strong style="color:#0A5F8F; font-size:19px;">${transferDestination}</strong>
+                    <strong style="color:var(--tvtc-primary); font-size:19px;">${transferDestination}</strong>
                 </div>
-                ${t.transferDate ? `<div style="color:#6B7280; font-size:14px; margin-top:6px;"><strong>⏰ تاريخ التحويل:</strong> ${t.transferDate}</div>` : ''}
+                ${t.transferDate ? `<div style="color:#6B7280; font-size:14px; margin-top:6px;"><strong>⏰ تاريخ التحويل:</strong> ${formatArabicDate(t.transferDate, true)}</div>` : ''}
                 ${transferredBy ? `<div style="color:#6B7280; font-size:14px; margin-top:4px;"><strong>👤 حوّلها:</strong> ${transferredBy}</div>` : ''}
                 <div style="margin-top:12px; font-size:13px; color:#6B7280; padding:10px; background:#FFF8E1; border-radius:6px; border:1px dashed #FFB74D;">
                     ⚠️ التذكرة محوّلة إلى <strong>${transferDestination}</strong> — يمكنك إلغاء التحويل عند الحاجة
@@ -2891,7 +3094,7 @@ async function loadAdvisorTicketsView() {
                 <div class="ticket-row"><span class="k">الرقم التدريبي:</span> <span class="v">${t.traineeId || '-'}</span></div>
                 <div class="ticket-row"><span class="k">القسم:</span> <span class="v">${t.department || '-'}</span></div>
                 <div class="ticket-row"><span class="k">نوع الخدمة:</span> <span class="v">${t.serviceType || '-'}</span></div>
-                <div class="ticket-row"><span class="k">التاريخ:</span> <span class="v">${t.date || '-'}</span></div>
+                <div class="ticket-row"><span class="k">التاريخ:</span> <span class="v">${formatArabicDate(t.date)}</span></div>
 
                 ${(() => {
                     let statusDisplay = '📋 بانتظار المتابعة';
@@ -3096,7 +3299,7 @@ async function loadAdvisorTicketsView() {
                 <div class="ticket-row"><span class="k">القسم:</span> <span class="v">${t.department || '-'}</span></div>
                 <div class="ticket-row"><span class="k">التخصص:</span> <span class="v">${t.specialization || '-'}</span></div>
                 <div class="ticket-row"><span class="k">نوع الخدمة:</span> <span class="v">${t.serviceType || '-'}</span></div>
-                <div class="ticket-row"><span class="k">التاريخ:</span> <span class="v">${t.date || '-'}</span></div>
+                <div class="ticket-row"><span class="k">التاريخ:</span> <span class="v">${formatArabicDate(t.date)}</span></div>
                 </div>
 
                 ${details && details !== '-' ? `<div class="ticket-details">📝 <strong>تفاصيل الطلب:</strong> ${details}</div>` : ''}
@@ -3144,7 +3347,7 @@ async function loadAdvisorTicketsView() {
 
                 <div class="ticket-grid">
                 <div class="ticket-row"><span class="k">نوع الخدمة:</span><span class="v">${ticket.serviceType || '-'}</span></div>
-                <div class="ticket-row"><span class="k">التاريخ:</span><span class="v">${ticket.date || '-'}</span></div>
+                <div class="ticket-row"><span class="k">التاريخ:</span><span class="v">${formatArabicDate(ticket.date)}</span></div>
                 <div class="ticket-row"><span class="k">القسم:</span><span class="v">${ticket.department || '-'}</span></div>
                 <div class="ticket-row"><span class="k">المرشد:</span><span class="v">${ticket.advisor || '-'}</span></div>
                 </div>
@@ -3273,6 +3476,7 @@ async function loadAdvisorTicketsView() {
         async function submitSolution() {
         const textarea = document.getElementById('solutionText');
         const solution = (textarea?.value || '').trim();
+        const saveButton = document.getElementById('saveSolutionBtn') || event?.target;
 
         if (!__activeTicketNumber) {
             showError('رقم التذكرة غير معروف');
@@ -3284,29 +3488,45 @@ async function loadAdvisorTicketsView() {
             return;
         }
 
+        // إظهار مؤشر الانتظار
+        let originalText = '';
+        if (saveButton) {
+            originalText = saveButton.innerHTML;
+            saveButton.disabled = true;
+            saveButton.innerHTML = '<span style="display:inline-block;animation:spin 1s linear infinite">⏳</span> جاري الحفظ...';
+        }
+
         showLoading('جاري إنهاء التذكرة...');
 
-        // طلب الإنهاء من الخادوم
-        const ok = await completeTicketRequest(__activeTicketNumber, solution, currentUser.data.name);
+        try {
+            // طلب الإنهاء من الخادوم
+            const ok = await completeTicketRequest(__activeTicketNumber, solution, currentUser.data.name);
 
-        hideLoading();
+            hideLoading();
 
-        if (ok) {
-            // إزالة فورية اختيارية من القائمة الحالية (قبل إعادة التحميل)
-            const card = document.querySelector(`.ticket-card[data-ticket="${__activeTicketNumber}"]`);
-            if (card) card.remove();
+            if (ok) {
+                // إزالة فورية اختيارية من القائمة الحالية (قبل إعادة التحميل)
+                const card = document.querySelector(`.ticket-card[data-ticket="${__activeTicketNumber}"]`);
+                if (card) card.remove();
 
-            closeSolutionModal();
+                closeSolutionModal();
 
-            // تعيد تحميل "المحوّلة لي" (لن تظهر المكتملة) + تحدّث "طلباتي"
-            if (typeof loadAdvisorTicketsView === 'function') {
-            await loadAdvisorTicketsView();
+                // تعيد تحميل "المحوّلة لي" (لن تظهر المكتملة) + تحدّث "طلباتي"
+                if (typeof loadAdvisorTicketsView === 'function') {
+                await loadAdvisorTicketsView();
+                }
+                if (typeof loadMyRequests === 'function') {
+                await loadMyRequests();
+                }
+
+                showSuccess('تم إنهاء التذكرة وتسجيل الحل بنجاح');
             }
-            if (typeof loadMyRequests === 'function') {
-            await loadMyRequests();
+        } finally {
+            // إعادة الزر لحالته الطبيعية
+            if (saveButton && originalText) {
+                saveButton.disabled = false;
+                saveButton.innerHTML = originalText;
             }
-
-            showSuccess('تم إنهاء التذكرة وتسجيل الحل بنجاح');
         }
         }
 
@@ -3332,7 +3552,31 @@ async function loadAdvisorTicketsView() {
         });
         }
 
+      // ✅ دالة فتح التقارير الإدارية
+      function openAdminReports() {
+          // التحقق من الصلاحيات أولاً
+          const user = currentUser?.data || currentUser;
+          if (!user) {
+              showError('يجب تسجيل الدخول أولاً');
+              return;
+          }
 
+          const role = normalizeRole(user.role);
+          
+          // قائمة الأدور المسموح لها بالوصول
+          const allowedRoles = [
+              'management', 'admin', 'quality_admin', 
+              'quality_vice', 'dean', 'trainees_vice'
+          ];
+
+          if (!allowedRoles.includes(role)) {
+              showError('⛔️ الوصول مقصور على الإدارة العليا فقط');
+              return;
+          }
+
+          // فتح صفحة التقارير في نافذة جديدة
+          window.open('reports_admin.html', '_blank', 'width=1200,height=700,scrollbars=yes');
+      }
 
         // ===== تطبيع الأدوار إلى مفاتيح موحّدة =====
       function normalizeRoleId(rawRole) {
@@ -3577,7 +3821,7 @@ async function switchTab(event, tabName) {
             <div class="ticket-sep"></div>
             <div class="ticket-grid">
                 <div class="ticket-row"><span class="k">نوع الخدمة:</span><span class="v">${ticket.serviceType || '-'}</span></div>
-                <div class="ticket-row"><span class="k">التاريخ:</span><span class="v">${ticket.date || '-'}</span></div>
+                <div class="ticket-row"><span class="k">التاريخ:</span><span class="v">${formatArabicDate(ticket.date)}</span></div>
                 <div class="ticket-row"><span class="k">القسم:</span><span class="v">${ticket.department || '-'}</span></div>
                 <div class="ticket-row"><span class="k">المرشد:</span><span class="v">${ticket.advisor || '-'}</span></div>
             </div>
@@ -3838,7 +4082,7 @@ function dbRenderKpis(containerId, tickets) {
       <div class="stat-number">${avg}</div>
       <div class="stat-label">متوسط زمن الإغلاق (يوم)</div>
     </div>
-    <div class="stat-card" style="background: linear-gradient(135deg, #2C9A4F 0%, #1d6a36 100%);">
+    <div class="stat-card" style="background: linear-gradient(135deg, var(--success) 0%, #1d6a36 100%);">
       <div class="stat-number">${slaPct}</div>
       <div class="stat-label">الالتزام بـ SLA ≤ ${SLA_DAYS} أيام</div>
     </div>
@@ -3917,7 +4161,7 @@ function openDbDrawer(title, tickets) {
           <div class="ticket-grid">
             <div class="ticket-row"><span class="k">القسم:</span><span class="v">${t.department || '-'}</span></div>
             <div class="ticket-row"><span class="k">نوع الخدمة:</span><span class="v">${t.serviceType || '-'}</span></div>
-            <div class="ticket-row"><span class="k">التاريخ:</span><span class="v">${t.date || '-'}</span></div>
+            <div class="ticket-row"><span class="k">التاريخ:</span><span class="v">${formatArabicDate(t.date)}</span></div>
             <div class="ticket-row"><span class="k">المُسنَد:</span><span class="v">${t.assignedTo || '-'}</span></div>
           </div>
           ${details && details !== '-' ? `<div class="ticket-details">📝 ${details}</div>` : ''}
@@ -4161,7 +4405,7 @@ function openDeptBucket(deptName, kind, allTickets) {
     </section>
     <footer class="modal-footer">
       <button class="btn btn-secondary" data-close="true">إلغاء</button>
-      <button class="btn btn-primary" id="saveSolutionBtn">حفظ</button>
+      <button class="btn btn-primary" id="saveSolutionBtn" onclick="submitSolution()">حفظ</button>
     </footer>
   </div>
 </div>
@@ -4333,6 +4577,1178 @@ function openDeptBucket(deptName, kind, allTickets) {
     </div>
   </div>
 </div>
+<!-- ========== مودال التقارير الإدارية ========== -->
+<div id="reportsModal" class="modal-backdrop hidden" style="position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:9999;display:flex;align-items:center;justify-content:center;">
+  <div class="modal" style="width:95%;max-width:1400px;height:90vh;display:flex;flex-direction:column;background:#fff;border-radius:16px;overflow:hidden;">
+    <div class="modal-header" style="background:linear-gradient(135deg, var(--tvtc-primary), var(--tvtc-primary-700));color:#fff;padding:18px 24px;display:flex;align-items:center;justify-content:space-between;">
+      <h3 style="margin:0;font-size:22px;">📊 التقارير الإدارية الشاملة</h3>
+      <button class="modal-close" onclick="closeAdminReports()" style="background:transparent;border:0;color:#fff;font-size:28px;cursor:pointer;padding:0;line-height:1;">×</button>
+    </div>
+    
+    <div class="modal-body" style="flex:1;overflow-y:auto;padding:24px;">
+      <!-- فلاتر التقارير -->
+      <div class="report-filters" style="background:var(--tvtc-primary-100);border-radius:12px;padding:16px;margin-bottom:24px;">
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;">
+          <div>
+            <label style="display:block;margin-bottom:6px;font-weight:600;color:var(--tvtc-primary);">نوع التقرير</label>
+            <select id="reportType" onchange="updateReportView()" style="width:100%;padding:10px;border:2px solid #ccc;border-radius:8px;">
+              <option value="overview">نظرة عامة</option>
+              <option value="departments">تقرير الأقسام</option>
+              <option value="advisors">تقرير المرشدين</option>
+              <option value="services">تقرير الخدمات</option>
+              <option value="performance">تقرير الأداء</option>
+            </select>
+          </div>
+          <div>
+            <label style="display:block;margin-bottom:6px;font-weight:600;color:var(--tvtc-primary);">من تاريخ</label>
+            <input type="date" id="reportFromDate" onchange="updateReportView()" style="width:100%;padding:10px;border:2px solid #ccc;border-radius:8px;">
+          </div>
+          <div>
+            <label style="display:block;margin-bottom:6px;font-weight:600;color:var(--tvtc-primary);">إلى تاريخ</label>
+            <input type="date" id="reportToDate" onchange="updateReportView()" style="width:100%;padding:10px;border:2px solid #ccc;border-radius:8px;">
+          </div>
+          <div style="display:flex;align-items:flex-end;gap:8px;">
+            <button class="btn btn-primary" onclick="generateReport()" style="flex:1;padding:10px;">تحديث</button>
+            <button class="btn btn-success" onclick="exportReportPDF()" style="padding:10px;">PDF ⬇</button>
+            <button class="btn" onclick="exportReportExcel()" style="padding:10px;background:var(--success);color:#fff;border:0;">Excel ⬇</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- محتوى التقرير الكامل للتصدير -->
+      <div id="reportContent" style="background:white;padding:20px;">
+        <!-- مؤشرات الأداء الرئيسية -->
+        <div id="reportKPIs" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-bottom:24px;">
+          <!-- يتم ملؤها برمجياً -->
+        </div>
+
+        <!-- الرسوم البيانية -->
+        <div id="reportCharts" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(400px,1fr));gap:20px;margin-bottom:24px;">
+          <!-- يتم ملؤها برمجياً -->
+        </div>
+
+        <!-- الجداول التفصيلية -->
+        <div id="reportTables" style="margin-top:24px;">
+          <!-- يتم ملؤها برمجياً -->
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-footer" style="border-top:1px solid #ddd;padding:16px 24px;display:flex;justify-content:space-between;align-items:center;background:#f9f9f9;">
+      <div style="color:#666;font-size:13px;">آخر تحديث: <span id="reportLastUpdate"></span></div>
+      <button class="btn" onclick="closeAdminReports()" style="background:#6c757d;color:#fff;border:0;padding:10px 24px;border-radius:8px;cursor:pointer;">إغلاق</button>
+    </div>
+  </div>
+</div>
+
+<!-- ========== CSS التقارير ========== -->
+<style>
+.kpi-card {
+  background: linear-gradient(135deg, var(--tvtc-primary) 0%, var(--tvtc-accent) 100%);
+  color: white;
+  padding: 24px;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 99, 65, 0.25);
+  transition: all 0.3s;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.kpi-card::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.kpi-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 8px 25px rgba(0, 99, 65, 0.35);
+}
+
+.kpi-card.green {
+  background: linear-gradient(135deg, var(--success) 0%, var(--tvtc-primary-700) 100%);
+  box-shadow: 0 4px 15px rgba(30, 127, 92, 0.25);
+}
+
+.kpi-card.green:hover {
+  box-shadow: 0 8px 25px rgba(30, 127, 92, 0.35);
+}
+
+.kpi-card.orange {
+  background: linear-gradient(135deg, var(--tvtc-secondary) 0%, var(--warning) 100%);
+  box-shadow: 0 4px 15px rgba(200, 165, 92, 0.25);
+}
+
+.kpi-card.orange:hover {
+  box-shadow: 0 8px 25px rgba(200, 165, 92, 0.35);
+}
+
+.kpi-card.red {
+  background: linear-gradient(135deg, var(--error) 0%, #a32a1f 100%);
+  box-shadow: 0 4px 15px rgba(192, 57, 43, 0.25);
+}
+
+.kpi-card.red:hover {
+  box-shadow: 0 8px 25px rgba(192, 57, 43, 0.35);
+}
+
+.kpi-card.purple {
+  background: linear-gradient(135deg, #8B5CF6 0%, #6D28D9 100%);
+  box-shadow: 0 4px 15px rgba(139, 92, 246, 0.25);
+}
+
+.kpi-card.purple:hover {
+  box-shadow: 0 8px 25px rgba(139, 92, 246, 0.35);
+}
+
+.kpi-card.teal {
+  background: linear-gradient(135deg, var(--tvtc-accent) 0%, var(--tvtc-primary) 100%);
+  box-shadow: 0 4px 15px rgba(0, 162, 135, 0.25);
+}
+
+.kpi-card.teal:hover {
+  box-shadow: 0 8px 25px rgba(0, 162, 135, 0.35);
+}
+
+.kpi-number {
+  font-size: 36px;
+  font-weight: bold;
+  margin: 10px 0;
+}
+
+.kpi-label {
+  font-size: 14px;
+  opacity: 0.9;
+}
+
+.kpi-trend {
+  font-size: 12px;
+  margin-top: 8px;
+  padding: 4px 8px;
+  background: rgba(255,255,255,0.2);
+  border-radius: 4px;
+  display: inline-block;
+}
+
+.chart-container {
+  background: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.chart-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--tvtc-primary);
+  margin-bottom: 16px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid var(--tvtc-primary-100);
+}
+
+.report-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.report-table thead {
+  background: linear-gradient(135deg, var(--tvtc-primary), var(--tvtc-primary-700));
+  color: white;
+}
+
+.report-table th {
+  padding: 14px;
+  text-align: right;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.report-table tbody tr {
+  border-bottom: 1px solid #f0f0f0;
+  transition: background 0.2s;
+}
+
+.report-table tbody tr:hover {
+  background: #f8f9fa;
+}
+
+.report-table td {
+  padding: 12px 14px;
+  font-size: 13px;
+}
+
+.progress-bar {
+  height: 8px;
+  background: #e0e0e0;
+  border-radius: 4px;
+  overflow: hidden;
+  margin-top: 4px;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--success), var(--tvtc-secondary));
+  transition: width 0.3s;
+}
+
+.badge {
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+  display: inline-block;
+}
+
+.badge-success {
+  background: #d4edda;
+  color: #155724;
+}
+
+.badge-warning {
+  background: #fff3cd;
+  color: #856404;
+}
+
+.badge-danger {
+  background: #f8d7da;
+  color: #721c24;
+}
+
+.badge-info {
+  background: #d1ecf1;
+  color: #0c5460;
+}
+</style>
+
+<!-- ========== JavaScript التقارير ========== -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script>
+let reportData = null;
+let currentCharts = {};
+
+// فتح نافذة التقارير
+async function openAdminReports() {
+  const modal = document.getElementById('reportsModal');
+  if (!modal) return;
+  
+  modal.classList.remove('hidden');
+  document.body.style.overflow = 'hidden';
+  
+  // تعيين التواريخ الافتراضية (آخر 30 يوم)
+  const today = new Date();
+  const monthAgo = new Date();
+  monthAgo.setDate(monthAgo.getDate() - 30);
+  
+  document.getElementById('reportFromDate').value = monthAgo.toISOString().split('T')[0];
+  document.getElementById('reportToDate').value = today.toISOString().split('T')[0];
+  
+  await generateReport();
+}
+
+// إغلاق نافذة التقارير
+function closeAdminReports() {
+  document.getElementById('reportsModal').classList.add('hidden');
+  document.body.style.overflow = '';
+  
+  // تدمير الرسوم البيانية
+  Object.values(currentCharts).forEach(chart => chart.destroy());
+  currentCharts = {};
+}
+
+// توليد التقرير
+async function generateReport() {
+  showLoading('جاري إنشاء التقرير...');
+  
+  try {
+    reportData = await getReportData();
+    
+    if (!reportData) {
+      hideLoading();
+      return;
+    }
+    
+    updateReportView();
+    document.getElementById('reportLastUpdate').textContent = new Date().toLocaleString('ar-SA');
+    
+  } catch (error) {
+    showError('حدث خطأ أثناء إنشاء التقرير');
+    console.error(error);
+  }
+  
+  hideLoading();
+}
+
+// تحديث عرض التقرير
+function updateReportView() {
+  if (!reportData) return;
+  
+  const reportType = document.getElementById('reportType').value;
+  
+  // تحديث KPIs
+  renderKPIs();
+  
+  // تحديث الرسوم البيانية والجداول حسب نوع التقرير
+  switch(reportType) {
+    case 'overview':
+      renderOverviewReport();
+      break;
+    case 'departments':
+      renderDepartmentsReport();
+      break;
+    case 'advisors':
+      renderAdvisorsReport();
+      break;
+    case 'services':
+      renderServicesReport();
+      break;
+    case 'performance':
+      renderPerformanceReport();
+      break;
+  }
+}
+
+// عرض مؤشرات الأداء
+function renderKPIs() {
+  const container = document.getElementById('reportKPIs');
+  const summary = reportData.summary;
+  
+  const completionRate = summary.total > 0 ? ((summary.completed / summary.total) * 100).toFixed(1) : 0;
+  
+  container.innerHTML = `
+    <div class="kpi-card">
+      <div class="kpi-label">إجمالي التذاكر</div>
+      <div class="kpi-number">${summary.total}</div>
+      <div class="kpi-trend">آخر 30 يوم: ${summary.last30Days}</div>
+    </div>
+    
+    <div class="kpi-card green">
+      <div class="kpi-label">مكتملة</div>
+      <div class="kpi-number">${summary.completed}</div>
+      <div class="kpi-trend">${completionRate}% نسبة الإنجاز</div>
+    </div>
+    
+    <div class="kpi-card orange">
+      <div class="kpi-label">قيد التنفيذ</div>
+      <div class="kpi-number">${summary.inProgress}</div>
+      <div class="kpi-trend">${summary.pending} معلقة</div>
+    </div>
+    
+    <div class="kpi-card purple">
+      <div class="kpi-label">متوسط التقييم</div>
+      <div class="kpi-number">${summary.avgRating} ⭐</div>
+      <div class="kpi-trend">${summary.totalRatings} تقييم</div>
+    </div>
+    
+    <div class="kpi-card teal">
+      <div class="kpi-label">متوسط وقت الإنجاز</div>
+      <div class="kpi-number">${summary.avgCompletionDays}</div>
+      <div class="kpi-trend">يوم</div>
+    </div>
+    
+    <div class="kpi-card orange">
+      <div class="kpi-label">محوّلة</div>
+      <div class="kpi-number">${summary.transferred}</div>
+      <div class="kpi-trend">${((summary.transferred/summary.total)*100).toFixed(1)}%</div>
+    </div>
+  `;
+}
+
+// تقرير النظرة العامة
+function renderOverviewReport() {
+  const chartsContainer = document.getElementById('reportCharts');
+  const summary = reportData.summary;
+  
+  chartsContainer.innerHTML = `
+    <div class="chart-container">
+      <div class="chart-title">توزيع حالة التذاكر</div>
+      <canvas id="statusPieChart"></canvas>
+    </div>
+    
+    <div class="chart-container">
+      <div class="chart-title">التذاكر حسب نوع الخدمة</div>
+      <canvas id="servicesBarChart"></canvas>
+    </div>
+  `;
+  
+  // رسم دائري لحالة التذاكر
+  const statusCtx = document.getElementById('statusPieChart');
+  if (currentCharts['statusPie']) currentCharts['statusPie'].destroy();
+  currentCharts['statusPie'] = new Chart(statusCtx, {
+    type: 'doughnut',
+    data: {
+      labels: ['مكتملة', 'قيد التنفيذ', 'معلقة'],
+      datasets: [{
+        data: [summary.completed, summary.inProgress, summary.pending],
+        backgroundColor: ['#1E7F5C', '#F59E0B', '#C0392B'],
+        borderWidth: 2,
+        borderColor: '#fff'
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: true,
+      plugins: {
+        legend: {
+          position: 'bottom',
+          labels: { font: { size: 13, family: 'Segoe UI' }, padding: 15 }
+        }
+      }
+    }
+  });
+  
+  // رسم أعمدة للخدمات
+  const services = reportData.services;
+  const serviceLabels = Object.keys(services);
+  const serviceValues = Object.values(services).map(s => s.total || s);
+  
+  const servicesCtx = document.getElementById('servicesBarChart');
+  if (currentCharts['servicesBar']) currentCharts['servicesBar'].destroy();
+  currentCharts['servicesBar'] = new Chart(servicesCtx, {
+    type: 'bar',
+    data: {
+      labels: serviceLabels,
+      datasets: [{
+        label: 'عدد التذاكر',
+        data: serviceValues,
+        backgroundColor: '#006341',
+        borderRadius: 6
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: true,
+      plugins: {
+        legend: { display: false }
+      },
+      scales: {
+        y: { beginAtZero: true }
+      }
+    }
+  });
+  
+  // جدول أحدث التذاكر
+  renderRecentTicketsTable();
+}
+
+// تقرير الأقسام
+function renderDepartmentsReport() {
+  const chartsContainer = document.getElementById('reportCharts');
+  const departments = reportData.departments;
+  
+  chartsContainer.innerHTML = `
+    <div class="chart-container" style="grid-column:1/-1;">
+      <div class="chart-title">أداء الأقسام</div>
+      <canvas id="deptComparisonChart"></canvas>
+    </div>
+  `;
+  
+  const deptNames = Object.keys(departments);
+  const deptTotals = deptNames.map(d => departments[d].total);
+  const deptCompleted = deptNames.map(d => departments[d].completed);
+  
+  const ctx = document.getElementById('deptComparisonChart');
+  if (currentCharts['deptComparison']) currentCharts['deptComparison'].destroy();
+  currentCharts['deptComparison'] = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: deptNames,
+      datasets: [
+        {
+          label: 'إجمالي',
+          data: deptTotals,
+          backgroundColor: '#006341'
+        },
+        {
+          label: 'مكتملة',
+          data: deptCompleted,
+          backgroundColor: '#1E7F5C'
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: true,
+      plugins: {
+        legend: { position: 'top' }
+      },
+      scales: {
+        y: { beginAtZero: true }
+      }
+    }
+  });
+  
+  // جدول تفصيلي
+  renderDepartmentsTable();
+}
+
+// تقرير المرشدين
+function renderAdvisorsReport() {
+  const chartsContainer = document.getElementById('reportCharts');
+  const advisors = reportData.advisors;
+  
+  chartsContainer.innerHTML = `
+    <div class="chart-container">
+      <div class="chart-title">أداء المرشدين - عدد التذاكر</div>
+      <canvas id="advisorsTicketsChart"></canvas>
+    </div>
+    
+    <div class="chart-container">
+      <div class="chart-title">تقييمات المرشدين</div>
+      <canvas id="advisorsRatingsChart"></canvas>
+    </div>
+  `;
+  
+  const advisorNames = Object.keys(advisors).slice(0, 10); // أفضل 10
+  const advisorTickets = advisorNames.map(a => advisors[a].total);
+  const advisorRatings = advisorNames.map(a => parseFloat(advisors[a].avgRating) || 0);
+  
+  // عدد التذاكر
+  const ticketsCtx = document.getElementById('advisorsTicketsChart');
+  if (currentCharts['advisorsTickets']) currentCharts['advisorsTickets'].destroy();
+  currentCharts['advisorsTickets'] = new Chart(ticketsCtx, {
+    type: 'horizontalBar',
+    data: {
+      labels: advisorNames,
+      datasets: [{
+        label: 'عدد التذاكر',
+        data: advisorTickets,
+        backgroundColor: '#006341'
+      }]
+    },
+    options: {
+      indexAxis: 'y',
+      responsive: true,
+      maintainAspectRatio: true,
+      plugins: { legend: { display: false } }
+    }
+  });
+  
+  // التقييمات
+  const ratingsCtx = document.getElementById('advisorsRatingsChart');
+  if (currentCharts['advisorsRatings']) currentCharts['advisorsRatings'].destroy();
+  currentCharts['advisorsRatings'] = new Chart(ratingsCtx, {
+    type: 'horizontalBar',
+    data: {
+      labels: advisorNames,
+      datasets: [{
+        label: 'متوسط التقييم',
+        data: advisorRatings,
+        backgroundColor: '#C8A55C'
+      }]
+    },
+    options: {
+      indexAxis: 'y',
+      responsive: true,
+      maintainAspectRatio: true,
+      plugins: { legend: { display: false } },
+      scales: { x: { max: 5 } }
+    }
+  });
+  
+  renderAdvisorsTable();
+}
+
+// تقرير الخدمات
+function renderServicesReport() {
+  const chartsContainer = document.getElementById('reportCharts');
+  const services = reportData.services;
+  
+  chartsContainer.innerHTML = `
+    <div class="chart-container" style="grid-column:1/-1;">
+      <div class="chart-title">توزيع أنواع الخدمات</div>
+      <canvas id="servicesPieChart"></canvas>
+    </div>
+  `;
+  
+  const serviceLabels = Object.keys(services);
+  const serviceValues = Object.values(services).map(s => s.total || s);
+  
+  const colors = ['#006341', '#1E7F5C', '#C8A55C', '#C0392B', '#8B5CF6', '#F59E0B'];
+  
+  const ctx = document.getElementById('servicesPieChart');
+  if (currentCharts['servicesPie']) currentCharts['servicesPie'].destroy();
+  currentCharts['servicesPie'] = new Chart(ctx, {
+    type: 'pie',
+    data: {
+      labels: serviceLabels,
+      datasets: [{
+        data: serviceValues,
+        backgroundColor: colors,
+        borderWidth: 2,
+        borderColor: '#fff'
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: true,
+      plugins: {
+        legend: { position: 'right' }
+      }
+    }
+  });
+  
+  renderServicesTable();
+}
+
+// تقرير الأداء
+function renderPerformanceReport() {
+  const chartsContainer = document.getElementById('reportCharts');
+  
+  chartsContainer.innerHTML = `
+    <div class="chart-container" style="grid-column:1/-1;">
+      <div class="chart-title">مؤشرات الأداء الرئيسية</div>
+      <canvas id="performanceChart"></canvas>
+    </div>
+  `;
+  
+  const summary = reportData.summary;
+  const completionRate = summary.total > 0 ? ((summary.completed / summary.total) * 100).toFixed(0) : 0;
+  const inProgressRate = summary.total > 0 ? ((summary.inProgress / summary.total) * 100).toFixed(0) : 0;
+  const pendingRate = summary.total > 0 ? ((summary.pending / summary.total) * 100).toFixed(0) : 0;
+  
+  const ctx = document.getElementById('performanceChart');
+  if (currentCharts['performance']) currentCharts['performance'].destroy();
+  currentCharts['performance'] = new Chart(ctx, {
+    type: 'radar',
+    data: {
+      labels: ['نسبة الإنجاز', 'متوسط التقييم', 'سرعة الإنجاز', 'رضا العملاء', 'الكفاءة'],
+      datasets: [{
+        label: 'الأداء الحالي',
+        data: [
+          completionRate,
+          (summary.avgRating / 5) * 100,
+          Math.max(0, 100 - (summary.avgCompletionDays * 10)),
+          (summary.avgRating / 5) * 100,
+          completionRate
+        ],
+        backgroundColor: 'rgba(0, 99, 65, 0.2)',
+        borderColor: '#006341',
+        borderWidth: 2,
+        pointBackgroundColor: '#006341'
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: true,
+      scales: {
+        r: {
+          beginAtZero: true,
+          max: 100
+        }
+      }
+    }
+  });
+  
+  renderPerformanceTable();
+}
+
+// جداول التفاصيل
+function renderRecentTicketsTable() {
+  const container = document.getElementById('reportTables');
+  const tickets = reportData.tickets.slice(0, 20);
+  
+  let html = '<div class="chart-title">أحدث التذاكر</div>';
+  html += '<table class="report-table"><thead><tr>';
+  html += '<th>رقم التذكرة</th><th>المتدرب</th><th>القسم</th><th>الخدمة</th><th>الحالة</th><th>التاريخ</th>';
+  html += '</tr></thead><tbody>';
+  
+  tickets.forEach(t => {
+    const status = t.status || t['الحالة'] || 'pending';
+    const badge = status === 'completed' ? 'badge-success' : status === 'in_progress' ? 'badge-warning' : 'badge-danger';
+    const statusText = status === 'completed' ? 'مكتملة' : status === 'in_progress' ? 'قيد التنفيذ' : 'معلقة';
+    
+    html += '<tr>';
+    html += `<td><strong>${t.ticketNumber || t['رقم التذكرة'] || '-'}</strong></td>`;
+    html += `<td>${t.traineeName || t['اسم المتدرب'] || '-'}</td>`;
+    html += `<td>${t.department || t['القسم'] || '-'}</td>`;
+    html += `<td>${t.serviceType || t['طلب الخدمة'] || '-'}</td>`;
+    html += `<td><span class="badge ${badge}">${statusText}</span></td>`;
+    html += `<td>${formatArabicDate(t.createdAt || t['التاريخ'], true)}</td>`;
+    html += '</tr>';
+  });
+  
+  html += '</tbody></table>';
+  container.innerHTML = html;
+}
+
+function renderDepartmentsTable() {
+  const container = document.getElementById('reportTables');
+  const departments = reportData.departments;
+  
+  let html = '<div class="chart-title">تفاصيل الأقسام</div>';
+  html += '<table class="report-table"><thead><tr>';
+  html += '<th>القسم</th><th>إجمالي</th><th>مكتملة</th><th>قيد التنفيذ</th><th>معلقة</th><th>نسبة الإنجاز</th>';
+  html += '</tr></thead><tbody>';
+  
+  Object.entries(departments).forEach(([dept, stats]) => {
+    const rate = stats.total > 0 ? ((stats.completed / stats.total) * 100).toFixed(1) : 0;
+    html += '<tr>';
+    html += `<td><strong>${dept}</strong></td>`;
+    html += `<td>${stats.total}</td>`;
+    html += `<td>${stats.completed}</td>`;
+    html += `<td>${stats.inProgress || 0}</td>`;
+    html += `<td>${stats.pending || 0}</td>`;
+    html += `<td>${rate}%<div class="progress-bar"><div class="progress-fill" style="width:${rate}%"></div></div></td>`;
+    html += '</tr>';
+  });
+  
+  html += '</tbody></table>';
+  container.innerHTML = html;
+}
+
+function renderAdvisorsTable() {
+  const container = document.getElementById('reportTables');
+  const advisors = reportData.advisors;
+  
+  let html = '<div class="chart-title">أداء المرشدين</div>';
+  html += '<table class="report-table"><thead><tr>';
+  html += '<th>المرشد</th><th>إجمالي التذاكر</th><th>مكتملة</th><th>متوسط التقييم</th><th>عدد التقييمات</th>';
+  html += '</tr></thead><tbody>';
+  
+  Object.entries(advisors).forEach(([advisor, stats]) => {
+    const rating = parseFloat(stats.avgRating) || 0;
+    const ratingsCount = stats.ratingsCount || 0;
+    html += '<tr>';
+    html += `<td><strong>${advisor}</strong></td>`;
+    html += `<td>${stats.total}</td>`;
+    html += `<td>${stats.completed}</td>`;
+    html += `<td>${rating > 0 ? rating + ' ⭐' : '-'}</td>`;
+    html += `<td>${ratingsCount}</td>`;
+    html += '</tr>';
+  });
+  
+  html += '</tbody></table>';
+  container.innerHTML = html;
+}
+
+function renderServicesTable() {
+  const container = document.getElementById('reportTables');
+  const services = reportData.services;
+  const total = Object.values(services).reduce((sum, s) => sum + (s.total || s), 0);
+  
+  let html = '<div class="chart-title">تفاصيل الخدمات</div>';
+  html += '<table class="report-table"><thead><tr>';
+  html += '<th>نوع الخدمة</th><th>عدد التذاكر</th><th>النسبة</th>';
+  html += '</tr></thead><tbody>';
+  
+  Object.entries(services).forEach(([service, stats]) => {
+    const count = stats.total || stats;
+    const percent = total > 0 ? ((count / total) * 100).toFixed(1) : 0;
+    html += '<tr>';
+    html += `<td><strong>${service}</strong></td>`;
+    html += `<td>${count}</td>`;
+    html += `<td>${percent}%<div class="progress-bar"><div class="progress-fill" style="width:${percent}%"></div></div></td>`;
+    html += '</tr>';
+  });
+  
+  html += '</tbody></table>';
+  container.innerHTML = html;
+}
+
+function renderPerformanceTable() {
+  const container = document.getElementById('reportTables');
+  const summary = reportData.summary;
+  
+  let html = '<div class="chart-title">ملخص الأداء</div>';
+  html += '<table class="report-table"><thead><tr>';
+  html += '<th>المؤشر</th><th>القيمة</th><th>الحالة</th>';
+  html += '</tr></thead><tbody>';
+  
+  const completionRate = summary.total > 0 ? ((summary.completed / summary.total) * 100).toFixed(1) : 0;
+  
+  const metrics = [
+    { name: 'نسبة الإنجاز', value: completionRate + '%', status: completionRate >= 70 ? 'ممتاز' : completionRate >= 50 ? 'جيد' : 'يحتاج تحسين' },
+    { name: 'متوسط وقت الإنجاز', value: summary.avgCompletionDays + ' يوم', status: summary.avgCompletionDays <= 3 ? 'ممتاز' : summary.avgCompletionDays <= 5 ? 'جيد' : 'بطيء' },
+    { name: 'متوسط التقييم', value: summary.avgRating + ' ⭐', status: summary.avgRating >= 4 ? 'ممتاز' : summary.avgRating >= 3 ? 'جيد' : 'يحتاج تحسين' },
+    { name: 'التذاكر النشطة', value: summary.inProgress + summary.pending, status: 'نشط' }
+  ];
+  
+  metrics.forEach(m => {
+    const badgeClass = m.status === 'ممتاز' ? 'badge-success' : m.status === 'جيد' ? 'badge-info' : 'badge-warning';
+    html += '<tr>';
+    html += `<td><strong>${m.name}</strong></td>`;
+    html += `<td>${m.value}</td>`;
+    html += `<td><span class="badge ${badgeClass}">${m.status}</span></td>`;
+    html += '</tr>';
+  });
+  
+  html += '</tbody></table>';
+  container.innerHTML = html;
+}
+
+// ========== تصدير PDF و Excel ==========
+
+// تصدير PDF كصورة لحل مشكلة اللغة
+async function exportReportPDF() {
+  showLoading('جاري إنشاء ملف PDF...');
+  
+  try {
+    // تحميل المكتبات إذا لم تكن محملة
+    if (typeof jspdf === 'undefined') {
+      await loadScript('https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js');
+    }
+    if (typeof html2canvas === 'undefined') {
+      await loadScript('https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js');
+    }
+    
+    const { jsPDF } = window.jspdf;
+    const pdf = new jsPDF('p', 'mm', 'a4');
+    
+    // التقاط صفحة التقرير كاملة كصورة
+    const reportContent = document.getElementById('reportContent');
+    if (!reportContent) {
+      throw new Error('لم يتم العثور على محتوى التقرير');
+    }
+    
+    const canvas = await html2canvas(reportContent, {
+      scale: 2,
+      useCORS: true,
+      backgroundColor: '#ffffff',
+      logging: false
+    });
+    
+    const imgData = canvas.toDataURL('image/png');
+    const imgWidth = 210; // عرض A4 بالملليمتر
+    const imgHeight = (canvas.height * imgWidth) / canvas.width;
+    let heightLeft = imgHeight;
+    let position = 0;
+    
+    // إضافة الصفحة الأولى
+    pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+    heightLeft -= 297; // ارتفاع صفحة A4
+    
+    // إضافة صفحات إضافية إذا لزم الأمر
+    while (heightLeft > 0) {
+      position = heightLeft - imgHeight;
+      pdf.addPage();
+      pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+      heightLeft -= 297;
+    }
+    
+    // حفظ الملف
+    const reportType = document.getElementById('reportType').value;
+    const reportTypeNames = {
+      'overview': 'نظرة_عامة',
+      'departments': 'تقرير_الأقسام',
+      'advisors': 'تقرير_المرشدين',
+      'services': 'تقرير_الخدمات',
+      'performance': 'تقرير_الأداء'
+    };
+    
+    const date = new Date().toLocaleDateString('ar-SA').replace(/\//g, '-');
+    const fileName = `تقرير_${reportTypeNames[reportType]}_${date}.pdf`;
+    pdf.save(fileName);
+    
+    hideLoading();
+    showSuccess('تم تصدير التقرير بصيغة PDF بنجاح!');
+    
+  } catch (error) {
+    hideLoading();
+    showError('حدث خطأ أثناء تصدير PDF: ' + error.message);
+    console.error(error);
+  }
+}
+
+// تصدير Excel باستخدام SheetJS
+function exportReportExcel() {
+  showLoading('جاري إنشاء ملف Excel...');
+  
+  try {
+    // تحميل المكتبة إذا لم تكن محملة
+    if (typeof XLSX === 'undefined') {
+      loadScript('https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js')
+        .then(() => generateExcelFile())
+        .catch(err => {
+          hideLoading();
+          showError('فشل تحميل مكتبة Excel');
+        });
+      return;
+    }
+    
+    generateExcelFile();
+    
+  } catch (error) {
+    hideLoading();
+    showError('حدث خطأ أثناء تصدير Excel: ' + error.message);
+    console.error(error);
+  }
+}
+
+function generateExcelFile() {
+  const wb = XLSX.utils.book_new();
+  const summary = reportData.summary;
+  const reportType = document.getElementById('reportType').value;
+  
+  // ورقة المؤشرات الرئيسية
+  const kpisData = [
+    ['مؤشرات الأداء الرئيسية', ''],
+    ['', ''],
+    ['المؤشر', 'القيمة'],
+    ['إجمالي التذاكر', summary.total],
+    ['مكتملة', summary.completed],
+    ['قيد التنفيذ', summary.inProgress],
+    ['معلقة', summary.pending],
+    ['محولة', summary.transferred],
+    ['متوسط التقييم', summary.avgRating],
+    ['إجمالي التقييمات', summary.totalRatings],
+    ['متوسط وقت الإنجاز (يوم)', summary.avgCompletionDays],
+    ['نسبة الإنجاز', ((summary.completed / summary.total) * 100).toFixed(1) + '%'],
+    ['التذاكر في آخر 30 يوم', summary.last30Days]
+  ];
+  
+  const wsKPIs = XLSX.utils.aoa_to_sheet(kpisData);
+  wsKPIs['!cols'] = [{ wch: 30 }, { wch: 15 }];
+  
+  // إضافة ألوان للعناوين
+  const headerStyle = { fill: { fgColor: { rgb: "006341" } }, font: { bold: true, color: { rgb: "FFFFFF" } }, alignment: { horizontal: "center" } };
+  const titleStyle = { fill: { fgColor: { rgb: "C8A55C" } }, font: { bold: true, sz: 14, color: { rgb: "FFFFFF" } }, alignment: { horizontal: "center" } };
+  const dataLabelStyle = { fill: { fgColor: { rgb: "E6F1EC" } }, font: { bold: true }, alignment: { horizontal: "right" } };
+  
+  wsKPIs['A1'].s = titleStyle;
+  wsKPIs['A3'].s = headerStyle;
+  wsKPIs['B3'].s = headerStyle;
+  
+  for (let i = 4; i <= 13; i++) {
+    if (wsKPIs[`A${i}`]) wsKPIs[`A${i}`].s = dataLabelStyle;
+  }
+  
+  XLSX.utils.book_append_sheet(wb, wsKPIs, 'المؤشرات الرئيسية');
+  
+  // ورقة الأقسام
+  if (reportData.departments) {
+    const deptData = [['القسم', 'إجمالي', 'مكتملة', 'قيد التنفيذ', 'معلقة', 'نسبة الإنجاز']];
+    
+    Object.entries(reportData.departments).forEach(([dept, stats]) => {
+      const rate = stats.total > 0 ? ((stats.completed / stats.total) * 100).toFixed(1) : 0;
+      deptData.push([
+        dept,
+        stats.total,
+        stats.completed,
+        stats.inProgress || 0,
+        stats.pending || 0,
+        rate + '%'
+      ]);
+    });
+    
+    const wsDept = XLSX.utils.aoa_to_sheet(deptData);
+    wsDept['!cols'] = [{ wch: 25 }, { wch: 10 }, { wch: 10 }, { wch: 15 }, { wch: 10 }, { wch: 15 }];
+    
+    // إضافة ألوان للعناوين
+    const headerCells = ['A1', 'B1', 'C1', 'D1', 'E1', 'F1'];
+    headerCells.forEach(cell => {
+      if (wsDept[cell]) wsDept[cell].s = { fill: { fgColor: { rgb: "006341" } }, font: { bold: true, color: { rgb: "FFFFFF" } }, alignment: { horizontal: "center" } };
+    });
+    
+    XLSX.utils.book_append_sheet(wb, wsDept, 'الأقسام');
+  }
+  
+  // ورقة المرشدين
+  if (reportData.advisors) {
+    const advisorData = [['المرشد', 'إجمالي التذاكر', 'مكتملة', 'متوسط التقييم', 'عدد التقييمات']];
+    
+    Object.entries(reportData.advisors).forEach(([advisor, stats]) => {
+      advisorData.push([
+        advisor,
+        stats.total,
+        stats.completed,
+        stats.avgRating || 0,
+        stats.ratingsCount || 0
+      ]);
+    });
+    
+    const wsAdvisor = XLSX.utils.aoa_to_sheet(advisorData);
+    wsAdvisor['!cols'] = [{ wch: 25 }, { wch: 15 }, { wch: 10 }, { wch: 15 }, { wch: 15 }];
+    
+    // إضافة ألوان للعناوين
+    const headerCells = ['A1', 'B1', 'C1', 'D1', 'E1'];
+    headerCells.forEach(cell => {
+      if (wsAdvisor[cell]) wsAdvisor[cell].s = { fill: { fgColor: { rgb: "006341" } }, font: { bold: true, color: { rgb: "FFFFFF" } }, alignment: { horizontal: "center" } };
+    });
+    
+    XLSX.utils.book_append_sheet(wb, wsAdvisor, 'المرشدين');
+  }
+  
+  // ورقة الخدمات
+  if (reportData.services) {
+    const servicesData = [['نوع الخدمة', 'عدد التذاكر', 'النسبة']];
+    const total = Object.values(reportData.services).reduce((a, b) => a + b, 0);
+    
+    Object.entries(reportData.services).forEach(([service, count]) => {
+      const percent = total > 0 ? ((count / total) * 100).toFixed(1) : 0;
+      servicesData.push([service, count, percent + '%']);
+    });
+    
+    const wsServices = XLSX.utils.aoa_to_sheet(servicesData);
+    wsServices['!cols'] = [{ wch: 25 }, { wch: 15 }, { wch: 10 }];
+    
+    // إضافة ألوان للعناوين
+    const headerCells = ['A1', 'B1', 'C1'];
+    headerCells.forEach(cell => {
+      if (wsServices[cell]) wsServices[cell].s = { fill: { fgColor: { rgb: "006341" } }, font: { bold: true, color: { rgb: "FFFFFF" } }, alignment: { horizontal: "center" } };
+    });
+    
+    XLSX.utils.book_append_sheet(wb, wsServices, 'الخدمات');
+  }
+  
+  // ورقة سجل المواقف اليومية للمتدربين
+  if (reportData.tickets && reportData.tickets.length > 0) {
+    const dailyLogData = [['رقم التذكرة', 'التاريخ', 'الوقت', 'الرقم التدريبي', 'اسم المتدرب', 'القسم', 'التخصص', 'اسم المرشد التدريبي', 'طلب الخدمة', 'تفاصيل الخدمة', 'الحالة', 'ملاحظات']];
+    
+    reportData.tickets.forEach(t => {
+      dailyLogData.push([
+        t.ticketNumber || t['رقم التذكرة'] || '',
+        t.date || t['التاريخ'] || '',
+        t.time || t['الوقت'] || '',
+        t.traineeId || t['الرقم التدريبي'] || '',
+        t.traineeName || t['اسم المتدرب'] || '',
+        t.department || t['القسم'] || '',
+        t.specialization || t['التخصص'] || '',
+        t.advisorName || t['اسم المرشد التدريبي'] || '',
+        t.serviceType || t['طلب الخدمة'] || '',
+        t.serviceDetails || t['تفاصيل الخدمة'] || '',
+        t.status === 'completed' ? 'مكتمل' : t.status === 'in_progress' ? 'قيد التنفيذ' : t.status === 'pending' ? 'معلق' : t.status || t['الحالة'] || '',
+        t.notes || t['ملاحظات'] || ''
+      ]);
+    });
+    
+    const wsDailyLog = XLSX.utils.aoa_to_sheet(dailyLogData);
+    wsDailyLog['!cols'] = [
+      { wch: 15 }, { wch: 12 }, { wch: 10 }, { wch: 15 }, { wch: 20 }, 
+      { wch: 20 }, { wch: 20 }, { wch: 20 }, { wch: 15 }, { wch: 30 }, 
+      { wch: 12 }, { wch: 30 }
+    ];
+    
+    // إضافة ألوان للعناوين
+    const headerCells = ['A1', 'B1', 'C1', 'D1', 'E1', 'F1', 'G1', 'H1', 'I1', 'J1', 'K1', 'L1'];
+    headerCells.forEach(cell => {
+      if (wsDailyLog[cell]) wsDailyLog[cell].s = { fill: { fgColor: { rgb: "006341" } }, font: { bold: true, color: { rgb: "FFFFFF" } }, alignment: { horizontal: "center" } };
+    });
+    
+    XLSX.utils.book_append_sheet(wb, wsDailyLog, 'سجل المواقف اليومية');
+  }
+  
+  // ورقة تتبع الحالة (آخر 100 تذكرة)
+  if (reportData.tickets && reportData.tickets.length > 0) {
+    const trackingData = [['رقم التذكرة', 'اسم المتدرب', 'القسم', 'اسم المرشد التدريبي', 'نوع الخدمة', 'الحالة', 'التاريخ', 'تاريخ الإنجاز', 'الحل المقدم']];
+    
+    reportData.tickets.slice(0, 100).forEach(t => {
+      trackingData.push([
+        t.ticketNumber || t['رقم التذكرة'] || '',
+        t.traineeName || t['اسم المتدرب'] || '',
+        t.department || t['القسم'] || '',
+        t.advisorName || t['اسم المرشد التدريبي'] || '',
+        t.serviceType || t['طلب الخدمة'] || '',
+        t.status === 'completed' ? 'مكتمل' : t.status === 'in_progress' ? 'قيد التنفيذ' : t.status === 'pending' ? 'معلق' : t.status || t['الحالة'] || '',
+        t.date || t['التاريخ'] || '',
+        t.completionDate || t['تاريخ الإنجاز'] || '',
+        t.solution || t['الحل المقدم'] || ''
+      ]);
+    });
+    
+    const wsTracking = XLSX.utils.aoa_to_sheet(trackingData);
+    wsTracking['!cols'] = [
+      { wch: 15 }, { wch: 20 }, { wch: 20 }, { wch: 20 }, { wch: 15 }, 
+      { wch: 12 }, { wch: 12 }, { wch: 12 }, { wch: 30 }
+    ];
+    
+    // إضافة ألوان للعناوين
+    const trackingHeaders = ['A1', 'B1', 'C1', 'D1', 'E1', 'F1', 'G1', 'H1', 'I1'];
+    trackingHeaders.forEach(cell => {
+      if (wsTracking[cell]) wsTracking[cell].s = { fill: { fgColor: { rgb: "006341" } }, font: { bold: true, color: { rgb: "FFFFFF" } }, alignment: { horizontal: "center" } };
+    });
+    
+    XLSX.utils.book_append_sheet(wb, wsTracking, 'تتبع الحالة');
+  }
+  
+  // حفظ الملف
+  const reportTypeNames = {
+    'overview': 'نظرة_عامة',
+    'departments': 'تقرير_الأقسام',
+    'advisors': 'تقرير_المرشدين',
+    'services': 'تقرير_الخدمات',
+    'performance': 'تقرير_الأداء'
+  };
+  
+  const date = new Date().toLocaleDateString('ar-SA').replace(/\//g, '-');
+  const fileName = `تقرير_${reportTypeNames[reportType]}_${date}.xlsx`;
+  
+  XLSX.writeFile(wb, fileName);
+  
+  hideLoading();
+  showSuccess('تم تصدير التقرير بصيغة Excel بنجاح!');
+}
+
+// تحميل سكريبت خارجي
+function loadScript(src) {
+  return new Promise((resolve, reject) => {
+    const script = document.createElement('script');
+    script.src = src;
+    script.onload = resolve;
+    script.onerror = reject;
+    document.head.appendChild(script);
+  });
+}
+</script>
 
 </body>
 </html>
+<!-- ========== Developer Credits ========== -->
+<div id="devCredits" style="position:fixed;bottom:10px;left:10px;background:linear-gradient(135deg,var(--tvtc-primary),var(--tvtc-secondary));color:#fff;padding:8px 16px;border-radius:8px;font-size:12px;box-shadow:0 2px 10px rgba(0,99,65,0.3);z-index:9999;display:flex;align-items:center;gap:8px;">
+  <span style="font-size:16px;">💻</span>
+  <div>
+    <div style="font-weight:600;margin-bottom:2px;">تطوير: م. فهد صالح</div>
+    <div style="opacity:0.9;font-size:11px;">وكيل ضبط الجودة - الكلية التقنية بحقل</div>
+  </div>
+</div>
+
+<style>
+#devCredits {
+  animation: slideInLeft 0.5s ease-out;
+  transition: all 0.3s;
+}
+#devCredits:hover {
+  transform: translateX(5px);
+  box-shadow: 0 4px 20px rgba(0,99,65,0.4);
+}
+@keyframes slideInLeft {
+  from {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+@media (max-width: 768px) {
+  #devCredits {
+    bottom: 5px;
+    left: 5px;
+    padding: 6px 10px;
+    font-size: 10px;
+  }
+  #devCredits > span {
+    font-size: 14px;
+  }
+  #devCredits > div > div:first-child {
+    font-size: 11px;
+  }
+  #devCredits > div > div:last-child {
+    font-size: 9px;
+  }
+}
+</style>
