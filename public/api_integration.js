@@ -5,7 +5,7 @@
  */
 
 // رابط Google Apps Script Web App
-const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbwEHOtpTXLAfVwpfyNr8ngz-puFXwx1iNrICpmKh6fwsfc9cMPbClF-m-xiERrMZL9UbA/exec';
+const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbz7aE-mlNBmhmROTY7pKiQFkiWWI8EHwlROIKWJtuT1D1gxfYw0Br2gBwAfXX9ompqC0g/exec';
 /**
  * إرسال طلب إلى Google Apps Script
  */
@@ -291,6 +291,30 @@ async function searchTickets(filters) {
 }
 
 /**
+ * جلب بيانات التقارير للصلاحيات العليا
+ */
+async function getReportData() {
+    if (!currentUser || !currentUser.data) {
+        showError('الرجاء تسجيل الدخول أولاً');
+        return null;
+    }
+    
+    showLoading('جاري تحميل بيانات التقارير...');
+    const result = await sendRequest('getReportData', {
+        userId: currentUser.id,
+        userRole: currentUser.data.role
+    });
+    hideLoading();
+    
+    if (result.success && result.data) {
+        return result.data;
+    } else {
+        showError(result.message || 'فشل في تحميل بيانات التقارير');
+        return null;
+    }
+}
+
+/**
  * عرض رسالة تحميل
  */
 function showLoading(message = 'جاري التحميل...') {
@@ -498,6 +522,7 @@ if (typeof window !== 'undefined') {
         checkUserPermission,
         searchTickets,
         exportToCSV,
+        getReportData,
         showSuccess,
         showError,
         showLoading,
