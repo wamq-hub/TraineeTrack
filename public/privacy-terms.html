@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>سياسة الخصوصية واتفاقية الاستخدام - الكلية التقنية بحقل</title>
+<meta name="color-scheme" content="light dark">
+<style>
+  :root{
+    --tvtc-green:#006341;
+    --tvtc-gold:#C8A55C;
+    --tvtc-teal:#00A287;
+    --ink:#17323b;
+    --bg:#ffffff;
+    --muted:#f5f7f8;
+    --border:#e5e7eb;
+    --link:#0A5F8F;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{ --bg:#0f1416; --ink:#e7eef2; --muted:#141a1c; --border:#203037; --link:#7cc3f7; }
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{ margin:0; font-family:"Tajawal",system-ui,-apple-system,Segoe UI,Roboto,Arial,"Noto Kufi Arabic",sans-serif; background:linear-gradient(135deg,var(--muted),#fff0); color:var(--ink); }
+
+  /* ✅ قفل تمرير الصفحة عندما تكون بوابة التعهّد ظاهرة */
+  html.lock, body.lock { height: 100dvh; overflow: hidden; }
+
+  header{ position:sticky; top:0; z-index:50; background:linear-gradient(90deg,var(--tvtc-green),var(--tvtc-teal)); color:#fff; padding:16px 20px; border-bottom:3px solid var(--tvtc-gold); }
+  header .brand{ display:flex; align-items:center; gap:12px; flex-wrap:wrap; }
+  .brand-logo{ width:42px; height:42px; border-radius:10px; background:#fff2; display:grid; place-items:center; outline:2px solid #fff3; box-shadow:0 4px 12px #0003; font-weight:800; }
+  .brand h1{font-size:20px; margin:0}
+  .sub{opacity:.9; font-size:13px}
+  .container{display:grid; grid-template-columns:280px 1fr; gap:18px; max-width:1200px; margin:20px auto; padding:0 16px}
+  nav{ position:sticky; top:76px; align-self:start; background:var(--bg); border:1px solid var(--border); border-radius:14px; padding:14px; box-shadow:0 8px 24px rgba(0,0,0,.06); }
+  nav h3{margin:0 0 10px; font-size:16px; color:var(--tvtc-green)}
+  nav a{ display:block; padding:10px 12px; border-radius:10px; text-decoration:none; color:var(--ink); border:1px solid transparent; }
+  nav a:hover{background:var(--muted); border-color:var(--border)}
+  nav .divider{height:1px; background:var(--border); margin:12px 0}
+  main{ background:var(--bg); border:1px solid var(--border); border-radius:14px; padding:16px; box-shadow:0 8px 24px rgba(0,0,0,.06); }
+  section{padding:8px 6px 22px; border-bottom:1px dashed var(--border)}
+  section:last-child{border-bottom:0}
+  h2{margin:8px 0 12px; color:var(--tvtc-green); font-size:22px}
+  h3{margin:12px 0 8px; color:var(--tvtc-teal); font-size:18px}
+  p{line-height:1.9; margin:8px 0}
+  ul{line-height:1.9; padding-right:18px; margin:8px 0}
+  li{margin:4px 0}
+  .note{ background:linear-gradient(180deg,#fff,var(--muted)); border:1px solid var(--border); border-right:4px solid var(--tvtc-gold); padding:12px; border-radius:12px; margin-top:8px; }
+  .kpis{display:flex; gap:10px; flex-wrap:wrap; margin:8px 0 2px}
+  .badge{ font-size:12px; border:1px solid var(--border); background:var(--muted); padding:5px 8px; border-radius:999px }
+  a.inline{color:var(--link)}
+  .actions{ display:flex; flex-wrap:wrap; gap:10px; margin-top:16px }
+  button{ appearance:none; border:1px solid var(--border); background:var(--tvtc-green); color:#fff; padding:10px 14px; border-radius:10px; cursor:pointer; font-weight:700; box-shadow:0 6px 18px rgba(0,0,0,.12); }
+  button.secondary{ background:var(--muted); color:var(--ink) }
+  .field{display:grid; gap:6px; margin:8px 0}
+  .field label{font-weight:700}
+  .field input[type="text"], .field input[type="date"], .field textarea{ width:100%; padding:10px 12px; border:1px solid var(--border); border-radius:10px; background:transparent; color:inherit }
+  .grid-2{display:grid; grid-template-columns:1fr 1fr; gap:12px}
+  @media (max-width:960px){ .container{grid-template-columns:1fr} nav{position:static} .grid-2{grid-template-columns:1fr} }
+  footer{ margin:24px auto 34px; max-width:1200px; padding:0 16px; color:#556; display:flex; justify-content:space-between; gap:10px; flex-wrap:wrap; }
+  footer small{opacity:.9}
+  .hr{height:1px; background:var(--border); margin:24px 0}
+  .cookie{ position:fixed; inset-inline:12px; bottom:12px; z-index:60; background:var(--bg); border:1px solid var(--border); border-radius:12px; padding:12px; box-shadow:0 12px 28px rgba(0,0,0,.18); display:none; }
+  .cookie p{margin:0 0 8px}
+  .cookie .row{display:flex; gap:10px; justify-content:flex-end; flex-wrap:wrap}
+  .link-like{background:transparent; border:1px solid var(--border); color:var(--ink)}
+  @media print{ header, nav, .cookie, .actions, #gateway{display:none !important} main{border:0; box-shadow:none} body{background:#fff} }
+
+  /* بوابة التعهد */
+  #gateway{ background:var(--bg); border:1px solid var(--border); border-radius:14px; padding:16px; box-shadow:0 8px 24px rgba(0,0,0,.06); margin:16px auto; max-width:1200px; }
+  .hidden{display:none}
+
+  /* ===== Fullscreen Gateway (Design 1) ===== */
+  .gateway-full{ min-height: calc(100dvh - 76px); display:grid; place-items:center; padding:24px 16px; background: radial-gradient(1200px 600px at 90% -10%, #00a28722, transparent), radial-gradient(900px 500px at -10% 110%, #0063411a, transparent); }
+  .hero{ max-width:820px; width:100%; background:var(--bg); border:1px solid var(--border); border-radius:18px; padding:24px; box-shadow:0 20px 60px rgba(0,0,0,.10); text-align:center; }
+  .hero-head{ display:flex; justify-content:center; align-items:center; gap:8px; margin-bottom:8px; color:#5a7080 }
+  .ver-badge{ border:1px solid var(--border); background:var(--muted); border-radius:999px; padding:4px 10px; font-weight:700; font-size:12px }
+  .dot{ opacity:.6 }
+  .updated{ font-size:12px }
+  .hero-title{ margin:8px 0 6px; font-size:30px; color:var(--tvtc-green) }
+  .hero-sub{ margin:0 auto 14px; max-width:56ch; line-height:1.9; font-size:16px }
+  .hero-consent{ margin:10px 0 14px }
+  .hero-check{ font-weight:700 }
+  .hero-actions{ display:flex; gap:12px; flex-wrap:wrap; justify-content:center; margin:8px 0 6px }
+  .cta{ appearance:none; border:1px solid var(--border); background:var(--tvtc-green); color:#fff; padding:12px 18px; border-radius:12px; cursor:pointer; font-weight:800; box-shadow:0 8px 24px rgba(0,0,0,.12); font-size:16px }
+  .cta.secondary{ background:var(--muted); color:var(--ink) }
+  .lead-ico{ display:inline-grid; place-items:center; width:22px; height:22px; margin-inline-end:6px; }
+  .hero-note{ margin-top:10px; font-size:13px; color:#5a7080 }
+
+  /* ===== Bottom Sheet ===== */
+  .sheet-overlay{ position:fixed; inset:0; background:#0007; backdrop-filter:saturate(140%) blur(3px); display:none; z-index:80; }
+  .sheet{ position:fixed; inset-inline:0; bottom:-100%; z-index:81; background:var(--bg); border-top:1px solid var(--border);
+          border-radius:18px 18px 0 0; box-shadow:0 -20px 60px rgba(0,0,0,.2); max-height:85dvh; display:flex; flex-direction:column;
+          transition:bottom .28s ease; }
+  .sheet.open{ bottom:0 }
+  .sheet-header{ display:flex; align-items:center; justify-content:space-between; padding:12px 14px; border-bottom:1px solid var(--border) }
+  .sheet-title{ font-weight:800; color:var(--tvtc-green) }
+  .drag-handle{ width:56px; height:5px; border-radius:999px; background:#ccc; margin:6px auto; }
+  .sheet-body{ overflow:auto; padding:10px 14px }
+  .resume-banner{ background:var(--muted); border:1px dashed var(--border); padding:8px 10px; border-radius:10px; margin-bottom:10px; display:none }
+
+  /* ===== Floating Buttons ===== */
+  #backToTop{
+    position:fixed; inset-inline-end:16px; bottom:16px; z-index:82;
+    border:1px solid var(--border); background:var(--tvtc-green); color:#fff;
+    padding:10px 12px; border-radius:999px; font-weight:800; display:none;
+    box-shadow:0 8px 24px rgba(0,0,0,.18)
+  }
+  #goToConsent{
+    position:fixed; inset-inline-start:16px; bottom:16px; z-index:82;
+    border:1px solid var(--border); background:var(--tvtc-teal); color:#fff;
+    padding:10px 12px; border-radius:999px; font-weight:800; display:none;
+    box-shadow:0 8px 24px rgba(0,0,0,.18)
+  }
+
+  /* ===== Fullscreen Button ===== */
+  #btnFullscreen{ background:var(--muted); color:var(--ink) }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">
+    <div class="brand-logo" aria-hidden="true">TV</div>
+    <div>
+      <h1>سياسة الخصوصية واتفاقية الاستخدام</h1>
+      <div class="sub">الكلية التقنية بحقل — صفحة موحّدة للمتدربين</div>
+    </div>
+  </div>
+</header>
+
+<!-- بوابة التعهد بملء الشاشة -->
+
+<!-- Bottom Sheet لعرض السياسة -->
+<div class="sheet-overlay" id="sheetOverlay" aria-hidden="true"></div>
+<div class="sheet" id="policySheet" role="dialog" aria-modal="true" aria-labelledby="sheetTitle" aria-describedby="sheetBody">
+  <div class="drag-handle"></div>
+  <div class="sheet-header">
+    <div class="sheet-title" id="sheetTitle">السياسة والاتفاقية</div>
+    <button id="sheetClose" class="cta secondary" aria-label="إغلاق">إغلاق</button>
+  </div>
+  <div class="sheet-body" id="sheetBody">
+    <div class="resume-banner" id="resumeBanner">
+      لديك قراءة غير مكتملة — <button id="resumeBtn" class="cta secondary">استكمال من حيث توقفت</button>
+    </div>
+    <!-- سيتم حقن المحتوى هنا -->
+  </div>
+</div>
+
+<div class="container" id="contentWrap">
+  <nav aria-label="التنقل داخل الصفحة">
+    <h3>المحتويات</h3>
+    <a href="#privacy">سياسة الخصوصية</a>
+    <a href="#storage">مكان تخزين البيانات ومعالجتها</a>
+    <a href="#governance">حوكمة البيانات والنسخ الاحتياطي</a>
+    <a href="#terms">اتفاقية الاستخدام</a>
+    <a href="#consent">الموافقة الإلكترونية</a>
+    <a href="#cookies">ملفات تعريف الارتباط (Cookies)</a>
+    <a href="#faq">أسئلة شائعة</a>
+    <div class="divider"></div>
+    <a href="#contact">التواصل وحقوق الوصول</a>
+    <div class="divider"></div>
+    <a href="#print">الطباعة/الحفظ</a>
+  </nav>
+
+  <main>
+    <!-- (1) سياسة الخصوصية -->
+    <section id="privacy">
+      <h2>سياسة الخصوصية</h2>
+      <p>
+        تهدف هذه السياسة إلى بيان كيفية جمع ومعالجة وحماية بيانات المتدربين والمستفيدين، وفقًا
+        لنظام حماية البيانات الشخصية في المملكة العربية السعودية (PDPL) ولائحته التنفيذية،
+        وسياسات حوكمة البيانات الوطنية (سدايا)، والضوابط الأساسية للأمن السيبراني.
+      </p>
+
+      <h3>مصادر جمع البيانات</h3>
+      <ul>
+        <li>مباشرةً من صاحب البيانات عبر الخدمات الإلكترونية والنماذج.</li>
+        <li>بشكل غير مباشر عبر أطراف مرخّصة/جهات حكومية عند وجود أساس نظامي.</li>
+        <li>عند التعامل مع منشآت التدريب الأهلي (عند الاقتضاء).</li>
+      </ul>
+
+      <h3>تصنيفات البيانات</h3>
+      <p><strong>إلزامية (حسب الخدمة):</strong> بيانات الهوية والاتصال والمؤهلات والسجلات التدريبية/الوظيفية والبيانات البنكية… إلخ.</p>
+      <p><strong>اختيارية:</strong> ردود الاستبانات، المشاركة في الفعاليات، وأي مدخلات يقدّمها المستفيد طوعًا.</p>
+
+      <h3>حقوقك</h3>
+      <ul>
+        <li>العلم والوصول إلى بياناتك.</li>
+        <li>تصحيح البيانات غير الدقيقة.</li>
+        <li>الحصول على نسخة أو طلب الإتلاف عند انتهاء الغرض وبما لا يتعارض مع الأساس النظامي.</li>
+      </ul>
+
+      <div class="note">
+        استخدامك للخدمات يعني إطلاعك على السياسة وموافقتك على تحديثاتها. ننصح بالاطلاع الدوري.
+      </div>
+    </section>
+
+    <!-- (2) مكان التخزين والمعالجة -->
+    <section id="storage">
+      <h2>مكان تخزين البيانات ومعالجتها</h2>
+      <p>
+        تُستخدم مكونات Google Workspace عند الحاجة لربط الأنظمة السحابية، وذلك للاستخدام الداخلي
+        داخل <strong>الكلية التقنية بحقل</strong> فقط. تشمل على سبيل المثال لا الحصر:
+      </p>
+      <ul>
+        <li><strong>Google Sheets</strong> كسجل نظام رئيسي لبيانات المتدربين والموافقات وتتبع الحالات والصلاحيات.</li>
+        <li><strong>Google Drive</strong> لحفظ المخرجات والملفات (PDF/Excel/صور) في مجلدات مؤمنة مخصصة للمشاريع.</li>
+        <li><strong>Google Apps Script (Web App)</strong> كواجهة API لتطبيق الصلاحيات والعمليات (قراءة/كتابة).</li>
+        <li><strong>تخزين المتصفح</strong> لأغراض واجهية مؤقتة فقط (بدون بيانات حساسة).</li>
+      </ul>
+      <p>تُحفظ البيانات للمدة اللازمة وبما يتوافق مع المتطلبات النظامية ثم تُتلف بشكل آمن.</p>
+    </section>
+
+    <!-- (3) الحوكمة والنسخ الاحتياطي -->
+    <section id="governance">
+      <h2>حوكمة البيانات والنسخ الاحتياطي</h2>
+      <ul>
+        <li><strong>الأساس النظامي:</strong> الالتزام بـ PDPL ولائحته، وسياسات سدايا، وضوابط الأمن السيبراني.</li>
+        <li><strong>نطاق الاستخدام:</strong> للأغراض التدريبية والإدارية والرقابية المشروعة فقط.</li>
+        <li><strong>الاحتفاظ والإتلاف:</strong> وفق مدد الغرض أو المتطلبات النظامية، مع إتلاف آمن عند الانتهاء.</li>
+        <li><strong>النسخ الاحتياطي:</strong> نسخ دورية لبيانات Sheets إلى مجلد <code>backups/</code> على Drive مع ختم التاريخ.</li>
+        <li><strong>سجلات الموافقة:</strong> تُسجّل موافقات المتدربين في ورقة <code>CONSENTS</code> ويمكن للمصرح لهم الاطلاع/التعديل وفق صلاحياتهم.</li>
+        <li><strong>المشاركة:</strong> عدم مشاركة البيانات خارج الإطار النظامي، وبالحد الأدنى اللازم.</li>
+      </ul>
+    </section>
+
+    <!-- (4) اتفاقية الاستخدام -->
+    <section id="terms">
+      <h2>اتفاقية الاستخدام</h2>
+      <ul>
+        <li>استخدام الأنظمة للأغراض التدريبية فقط والالتزام بالسلوك المهني.</li>
+        <li>الحفاظ على سرية بيانات الدخول وعدم مشاركتها.</li>
+        <li>عدم محاولة الاختراق أو تعطيل الخدمات أو إساءة استخدام البيانات.</li>
+        <li>عدم رفع محتوى مخالف للأنظمة أو حقوق الملكية الفكرية.</li>
+        <li>الالتزام بسياسة الخصوصية وأمن المعلومات والتعليمات المعلنة.</li>
+      </ul>
+      <h3>الجزاءات</h3>
+      <p>قد يترتب على المخالفة إيقاف الحساب واتخاذ الإجراءات النظامية وفق اللوائح.</p>
+    </section>
+
+    <!-- (5) الموافقة الإلكترونية -->
+    <section id="consent">
+      <h2>الموافقة الإلكترونية</h2>
+      <p>بتفعيل مربع الموافقة في بوابة التعهد والدخول عبر زر "أوافق وأدخل"، سيتم تخزين حالة الموافقة محليًا للوصول اللاحق. يمكن لمسؤول النظام مراجعة السجلات داخل Google Sheets وفق الصلاحيات.</p>
+      <div class="actions">
+        <button class="secondary" id="printPage">طباعة الصفحة</button>
+      </div>
+    </section>
+
+    <!-- (6) Cookies -->
+    <section id="cookies">
+      <h2>استخدام ملفات تعريف الارتباط (Cookies)</h2>
+      <p>
+        قد نستخدم الكوكيز لتمكين بعض وظائف الموقع وتحسين الأداء وقياس الاستخدام. يمكنك ضبط
+        متصفحك لرفض الكوكيز، وقد يؤثر ذلك على بعض الخصائص. لا تُستخدم الكوكيز لتخزين بيانات حساسة.
+      </p>
+    </section>
+
+    <!-- (7) الأسئلة الشائعة -->
+    <section id="faq">
+      <h2>أسئلة شائعة</h2>
+      <h3>هل أستطيع طلب نسخة من بياناتي؟</h3>
+      <p>نعم، يمكنك تقديم طلب رسمي عبر جهة الاختصاص في الكلية وسنزودك بنسخة وفق الإجراءات المعتمدة.</p>
+      <h3>كيف أطلب تصحيح بياناتي؟</h3>
+      <p>قدّم طلبًا لجهة الاختصاص مع ما يثبت صحة التعديل المطلوب، وسيتم الإجراء خلال مدة مناسبة.</p>
+    </section>
+
+    <!-- (8) التواصل -->
+    <section id="contact">
+      <h2>التواصل وحقوق الوصول</h2>
+      <p>لطلبات الوصول أو التصحيح أو الإتلاف أو الاستفسارات الأمنية، تواصل مع وحدة الاختصاص في الكلية التقنية بحقل.</p>
+      <ul>
+        <li>الدعم الفني: <a class="inline" href="mailto:fahadsaleh@tvtc.gov.sa">fahadsaleh@tvtc.gov.sa</a></li>
+        <li>البريد (الكلية التقنية بحقل): <a class="inline" href="mailto:HLCT@tvtc.gov.sa">HLCT@tvtc.gov.sa</a></li>
+      </ul>
+    </section>
+
+    <!-- (9) الطباعة -->
+    <section id="print">
+      <h2>الطباعة/الحفظ</h2>
+      <p>يمكنك طباعة هذه الصفحة كملف PDF بالضغط على زر "طباعة الصفحة".</p>
+      <div class="actions">
+        <button id="printPage2">طباعة الصفحة</button>
+      </div>
+    </section>
+  </main>
+</div>
+
+<div class="hr"></div>
+<footer>
+  <small>© <span id="year"></span> الكلية التقنية بحقل — جميع الحقوق محفوظة.</small>
+</footer>
+
+<!-- الأزرار العائمة -->
+<button id="backToTop" aria-label="العودة للأعلى">⬆️ أعلى</button>
+<button id="goToConsent" aria-label="الانتقال إلى الموافقة">🔖 للموافقة</button>
+
+<!-- شريط الكوكيز -->
+<div id="cookieBar" class="cookie" role="dialog" aria-live="polite" aria-label="تنبيه ملفات الارتباط">
+  <p>نستخدم ملفات تعريف الارتباط لتحسين الأداء وتجربة الاستخدام. يمكنك ضبط متصفحك لرفضها. بالمتابعة فإنك توافق على ذلك.</p>
+  <div class="row">
+    <button id="cookieMore" class="link-like">معرفة المزيد</button>
+    <button id="cookieAccept">موافق</button>
+  </div>
+</div>
+
+<script>
+  // رابط تطبيق الويب (Apps Script)
+  const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbxHpVGBDyeoTnsJvKHqcFqz5p5ksCwSiqCJw6eJnuJ82JTfr--A3LcR8Cic_Wf0ODxjHg/exec';
+  // إصدار السياسة الحالي — حدثه عند أي تغيير لطلب موافقة جديدة
+  const POLICY_VERSION = '2.0';
+
+  // تاريخ السنة في الفوتر
+  const elYear = document.getElementById('year');
+  if (elYear) elYear.textContent = new Date().getFullYear();
+
+  // بوابة التعهد
+  const unlockCheck = document.getElementById('unlockCheck');
+  const btnShow = document.getElementById('btnShow');
+  const btnAgree = document.getElementById('btnAgree');
+  const btnFullscreen = document.getElementById('btnFullscreen');
+  const contentWrap = document.getElementById('contentWrap');
+  const GATE_KEY = 'policy_agreed_v1';
+
+  const openContent = ()=>{
+    contentWrap.classList.remove('hidden');
+    window.scrollTo({top:document.getElementById('contentWrap').offsetTop-20, behavior:'smooth'});
+  };
+  const enterSite = ()=>{
+    contentWrap.classList.remove('hidden');
+    document.getElementById('gateway').classList.add('hidden');
+    // 🔓 فك قفل التمرير بعد الدخول
+    document.documentElement.classList.remove('lock');
+    document.body.classList.remove('lock');
+  };
+
+  // ✅ إذا لم تتم الموافقة سابقًا: اقفل التمرير فورًا
+
+  // تفعيل زر الدخول بعد الموافقة
+  unlockCheck?.addEventListener('change',()=>{ btnAgree.disabled = !unlockCheck.checked; });
+
+  // ===== Bottom Sheet (عرض السياسة للقراءة فقط) =====
+  const sheet = document.getElementById('policySheet');
+  const overlay = document.getElementById('sheetOverlay');
+  const sheetBody = document.getElementById('sheetBody');
+  const sheetClose = document.getElementById('sheetClose');
+  const resumeBanner = document.getElementById('resumeBanner');
+  const resumeBtn = document.getElementById('resumeBtn');
+  const LAST_ANCHOR_KEY = 'policy_last_anchor';
+  const LAST_SCROLL_KEY = 'policy_last_scroll';
+
+  const openSheet = () => {
+    // حقن نسخة من المحتوى (قراءة فقط)
+    const src = document.querySelector('#contentWrap main');
+    if (src) {
+      const html = src.innerHTML;
+      sheetBody.innerHTML = sheetBody.innerHTML + html;
+    }
+    overlay.style.display = 'block';
+    sheet.classList.add('open');
+    overlay.setAttribute('aria-hidden','false');
+    if (localStorage.getItem(LAST_ANCHOR_KEY) || localStorage.getItem(LAST_SCROLL_KEY)) {
+      resumeBanner.style.display = 'block';
+    }
+    // تسجيل آخر قسم تمت زيارته داخل الشيت
+    sheetBody.addEventListener('click', (e)=>{
+      const a = e.target.closest('a[href^="#"]');
+      if (a) localStorage.setItem(LAST_ANCHOR_KEY, a.getAttribute('href'));
+    });
+  };
+  const closeSheet = () => {
+    sheet.classList.remove('open');
+    overlay.style.display = 'none';
+    overlay.setAttribute('aria-hidden','true');
+    // إعادة ضبط جسم الشيت مع الإبقاء على بانر الاستكمال
+    const keep = resumeBanner;
+    sheetBody.innerHTML = '';
+    sheetBody.appendChild(keep);
+    resumeBanner.style.display = 'none';
+  };
+  btnShow?.addEventListener('click', openSheet);
+  sheetClose?.addEventListener('click', closeSheet);
+  overlay?.addEventListener('click', closeSheet);
+
+  // حفظ موضع التمرير داخل الشيت
+  sheetBody.addEventListener('scroll', ()=>{ localStorage.setItem(LAST_SCROLL_KEY, String(sheetBody.scrollTop)); });
+
+  // استكمال القراءة من حيث توقفت
+  resumeBtn?.addEventListener('click', ()=>{
+    const lastAnchor = localStorage.getItem(LAST_ANCHOR_KEY);
+    const lastScroll = parseInt(localStorage.getItem(LAST_SCROLL_KEY) || '0', 10);
+    if (lastAnchor && sheetBody.querySelector(lastAnchor)) {
+      sheetBody.querySelector(lastAnchor).scrollIntoView({behavior:'smooth', block:'start'});
+    } else if (lastScroll > 0) {
+      sheetBody.scrollTop = lastScroll;
+    }
+  });
+
+  // موافقة ودخول (حفظ في الشيت ثم الدخول)
+  async function saveConsentAndEnter(){
+    const qs = new URLSearchParams(location.search);
+    let traineeId   = (qs.get('traineeId') || '').trim();
+    let traineeName = (qs.get('traineeName') || '').trim();
+    const returnUrl = qs.get('returnUrl') || '';
+
+    if (!traineeId || !traineeName){
+      try{
+        const cu = JSON.parse(localStorage.getItem('currentUser') || '{}');
+        traineeId   = traineeId   || String(cu.id || cu.traineeId || '').trim();
+        traineeName = traineeName || String(cu.name || '').trim();
+      }catch(_){}
+    }
+
+    if (!traineeId){
+      alert('تعذّر تحديد رقم المتدرب. فضلاً أعد تسجيل الدخول ثم حاول مرة أخرى.');
+      return;
+    }
+
+    try{
+      const p = new URLSearchParams({
+        action:'saveConsent',
+        traineeId,
+        traineeName,
+        version: POLICY_VERSION,
+        userAgent: navigator.userAgent
+      });
+      // استخدام JSONP بدلاً من fetch
+      const result = await sendRequestJSONP('saveConsent', {
+        traineeId,
+        traineeName,
+        version: POLICY_VERSION,
+        userAgent: navigator.userAgent
+      });
+      
+      if (!result.success) throw new Error(result.message || 'فشل حفظ الموافقة');
+      localStorage.setItem(GATE_KEY,'1');
+      if (returnUrl){ location.href = returnUrl; } else { enterSite(); }
+    }catch(err){
+      alert('تعذّر إكمال عملية الموافقة: ' + err.message);
+    }
+  }
+
+
+  // دالة JSONP للتواصل مع Google Apps Script
+  function sendRequestJSONP(action, data = {}) {
+    return new Promise((resolve) => {
+      try {
+        const cbName = `__gas_cb_${Date.now()}_${Math.floor(Math.random()*1e6)}`;
+        const params = new URLSearchParams({ action, ...data, _: Date.now().toString(), callback: cbName });
+
+        window[cbName] = (result) => {
+          try { delete window[cbName]; } catch(_) {}
+          try {
+            if (typeof script !== 'undefined' && script.parentNode) {
+              script.parentNode.removeChild(script);
+            }
+          } catch(_) {}
+          resolve(result || { success: false, message: 'رد غير معروف' });
+        };
+
+        const script = document.createElement('script');
+        script.src = `${WEB_APP_URL}?${params.toString()}`;
+        script.onerror = () => {
+          try { delete window[cbName]; } catch(_) {}
+          try {
+            if (script.parentNode) script.parentNode.removeChild(script);
+          } catch(_) {}
+          resolve({ success: false, message: 'فشل الاتصال بالخادم' });
+        };
+        document.head.appendChild(script);
+      } catch (e) {
+        resolve({ success: false, message: e.message });
+      }
+    });
+  }
+
+  btnAgree?.addEventListener('click', async ()=>{
+    if(!unlockCheck.checked) return;
+    await saveConsentAndEnter();
+  });
+
+  // فحص سريع بعد تسجيل الدخول: إن كان موافقًا بالفعل أعِده مباشرة للوجهة المطلوبة
+  (async function quickCheckAfterLogin(){
+    const qs = new URLSearchParams(location.search);
+    // وضع الاعتماد: إخفاء زر عرض السياسة للتركيز على الموافقة (اختياري)
+    if (qs.get('mode') === 'consent'){
+      document.getElementById('btnShow')?.classList.add('hidden');
+    }
+
+    let traineeId = (qs.get('traineeId') || '').trim();
+    if (!traineeId){
+      try{ const cu = JSON.parse(localStorage.getItem('currentUser') || '{}'); traineeId = String(cu.id || cu.traineeId || '').trim(); }catch(_){ }
+    }
+    const returnUrl = qs.get('returnUrl') || '';
+    if (!traineeId) return; // لا نفحص بدون هوية
+
+    try{
+      const p = new URLSearchParams({ action:'isConsented', traineeId, version: POLICY_VERSION });
+      const result = await sendRequestJSONP('isConsented', { traineeId, version: POLICY_VERSION });
+      if (result.success && result.data && result.data.consented && returnUrl){
+        location.href = returnUrl; // موافق مسبقاً — رجّعه لوجهته
+      }
+    }catch(_){ /* نتجاهل الأخطاء هنا لتجنب منع القراءة */ }
+  })();
+
+  // الطباعة
+  const printNow = () => window.print();
+  document.getElementById('printPage')?.addEventListener('click', printNow);
+  document.getElementById('printPage2')?.addEventListener('click', printNow);
+
+  // الأزرار العائمة (أعلى / للموافقة)
+  const backToTop = document.getElementById('backToTop');
+  const goToConsent = document.getElementById('goToConsent');
+  const toggleFloaters = ()=>{
+    const scrolled = window.scrollY > 600;
+    backToTop.style.display = scrolled ? 'block' : 'none';
+
+    // إظهار زر "للموافقة" فقط إذا لم تتم الموافقة والبوابة ظاهرة
+    const gatewayVisible = !document.getElementById('gateway')?.classList.contains('hidden');
+    const notAgreed = localStorage.getItem(GATE_KEY) !== '1';
+    goToConsent.style.display = (scrolled && gatewayVisible && notAgreed) ? 'block' : 'none';
+  };
+  window.addEventListener('scroll', toggleFloaters, {passive:true});
+  backToTop.addEventListener('click', ()=> window.scrollTo({top:0, behavior:'smooth'}));
+  goToConsent.addEventListener('click', ()=>{
+    document.getElementById('gateway')?.scrollIntoView({behavior:'smooth', block:'start'});
+    setTimeout(()=> document.getElementById('unlockCheck')?.focus(), 500);
+  });
+
+  // شريط الكوكيز
+  const cookieKey = 'tvtc_cookie_consent_v1';
+  const cookieBar = document.getElementById('cookieBar');
+  const accepted = localStorage.getItem(cookieKey);
+  if(!accepted){ cookieBar.style.display = 'block'; }
+  document.getElementById('cookieAccept')?.addEventListener('click', ()=>{ localStorage.setItem(cookieKey,'1'); cookieBar.style.display = 'none'; });
+  document.getElementById('cookieMore')?.addEventListener('click', ()=>{ location.hash = '#cookies'; });
+
+  // تمرير سلس داخل المحتوى
+  document.querySelectorAll('nav a[href^="#"]').forEach(a=>{
+    a.addEventListener('click', e=>{
+      e.preventDefault();
+      const id = a.getAttribute('href');
+      document.querySelector(id)?.scrollIntoView({behavior:'smooth', block:'start'});
+      history.replaceState(null,'',id);
+    });
+  });
+
+  // زر ملء الشاشة
+  btnFullscreen?.addEventListener('click', async ()=>{
+    try{
+      if (!document.fullscreenElement) {
+        await document.documentElement.requestFullscreen();
+      } else {
+        await document.exitFullscreen();
+      }
+    }catch(err){ console.warn('Fullscreen not available', err); }
+  });
+</script>
+</body>
+</html>
