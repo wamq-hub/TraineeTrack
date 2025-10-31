@@ -5,7 +5,7 @@
  */
 
 // رابط Google Apps Script Web App
-const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbz7aE-mlNBmhmROTY7pKiQFkiWWI8EHwlROIKWJtuT1D1gxfYw0Br2gBwAfXX9ompqC0g/exec';
+const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbxHpVGBDyeoTnsJvKHqcFqz5p5ksCwSiqCJw6eJnuJ82JTfr--A3LcR8Cic_Wf0ODxjHg/exec';
 /**
  * إرسال طلب إلى Google Apps Script
  */
@@ -331,7 +331,7 @@ function showLoading(message = 'جاري التحميل...') {
         display: flex;
         justify-content: center;
         align-items: center;
-        z-index: 9999;
+        z-index: 999999;
         flex-direction: column;
         gap: 20px;
     `;
