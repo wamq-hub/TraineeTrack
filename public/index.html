@@ -169,9 +169,205 @@
             color: white;
         }
 
-        .btn-primary:hover {
+        .btn-primary:hover:not(:disabled) {
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(10, 95, 143, 0.3);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* ===== تنسيق Checkbox الموافقة ===== */
+        .consent-checkbox {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin: 20px 0;
+            padding: 15px;
+            background: var(--light-blue);
+            border: 2px solid var(--tvtc-primary);
+            border-radius: 8px;
+        }
+
+        .consent-checkbox input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+
+        .consent-checkbox label {
+            font-weight: 700;
+            color: var(--tvtc-primary);
+            cursor: pointer;
+            margin: 0;
+            font-size: 14px;
+        }
+
+        .consent-checkbox a {
+            color: var(--error);
+            text-decoration: underline;
+        }
+
+        /* ===== إضافة تنسيق Footer للسياسة ===== */
+        .footer-policy {
+            background: linear-gradient(135deg, var(--light-blue) 0%, var(--white) 100%);
+            border-top: 2px solid var(--border);
+            padding: 20px;
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .footer-policy p {
+            color: var(--text-dark);
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .footer-policy a {
+            color: var(--tvtc-primary);
+            text-decoration: none;
+            font-weight: 700;
+            padding: 8px 16px;
+            border: 2px solid var(--tvtc-primary);
+            border-radius: 8px;
+            display: inline-block;
+            transition: all 0.3s;
+        }
+
+        .footer-policy a:hover {
+            background: var(--tvtc-primary);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 99, 65, 0.3);
+        }
+
+        /* ===== Modal الموافقة على السياسة ===== */
+        .consent-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(5px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .consent-modal-overlay.active {
+            display: flex;
+        }
+
+        .consent-modal {
+            background: white;
+            border-radius: 15px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: slideUp 0.4s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .consent-modal-header {
+            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--dark-blue) 100%);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .consent-modal-header h2 {
+            margin: 0;
+            font-size: 22px;
+        }
+
+        .consent-modal-body {
+            padding: 25px;
+            max-height: 50vh;
+            overflow-y: auto;
+        }
+
+        .consent-modal-body p {
+            line-height: 1.8;
+            color: var(--text-dark);
+            margin-bottom: 15px;
+        }
+
+        .consent-modal-body ul {
+            margin: 15px 0;
+            padding-right: 25px;
+        }
+
+        .consent-modal-body ul li {
+            margin: 8px 0;
+            line-height: 1.7;
+        }
+
+        .consent-link {
+            display: inline-block;
+            margin: 15px 0;
+            color: var(--tvtc-primary);
+            text-decoration: underline;
+            font-weight: 600;
+        }
+
+        .consent-modal-footer {
+            padding: 20px;
+            border-top: 2px solid var(--border);
+            background: var(--light-blue);
+        }
+
+        .consent-checkbox-modal {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+            padding: 15px;
+            background: white;
+            border: 2px solid var(--tvtc-primary);
+            border-radius: 8px;
+        }
+
+        .consent-checkbox-modal input[type="checkbox"] {
+            width: 22px;
+            height: 22px;
+            cursor: pointer;
+        }
+
+        .consent-checkbox-modal label {
+            font-weight: 700;
+            color: var(--tvtc-primary);
+            cursor: pointer;
+            margin: 0;
+            font-size: 15px;
+        }
+
+        .consent-modal-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .consent-modal-buttons .btn {
+            flex: 1;
+            max-width: 200px;
         }
 
         .btn-success {
@@ -946,6 +1142,7 @@
                         <label>الرقم التدريبي أو الرقم الوظيفي</label>
                         <input type="text" id="userId" placeholder="أدخل الرقم التدريبي أو الرقم الوظيفي" required>
                     </div>
+                    
                     <button class="btn btn-primary" onclick="login()">دخول</button>
                 </div>
             </div>
@@ -1205,8 +1402,10 @@
             <button class="tab hidden" id="tabRatings" onclick="switchTab(event, 'managementRatings')">التقييمات</button>
             <!-- زر تبويب لوحة متابعة الأقسام (لذوي الصلاحيات العليا فقط) -->
             <button class="tab hidden" id="tabDeptBoard" onclick="switchTab(event, 'managementDeptBoard')">لوحة متابعة الأقسام</button>
+            <!-- ✅ زر تبويب لوحة وكيل شؤون المدربين -->
+            <button class="tab hidden" id="tabTrainersDeputyBoard" onclick="switchTab(event, 'trainersDeputyBoard')">لوحة متابعة التدريب</button>
             <!-- ✅ زر التقارير الإدارية المضاف -->
-            <button class="btn" 
+            <button class="btn hidden" id="btnAdminReports"
                     style="background:var(--tvtc-primary);color:#fff;border:0;padding:8px 14px;border-radius:8px;font-weight:600;margin-right:10px;"
                     onclick="openAdminReports()">📊 التقارير الإدارية</button>
         </div>
@@ -1343,6 +1542,70 @@
             </div>
             </div> <!-- /managementDeptBoard -->
 
+            <!-- ✅ لوحة وكيل شؤون المدربين -->
+            <div id="trainersDeputyBoard" class="tab-content">
+            <div class="info-card" style="margin-bottom: 20px;">
+                <h3 style="color: var(--primary-blue); margin-bottom: 15px;">📊 لوحة متابعة التدريب</h3>
+                <p style="color: var(--text-dark); margin-bottom: 10px;">عرض الطلبات التدريبية فقط من جميع الأقسام التدريبية والتدريب الإلكتروني</p>
+            </div>
+            
+            <!-- فلاتر اللوحة -->
+            <div class="info-card" style="margin-bottom: 16px;">
+                <h3 style="color: var(--primary-blue); margin-bottom: 10px;">الفلاتر</h3>
+                <div class="info-row">
+                <div class="info-item">
+                    <strong>الفترة الزمنية</strong>
+                    <div style="display:flex; gap:10px;">
+                    <input type="date" id="tdFrom" style="flex:1; padding:8px; border:1px solid var(--border); border-radius:6px;">
+                    <input type="date" id="tdTo" style="flex:1; padding:8px; border:1px solid var(--border); border-radius:6px;">
+                    </div>
+                </div>
+                <div class="info-item">
+                    <strong>الأقسام</strong>
+                    <select id="tdDept" multiple style="height:80px; padding:8px; border:1px solid var(--border); border-radius:6px;">
+                    <!-- يُملأ برمجيًا -->
+                    </select>
+                </div>
+                <div class="info-item">
+                    <strong>الحالة</strong>
+                    <div style="display:flex; gap:10px; flex-wrap:wrap; padding-top:6px;">
+                    <label><input type="checkbox" id="tdStPending" checked> معلّقة</label>
+                    <label><input type="checkbox" id="tdStInProgress" checked> قيد التنفيذ</label>
+                    <label><input type="checkbox" id="tdStCompleted" checked> مكتملة</label>
+                    </div>
+                </div>
+                </div>
+            </div>
+
+            <!-- مؤشرات الأداء -->
+            <div class="stats-grid" id="tdKpis" style="margin-top: -8px;">
+                <!-- يُملأ برمجيًا -->
+            </div>
+
+            <!-- جدول تفصيلي حسب القسم -->
+            <div class="divider"></div>
+            <div id="tdTableWrap">
+                <div style="overflow:auto;">
+                <table id="tdTable" style="width:100%; border-collapse: collapse;">
+                    <thead>
+                    <tr style="background: var(--light-blue);">
+                        <th style="text-align:right; padding:10px; border-bottom:1px solid var(--border-color);">القسم</th>
+                        <th style="text-align:right; padding:10px; border-bottom:1px solid var(--border-color);">جديدة</th>
+                        <th style="text-align:right; padding:10px; border-bottom:1px solid var(--border-color);">قيد التنفيذ</th>
+                        <th style="text-align:right; padding:10px; border-bottom:1px solid var(--border-color);">معلّقة</th>
+                        <th style="text-align:right; padding:10px; border-bottom:1px solid var(--border-color);">مكتملة</th>
+                        <th style="text-align:right; padding:10px; border-bottom:1px solid var(--border-color);">% الإكمال</th>
+                        <th style="text-align:right; padding:10px; border-bottom:1px solid var(--border-color);">متوسط زمن الإغلاق (يوم)</th>
+                    </tr>
+                    </thead>
+                    <tbody id="tdTableBody">
+                    <!-- يُملأ برمجيًا -->
+                    </tbody>
+                </table>
+                </div>
+            </div>
+            </div> <!-- /trainersDeputyBoard -->
+
         </div> <!-- /content -->
         </div> <!-- /managementInterface -->
 
@@ -1387,14 +1650,172 @@
     <script src="api_integration.js"></script>
 
     <script>
+        // ✅ رابط Google Apps Script لحفظ موافقات السياسة
+        
         let currentUser = null;
         let currentTraineeData = null;
 
         let __ratingTicketNumber = null;
         let __ratingValue = 0;
 
-        let __lastTraineeTickets = [];   // آخر قائمة لتذاكر المتدرب
-        let __ratingSubmitting   = false; // يمنع النقر المكرر أثناء الإرسال
+        let __lastTraineeTickets = [];
+        let __ratingSubmitting   = false;
+
+        // ✅ متغير لتخزين بيانات المستخدم مؤقتاً لحين الموافقة
+        let pendingUserData = null;
+
+        // ✅ دالة التحقق من موافقة المستخدم السابقة من Excel فقط
+        async function checkExistingConsentFromExcel(traineeId) {
+            try {
+                console.log('🔍 التحقق من الموافقة للمستخدم:', traineeId);
+                
+                // التحقق من الخادم فقط (Excel)
+                const result = await sendRequest('isConsented', {
+                    traineeId: traineeId,
+                    version: '2.0'
+                });
+                
+                console.log('📥 نتيجة التحقق من Excel:', result);
+                
+                if (result.success && result.data && result.data.consented) {
+                    console.log('✅ المستخدم وافق مسبقاً');
+                    return true;
+                }
+                
+                console.log('❌ المستخدم لم يوافق بعد');
+                return false;
+            } catch (error) {
+                console.error('❌ خطأ في التحقق من الموافقة:', error);
+                return false;
+            }
+        }
+
+        // ✅ دالة حفظ موافقة المستخدم على السياسة
+        async function saveConsent(traineeId, traineeName) {
+            try {
+                const result = await sendRequest('saveConsent', {
+                    traineeId: traineeId,
+                    traineeName: traineeName,
+                    version: '2.0',
+                    userAgent: navigator.userAgent
+                });
+                
+                if (!result.success) {
+                    throw new Error(result.message || 'فشل حفظ الموافقة');
+                }
+
+                console.log('✅ تم حفظ موافقة المستخدم بنجاح');
+                return result;
+            } catch (error) {
+                console.error('❌ خطأ في حفظ الموافقة:', error);
+                throw error;
+            }
+        }
+
+        // ✅ دالة إظهار Modal الموافقة
+        function showConsentModal() {
+            const overlay = document.getElementById('consentModalOverlay');
+            const checkbox = document.getElementById('consentCheckboxModal');
+            const btnAgree = document.getElementById('btnAgreeConsent');
+            
+            // إعادة تعيين الحالة
+            checkbox.checked = false;
+            btnAgree.disabled = true;
+            
+            // إظهار Modal
+            overlay.classList.add('active');
+            document.body.style.overflow = 'hidden'; // منع التمرير
+        }
+
+        // ✅ دالة إخفاء Modal الموافقة
+        function hideConsentModal() {
+            const overlay = document.getElementById('consentModalOverlay');
+            overlay.classList.remove('active');
+            document.body.style.overflow = ''; // إعادة التمرير
+        }
+
+        // ✅ دالة إكمال تسجيل الدخول بعد الموافقة
+        async function completeLogin() {
+            if (!pendingUserData) {
+                showError('حدث خطأ، يرجى المحاولة مرة أخرى');
+                return;
+            }
+
+            try {
+                const { userId, payload, role } = pendingUserData;
+
+                // حفظ الموافقة في Google Sheets فقط
+                try {
+                    await saveConsent(userId, payload.name || 'غير محدد');
+                } catch (consentError) {
+                    console.error('خطأ في حفظ الموافقة:', consentError);
+                    // نكمل تسجيل الدخول حتى لو فشل حفظ الموافقة
+                }
+
+                // خزّن المستخدم الحالي
+                currentUser = {
+                    id: userId,
+                    data: { ...payload, role },
+                    consentVersion: '2.0',
+                    consentDate: new Date().toISOString()
+                };
+                window.currentUser = currentUser;
+
+                // إخفاء Modal
+                hideConsentModal();
+
+                // توجيه حسب نوع الحساب
+                if (payload.type === 'trainee') {
+                    showTraineeInterface();
+                } else if (payload.type === 'staff') {
+                    switch (role) {
+                        case 'advisory_unit':
+                            advisoryCurrentMode = 'basic';
+                            showAdvisoryInterface();
+                            break;
+                        case 'advisor':
+                            showAdvisorInterface();
+                            break;
+                        case 'elearning':
+                            showManagementInterface();
+                            break;
+                        case 'dept_head':
+                        case 'trainees_vice':
+                        case 'trainers_deputy':
+                        case 'dean':
+                        case 'quality_vice':
+                            showManagementInterface();
+                            break;
+                        default:
+                            showError('صلاحية غير معروفة');
+                            break;
+                    }
+                } else {
+                    showError('نوع مستخدم غير مدعوم');
+                }
+
+                // تنظيف البيانات المؤقتة
+                pendingUserData = null;
+
+            } catch (error) {
+                showError('حدث خطأ أثناء إكمال تسجيل الدخول: ' + error.message);
+            }
+        }
+
+        // ✅ تفعيل/تعطيل زر الموافقة حسب checkbox
+        document.addEventListener('DOMContentLoaded', function() {
+            const consentCheckbox = document.getElementById('consentCheckboxModal');
+            const btnAgree = document.getElementById('btnAgreeConsent');
+            
+            if (consentCheckbox && btnAgree) {
+                consentCheckbox.addEventListener('change', function() {
+                    btnAgree.disabled = !this.checked;
+                });
+
+                // عند الضغط على زر الموافقة
+                btnAgree.addEventListener('click', completeLogin);
+            }
+        });
 
         /**
          * ✅ دالة تنسيق التاريخ - تحويل أي صيغة تاريخ إلى صيغة عربية مقروءة
@@ -1749,7 +2170,7 @@
         // تحويل تذكرة
         // === استبدال كامل للدالة السابقة ===
         if (typeof window.transferTicket !== 'function') { window.transferTicket = async () => {}; }
-        window.transferTicket = async (ticketNumber, to, by) => {
+        window.transferTicket = async (ticketNumber, to, by, byRole = '') => {
         const transferDate = new Date().toLocaleDateString('ar-SA');
         // نرسل الأسماء المحتملة كلها احتياطًا
         const payload = {
@@ -1758,6 +2179,7 @@
             transferredTo: to,
             by,
             transferredBy: by,
+            transferredByRole: byRole || currentUser?.data?.role || 'unknown', // حفظ دور المحول
             transferDate
         };
         const res = await sendRequest('transferTicket', payload);
@@ -1952,6 +2374,9 @@
             }">محوَّلة</span>`
             : '';
 
+        // 🔵 شارة المحول منه - معطلة
+        const fromBadgeHTML = "";
+
         // 🗂️ ترجمة الوجهات لأسماء عربية لطيفة
         const roleTranslation = {
             'advisor':        'المرشد',
@@ -1980,18 +2405,18 @@
         card.innerHTML = `
             <div class="ticket-header">
             <span class="ticket-id">#${ticket.ticketNumber || ''}</span>
-            ${badgeHTML}
+            <div>${badgeHTML}</div>
             </div>
 
             <div class="ticket-body">
             <div><strong>المشكلة:</strong> ${ticket.title || ticket.requestDetails || '-'}</div>
+            ${byRaw && isTransferred ? `<div><strong>محولة من:</strong> <span style="color:var(--tvtc-primary);font-weight:700;">${byRaw}</span></div>` : ''}
             <div><strong>الحالة:</strong> <span class="ticket-status-badge ${statusClass}">${statusText}</span></div>
             ${
                 isTransferred
                 ? `<div class="transfer-meta">
                     <small>
-                        ${byRaw   ? ('محول بواسطة: ' + byRaw) : ''}
-                        ${toLabel ? (byRaw ? ' | ' : '') + 'إلى: ' + toLabel : ''}
+                        ${toLabel ? 'إلى: ' + toLabel : ''}
                         ${dateRaw ? ' | بتاريخ: ' + formatArabicDate(dateRaw, true) : ''}
                     </small>
                     </div>`
@@ -2013,10 +2438,27 @@
         // ✅ دالة إظهار الفلتر في قائمة الطلبات الإدارية
         function showManagementRequestsFilter() {
         const filterContainer = document.getElementById('mgmtRequestsFilterContainer');
+        const typeFilterSelect = document.getElementById('requestsTypeFilter');
+        const role = normalizeRole(currentUser?.data?.role || '');
+        
         if (filterContainer) {
-            if (hasFullAccess()) {
+            if (hasFullAccess() || role === 'trainers_deputy') {
             filterContainer.style.display = '';
             populateManagementDeptFilter();
+            
+            // ✅ إخفاء أنواع الخدمات غير التدريبية لوكيل شؤون المدربين
+            if (role === 'trainers_deputy' && typeFilterSelect) {
+                // إخفاء جميع الخيارات ما عدا "تدريبية"
+                Array.from(typeFilterSelect.options).forEach(option => {
+                    if (option.value !== '' && option.value !== 'تدريبية') {
+                        option.style.display = 'none';
+                    }
+                });
+                // تعيين القيمة الافتراضية على "تدريبية"
+                typeFilterSelect.value = 'تدريبية';
+                // تعطيل التعديل
+                typeFilterSelect.disabled = true;
+            }
             } else {
             filterContainer.style.display = 'none';
             }
@@ -2138,7 +2580,7 @@
         }
 
         try {
-            // يفترض أن checkUserPermission تستدعي Apps Script وتعيد {type, name, role?, department?...}
+            // التحقق من صلاحيات المستخدم
             const userData = await checkUserPermission(userId);
 
             if (!userData || userData.success === false) {
@@ -2146,57 +2588,64 @@
             return;
             }
 
-            // لو كانت الاستجابة مباشرة من الدالة (بدون success):
             const payload = userData.data ? userData.data : userData;
-
-            // طَبِّع الدور (إن وُجد)
             const role = normalizeRole(payload.role || '');
 
-            // خزّن المستخدم الحالي بشكل موحّد ومتوفّر عالميًا
-            currentUser = {
-            id: userId,
-            data: { ...payload, role }
-            };
-            window.currentUser = currentUser;
+            // ✅ التحقق من الموافقة السابقة من Excel فقط (إزالة localStorage)
+            const hasConsented = await checkExistingConsentFromExcel(userId);
 
-            // توجيه حسب نوع الحساب
-            if (payload.type === 'trainee') {
-            showTraineeInterface();
-            return;
+            if (hasConsented) {
+                // المستخدم وافق مسبقاً، ندخله مباشرة
+                currentUser = {
+                    id: userId,
+                    data: { ...payload, role },
+                    consentVersion: '2.0',
+                    consentDate: new Date().toISOString()
+                };
+                window.currentUser = currentUser;
+
+                // توجيه حسب نوع الحساب
+                if (payload.type === 'trainee') {
+                    showTraineeInterface();
+                    return;
+                }
+
+                if (payload.type === 'staff') {
+                    switch (role) {
+                        case 'advisory_unit':
+                        advisoryCurrentMode = 'basic';
+                        showAdvisoryInterface();
+                        return;
+
+                        case 'advisor':
+                        showAdvisorInterface();
+                        return;
+
+                        case 'elearning':
+                        showManagementInterface();
+                        return;
+
+                        case 'dept_head':
+                        case 'trainees_vice':
+                        case 'trainers_deputy':
+                        case 'dean':
+                        case 'quality_vice':
+                        showManagementInterface();
+                        return;
+
+                        default:
+                        showError('صلاحية غير معروفة');
+                        return;
+                    }
+                }
+
+                showError('نوع مستخدم غير مدعوم');
+            } else {
+                // ✅ المستخدم لم يوافق بعد، نعرض له Modal الموافقة
+                pendingUserData = { userId, payload, role };
+                showConsentModal();
             }
 
-            if (payload.type === 'staff') {
-            switch (role) {
-                case 'advisory_unit':
-                advisoryCurrentMode = 'basic';  // 👈 الوضع الافتراضي
-                showAdvisoryInterface();
-                return;
-
-                case 'advisor':
-                showAdvisorInterface();
-                return;
-                // داخل switch(role) في login()
-                case 'elearning':
-                showManagementInterface();
-                return;
-
-                // لوحة الإدارة للأدوار الإدارية:
-                case 'dept_head':        // رئيس القسم: يرى قسمه فقط
-                case 'trainees_vice':    // وكيل شؤون المتدربين: كل الأقسام + تبويب التقييمات
-                case 'trainers_deputy':  // وكيل شؤون المدربين: كل الأقسام بدون تبويب التقييمات
-                case 'dean':
-                case 'quality_vice':
-                showManagementInterface();
-                return;
-
-                default:
-                showError('صلاحية غير معروفة');
-                return;
-            }
-            }
-
-            // لو لم يكن Trainee أو Staff
-            showError('نوع مستخدم غير مدعوم');
         } catch (err) {
             showError(err?.message || 'حدث خطأ أثناء تسجيل الدخول');
         }
@@ -2370,9 +2819,33 @@
             else deptBoardBtn.classList.add('hidden');
         }
 
+        // ✅ إظهار لوحة وكيل شؤون المدربين
+        const trainersDeputyBtn = document.getElementById('tabTrainersDeputyBoard');
+        if (trainersDeputyBtn) {
+            if (role === 'trainers_deputy') {
+                trainersDeputyBtn.classList.remove('hidden');
+                // إخفاء اللوحة العامة وإظهار لوحة وكيل المدربين كافتراضية
+                setTimeout(() => {
+                    document.getElementById('tabTrainersDeputyBoard')?.click();
+                }, 100);
+            } else {
+                trainersDeputyBtn.classList.add('hidden');
+            }
+        }
+
         // إظهار تبويب "التقييمات" للجميع (مع تقييد البيانات بحسب الدور داخل الدالة)
         const ratingsTabBtn = document.getElementById('tabRatings');
         if (ratingsTabBtn) ratingsTabBtn.classList.remove('hidden');
+
+        // ✅ إظهار زر التقارير الإدارية للصلاحيات العليا فقط
+        const adminReportsBtn = document.getElementById('btnAdminReports');
+        if (adminReportsBtn) {
+            if (hasFullAccess()) {
+                adminReportsBtn.classList.remove('hidden');
+            } else {
+                adminReportsBtn.classList.add('hidden');
+            }
+        }
 
         // تحميل جميع الطلبات
         await loadManagementTicketsView();
@@ -2540,6 +3013,11 @@
             // ✅ إضافة تفاصيل الطلب
             const details = t.requestDetails || t.details || '-';
 
+            // 🔵 معلومات التحويل
+            const transferredByRaw = (t.transferredBy || '').trim();
+            const isTransferred = !!(t.transferredTo || transferredByRaw || t.transferDate);
+            const fromBadgeHTML = '';
+
             return `
             <div class="ticket-card modern">
                 <div class="ticket-head">
@@ -2554,6 +3032,7 @@
                 <div class="ticket-row"><span class="k">الرقم التدريبي:</span><span class="v">${t.traineeId || '-'}</span></div>
                 <div class="ticket-row"><span class="k">القسم:</span><span class="v">${t.department || '-'}</span></div>
                 <div class="ticket-row"><span class="k">نوع الخدمة:</span><span class="v">${t.serviceType || '-'}</span></div>
+                ${transferredByRaw && isTransferred ? `<div class="ticket-row"><span class="k">محولة من:</span><span class="v" style="color:var(--tvtc-primary);font-weight:700;">${transferredByRaw}</span></div>` : ''}
                 <div class="ticket-row"><span class="k">تاريخ الإنهاء:</span><span class="v">${formatArabicDate(t.completionDate || t.date)}</span></div>
                 </div>
 
@@ -2735,6 +3214,7 @@
         const now = new Date();
         const days = ['الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'];
 
+        // ✅ إذا كان التحويل لرئيس القسم، احفظ قسم المتدرب
         const ticketData = {
             traineeId:      currentTraineeData.id,
             traineeName:    currentTraineeData.name,
@@ -2747,6 +3227,9 @@
             requestDetails: details,
             status:         'pending',
             transferredTo:  transferTo,
+            transferredBy:  currentUser.data.name,
+            transferredByRole: currentUser.data.role || 'unknown', // حفظ دور المحول
+            transferDate:   now.toLocaleDateString('ar-SA'),
             createdBy:      currentUser.data.name
         };
 
@@ -2868,6 +3351,10 @@ async function loadAdvisorTicketsView() {
             toNorm !== 'advisor' &&           // جهة غير "المرشد"
             transferredTo !== myName;         // ليست محوّلة لاسمي
 
+        // 🔵 هل محولة إلى المرشد من شخص آخر؟
+        const isTransferredToMe = !!(transferredBy && transferredBy !== myName && (toNorm === 'advisor' || transferredTo === myName));
+        const fromBadgeHTML = '';
+
         // تسمية الجهة بالعربي
         const roleTranslation = {
             'advisor': 'المرشد',
@@ -2890,6 +3377,7 @@ async function loadAdvisorTicketsView() {
         return `
         <div class="ticket-card modern" data-ticket="${t.ticketNumber || ''}">
             <div class="ticket-head">
+            ${fromBadgeHTML}
             ${isTransferredByMe ? '<span class="transferred-badge">↗️ محوّلة</span>' : ''}
             <span class="ticket-status-badge ${stCls}">${stTxt}</span>
             <span class="ticket-id-chip">${t.ticketNumber || '—'}</span>
@@ -2902,6 +3390,7 @@ async function loadAdvisorTicketsView() {
             <div class="ticket-row"><span class="k">الرقم التدريبي:</span> <span class="v">${t.traineeId || '-'}</span></div>
             <div class="ticket-row"><span class="k">القسم:</span> <span class="v">${t.department || '-'}</span></div>
             <div class="ticket-row"><span class="k">نوع الخدمة:</span> <span class="v">${t.serviceType || '-'}</span></div>
+            ${isTransferredToMe ? `<div class="ticket-row"><span class="k">محولة من:</span> <span class="v" style="color:var(--tvtc-primary);font-weight:700;">${transferredBy}</span></div>` : ''}
             <div class="ticket-row"><span class="k">التاريخ:</span> <span class="v">${formatArabicDate(t.date)}</span></div>
 
             ${(() => {
@@ -2921,7 +3410,8 @@ async function loadAdvisorTicketsView() {
             })()}
             </div>
 
-            ${details && details !== '-' ? `<div class="ticket-details">📝 ${details}</div>` : ''}
+            ${details && details !== '-' ? `<div class="ticket-details">📝 <strong>تفاصيل الطلب:</strong> ${details}</div>` : ''}
+            ${String(t.status).toLowerCase() === 'completed' && (t.solution || t.executedSolution || t.solutionText) ? `<div class="ticket-details" style="margin-top:8px;">✅ <strong>الحل المنفذ:</strong> ${t.solution || t.executedSolution || t.solutionText}</div>` : ''}
 
             ${isTransferredByMe ? `
             <div class="transfer-info" style="background:#FFF3E0; border:2px solid #FFE0B2; border-right:4px solid #FF9800; padding:14px;">
@@ -3023,19 +3513,45 @@ async function loadAdvisorTicketsView() {
             return forElearningRole || forMeByName;
             });
 
-        } else if (role === 'trainers_deputy') {
-            // وكيل شؤون المدربين: يشوف التدريب الإلكتروني والأقسام (اطلاع فقط)
+        } else if (role === 'dept_head' && myDept) {
+            // رئيس القسم: قسمه فقط + الطلبات التدريبية فقط
+            console.log('🔍 رئيس القسم - القسم:', myDept);
+            const res = await sendRequest('searchTickets', { department: myDept });
+            const allTickets = (res && res.success) ? res.data : [];
+            console.log('📊 رئيس القسم - إجمالي تذاكر القسم:', allTickets.length);
+            // فلترة الطلبات التدريبية فقط
+            tickets = allTickets.filter(t => {
+                const serviceType = normalizeServiceType(t.serviceType);
+                const isTraining = serviceType === 'training';
+                const dept = (t.department || '').trim();
+                console.log(`📌 تذكرة ${t.ticketNumber}: القسم=${dept}, النوع=${t.serviceType}, تدريبية=${isTraining}`);
+                return isTraining;
+            });
+            console.log('✅ رئيس القسم - التذاكر التدريبية فقط:', tickets.length);
+        } else if (role === 'advisor') {
+            // المرشد: الطلبات التدريبية فقط
             const all = await loadAllTickets();
             tickets = (all || []).filter(t => {
-                const dept = (t.department || '').trim();
-                // يشوف التدريب الإلكتروني والأقسام العادية
-                return dept === 'التدريب الإلكتروني' || (dept && dept !== '');
+                const serviceType = normalizeServiceType(t.serviceType);
+                const assigned = (t.assignedTo || '').trim();
+                const createdBy = (t.createdBy || '').trim();
+                // المرشد يرى الطلبات التدريبية المسندة له أو التي أنشأها
+                return serviceType === 'training' && (assigned === myName || createdBy === myName);
             });
-
-        } else if (role === 'dept_head' && myDept) {
-            // رئيس القسم: قسمه فقط
-            const res = await sendRequest('searchTickets', { department: myDept });
-            tickets = (res && res.success) ? res.data : [];
+        } else if (role === 'trainers_deputy') {
+            // وكيل شؤون المدربين: الطلبات التدريبية فقط
+            const all = await loadAllTickets();
+            console.log('📊 وكيل شؤون المدربين - إجمالي التذاكر:', all.length);
+            tickets = (all || []).filter(t => {
+                const serviceType = String(t.serviceType || '').trim();
+                // فلترة صارمة: فقط الخدمات التدريبية
+                const isTraining = serviceType === 'تدريبية' || 
+                       serviceType === 'training' || 
+                       serviceType === 'تدريبي' ||
+                       serviceType === 'تعليمي';
+                return isTraining;
+            });
+            console.log('✅ وكيل شؤون المدربين - التذاكر التدريبية فقط:', tickets.length);
         }
 
 
@@ -3057,20 +3573,16 @@ async function loadAdvisorTicketsView() {
             const details = t.requestDetails || t.details || '-';
             const isCompleted = String(t.status).toLowerCase() === 'completed';
             
-            const transferredByRaw = (t.transferredBy || '').trim();
+            const transferredByRaw = (t.transferredBy || '').trim(); // اسم الشخص المحول
+            const transferredByRole = (t.transferredByRole || '').trim(); // دور الشخص المحول
             const transferredToRaw = (t.transferredTo || '').trim();
-            const toNorm = normalizeRole(transferredToRaw); // ✅ مهم
+            const toNorm = normalizeRole(transferredToRaw); // الجهة المحول إليها
+            const fromNorm = normalizeRole(transferredByRole); // دور المحول (من الحقل الجديد)
 
-            // ✅ صحيح: نعتبرها "محوّلة من المرشد" إذا كانت جهتها رئيس القسم (بأي لغة/تنسيق) أو محوّلة بالاسم
-            const isFromAdvisor =
-                !!transferredByRaw && (
-                toNorm === 'dept_head' ||
-                transferredToRaw === myName
-                );
-
-            // ترجمة الوجهات بالاعتماد على toNorm أولًا
+            // ترجمة الوجهات
             const roleTranslation = {
                 'advisor': 'المرشد',
+                'advisory_unit': 'وحدة التوجيه والإرشاد',
                 'dept_head': 'رئيس القسم',
                 'elearning': 'التدريب الإلكتروني',
                 'trainees_vice': 'وكيل شؤون المتدربين',
@@ -3078,11 +3590,17 @@ async function loadAdvisorTicketsView() {
                 'dean': 'العميد'
             };
             const roleAr = roleTranslation[toNorm] || transferredToRaw || 'جهة أخرى';
+            
+            // ✅ نعرض الإشارة للمرشد أو وحدة التوجيه والإرشاد بناءً على دور المحول والمستلم
+            const isFromAdvisor = !!transferredByRaw && 
+                                  (fromNorm === 'advisor' || fromNorm === 'advisory_unit') &&
+                                  (toNorm === myRole || transferredToRaw === myName);
+            const fromRoleAr = roleTranslation[fromNorm] || (fromNorm ? fromNorm : 'جهة غير معروفة');
+            const fromBadgeHTML = '';
 
             return `
             <div class="ticket-card modern" data-ticket="${t.ticketNumber || ''}" data-mgmt-dept="${t.department || ''}" data-mgmt-type="${t.serviceType || ''}" data-mgmt-status="${t.status || ''}">
                 <div class="ticket-head">
-                ${isFromAdvisor ? '<span class="transfer-from-badge">↗️ محوّلة من المرشد</span>' : ''}
                 <span class="ticket-status-badge ${cls}">${txt}</span>
                 <span class="ticket-id-chip">${t.ticketNumber || '—'}</span>
                 </div>
@@ -3094,6 +3612,7 @@ async function loadAdvisorTicketsView() {
                 <div class="ticket-row"><span class="k">الرقم التدريبي:</span> <span class="v">${t.traineeId || '-'}</span></div>
                 <div class="ticket-row"><span class="k">القسم:</span> <span class="v">${t.department || '-'}</span></div>
                 <div class="ticket-row"><span class="k">نوع الخدمة:</span> <span class="v">${t.serviceType || '-'}</span></div>
+                ${isFromAdvisor ? `<div class="ticket-row"><span class="k">محولة من:</span> <span class="v" style="color:var(--tvtc-primary);font-weight:700;">${transferredByRaw} (${fromRoleAr})</span></div>` : ''}
                 <div class="ticket-row"><span class="k">التاريخ:</span> <span class="v">${formatArabicDate(t.date)}</span></div>
 
                 ${(() => {
@@ -3101,9 +3620,19 @@ async function loadAdvisorTicketsView() {
                     if (String(t.status).toLowerCase() === 'in_progress' && t.startedBy) {
                     statusDisplay = `⏱️ قيد المعالجة لدى: <strong>${t.startedBy}</strong>`;
                     } else if (isFromAdvisor && transferredByRaw) {
+                    // في الحالة: نعرض اسم الشخص الفعلي (transferredByRaw) وليس الدور
                     statusDisplay = `📥 محوّلة من: <strong>${transferredByRaw}</strong>`;
                     } else if (transferredToRaw) {
-                    statusDisplay = `📤 محول إلى: <strong>${roleAr}</strong>`;
+                    // إذا كان محول إلى مرشد، نعرض الاسم بدلاً من "المرشد"
+                    // نستخدم assignedTo أو advisorName إذا كانت موجودة
+                    const advisorName = t.assignedTo || t.advisorName || t.advisor;
+                    let displayName;
+                    if (toNorm === 'advisor' && advisorName) {
+                        displayName = advisorName; // اسم المرشد الفعلي
+                    } else {
+                        displayName = roleAr !== 'جهة أخرى' ? roleAr : transferredToRaw;
+                    }
+                    statusDisplay = `📤 محول إلى: <strong>${displayName}</strong>`;
                     }
                     return `<div class="ticket-row" style="background:#f0f0f0; padding:8px; border-radius:4px;"><span class="k">الحالة:</span> <span class="v">${statusDisplay}</span></div>`;
                 })()}
@@ -3111,7 +3640,8 @@ async function loadAdvisorTicketsView() {
                 ${t.completedBy ? `<div class="ticket-row"><span class="k">أنهاه:</span> <span class="v" style="color:#2c9a4f; font-weight:600;">${t.completedBy}</span></div>` : ''}
                 </div>
 
-                ${details && details !== '-' ? `<div class="ticket-details">📝 ${details}</div>` : ''}
+                ${details && details !== '-' ? `<div class="ticket-details">📝 <strong>تفاصيل الطلب:</strong> ${details}</div>` : ''}
+                ${isCompleted && (t.solution || t.executedSolution || t.solutionText) ? `<div class="ticket-details" style="margin-top:8px;">✅ <strong>الحل المنفذ:</strong> ${t.solution || t.executedSolution || t.solutionText}</div>` : ''}
 
                 ${isCompleted 
                 ? `<div style="padding:12px; background:#e8f5e9; border-radius:6px; text-align:center; color:#2c9a4f; font-weight:600; margin-top:12px;">✓ الطلب مكتمل</div>` 
@@ -3169,7 +3699,14 @@ async function loadAdvisorTicketsView() {
         attachManagementActions('managementTicketsList'); // تفويض أحداث للأزرار
         } else {
         displayTickets('managementTicketsList', tickets); // عرض قراءة فقط
-        }   
+        }
+        
+        // ✅ تطبيق الفلتر تلقائياً لوكيل شؤون المدربين
+        if (role === 'trainers_deputy') {
+            setTimeout(() => {
+                filterManagementRequestsByAll();
+            }, 100);
+        }
         }
 
         async function loadTraineeTicketsView() {
@@ -3284,6 +3821,11 @@ async function loadAdvisorTicketsView() {
             const solution = t.solution || t.executedSolution || t['الحل المنفذ'] || t.solutionText || '-';
             const showSolution = String(t.status) === 'completed' && solution !== '-';
             
+            // 🔵 معلومات التحويل
+            const transferredByRaw = (t.transferredBy || '').trim();
+            const isTransferred = !!(t.transferredTo || transferredByRaw || t.transferDate);
+            const fromBadgeHTML = '';
+            
             return `
             <div class="ticket-card modern">
                 <div class="ticket-head">
@@ -3299,6 +3841,7 @@ async function loadAdvisorTicketsView() {
                 <div class="ticket-row"><span class="k">القسم:</span> <span class="v">${t.department || '-'}</span></div>
                 <div class="ticket-row"><span class="k">التخصص:</span> <span class="v">${t.specialization || '-'}</span></div>
                 <div class="ticket-row"><span class="k">نوع الخدمة:</span> <span class="v">${t.serviceType || '-'}</span></div>
+                ${transferredByRaw && isTransferred ? `<div class="ticket-row"><span class="k">محولة من:</span> <span class="v" style="color:var(--tvtc-primary);font-weight:700;">${transferredByRaw}</span></div>` : ''}
                 <div class="ticket-row"><span class="k">التاريخ:</span> <span class="v">${formatArabicDate(t.date)}</span></div>
                 </div>
 
@@ -3336,6 +3879,11 @@ async function loadAdvisorTicketsView() {
             ? `<span class="rating-badge" title="${ticket.rating} — ${RATING_LABELS[ticket.rating] || ''}">★ ${ticket.rating}/5</span>`
             : '';
 
+            // 🔵 معلومات التحويل
+            const transferredByRaw = (ticket.transferredBy || '').trim();
+            const isTransferred = !!(ticket.transferredTo || transferredByRaw || ticket.transferDate);
+            const fromBadgeHTML = '';
+
             return `
             <div class="ticket-card modern">
                 <div class="ticket-head">
@@ -3347,6 +3895,7 @@ async function loadAdvisorTicketsView() {
 
                 <div class="ticket-grid">
                 <div class="ticket-row"><span class="k">نوع الخدمة:</span><span class="v">${ticket.serviceType || '-'}</span></div>
+                ${transferredByRaw && isTransferred ? `<div class="ticket-row"><span class="k">محولة من:</span><span class="v" style="color:var(--tvtc-primary);font-weight:700;">${transferredByRaw}</span></div>` : ''}
                 <div class="ticket-row"><span class="k">التاريخ:</span><span class="v">${formatArabicDate(ticket.date)}</span></div>
                 <div class="ticket-row"><span class="k">القسم:</span><span class="v">${ticket.department || '-'}</span></div>
                 <div class="ticket-row"><span class="k">المرشد:</span><span class="v">${ticket.advisor || '-'}</span></div>
@@ -3715,7 +4264,7 @@ async function loadAdvisorTicketsView() {
 
         try {
             // ✅ تثبيت محلي + إعادة تحميل
-            const ok = await transferTicket(__advisorTransferTicketNumber, transferTo, currentUser.data.name);
+            const ok = await transferTicket(__advisorTransferTicketNumber, transferTo, currentUser.data.name, currentUser.data.role);
             hideLoading();
             if (ok) {
             // تطبيع فوري على DOM الحالي ليبقى الكرت ظاهرًا كـ "↗️ محوّلة"
@@ -3812,6 +4361,11 @@ async function switchTab(event, tabName) {
             ? `<span class="rating-badge" title="${ticket.rating} — ${RATING_LABELS[ticket.rating] || ''}">★ ${ticket.rating}/5</span>`
             : '';
 
+        // 🔵 معلومات التحويل
+        const transferredByRaw = (ticket.transferredBy || '').trim();
+        const isTransferred = !!(ticket.transferredTo || transferredByRaw || ticket.transferDate);
+        const fromBadgeHTML = '';
+
         return `
             <div class="ticket-card modern" data-req-dept="${ticket.department || ''}">
             <div class="ticket-head">
@@ -3821,11 +4375,13 @@ async function switchTab(event, tabName) {
             <div class="ticket-sep"></div>
             <div class="ticket-grid">
                 <div class="ticket-row"><span class="k">نوع الخدمة:</span><span class="v">${ticket.serviceType || '-'}</span></div>
+                ${transferredByRaw && isTransferred ? `<div class="ticket-row"><span class="k">محولة من:</span><span class="v" style="color:var(--tvtc-primary);font-weight:700;">${transferredByRaw}</span></div>` : ''}
                 <div class="ticket-row"><span class="k">التاريخ:</span><span class="v">${formatArabicDate(ticket.date)}</span></div>
                 <div class="ticket-row"><span class="k">القسم:</span><span class="v">${ticket.department || '-'}</span></div>
                 <div class="ticket-row"><span class="k">المرشد:</span><span class="v">${ticket.advisor || '-'}</span></div>
             </div>
-            ${details && details !== '-' ? `<div class="ticket-details">📝 ${details}</div>` : ''}
+            ${details && details !== '-' ? `<div class="ticket-details">📝 <strong>تفاصيل الطلب:</strong> ${details}</div>` : ''}
+            ${ticket.status === 'completed' && (ticket.solution || ticket.executedSolution || ticket.solutionText) ? `<div class="ticket-details" style="margin-top:8px;">✅ <strong>الحل المنفذ:</strong> ${ticket.solution || ticket.executedSolution || ticket.solutionText}</div>` : ''}
             <div class="ticket-foot">
                 ${ratingBadge}
                 ${rated && ticket.ratingComment ? `<span class="dot"></span><span>تعليقك: <em>${ticket.ratingComment}</em></span>` : ''}
@@ -3849,6 +4405,10 @@ async function switchTab(event, tabName) {
 
     } else if (tabName === 'managementDeptBoard') {
   await loadDeptBoardView();
+
+  } else if (tabName === 'trainersDeputyBoard') {
+  // ✅ لوحة وكيل شؤون المدربين
+  await loadTrainersDeputyBoardView();
 
   } else if (tabName === 'advisorRequests') {
     loadMyRequests('advisorRequestsList');
@@ -4151,6 +4711,12 @@ function openDbDrawer(title, tickets) {
       const stTxt = statusBadgeText(t.status);
       const stCls = statusBadgeClass(t.status);
       const details = t.requestDetails || t.details || '-';
+      
+      // 🔵 معلومات التحويل
+      const transferredByRaw = (t.transferredBy || '').trim();
+      const isTransferred = !!(t.transferredTo || transferredByRaw || t.transferDate);
+      const fromBadgeHTML = '';
+      
       return `
         <div class="ticket-card modern">
           <div class="ticket-head">
@@ -4161,10 +4727,12 @@ function openDbDrawer(title, tickets) {
           <div class="ticket-grid">
             <div class="ticket-row"><span class="k">القسم:</span><span class="v">${t.department || '-'}</span></div>
             <div class="ticket-row"><span class="k">نوع الخدمة:</span><span class="v">${t.serviceType || '-'}</span></div>
+            ${transferredByRaw && isTransferred ? `<div class="ticket-row"><span class="k">محولة من:</span><span class="v" style="color:var(--tvtc-primary);font-weight:700;">${transferredByRaw}</span></div>` : ''}
             <div class="ticket-row"><span class="k">التاريخ:</span><span class="v">${formatArabicDate(t.date)}</span></div>
             <div class="ticket-row"><span class="k">المُسنَد:</span><span class="v">${t.assignedTo || '-'}</span></div>
           </div>
-          ${details && details !== '-' ? `<div class="ticket-details">📝 ${details}</div>` : ''}
+          ${details && details !== '-' ? `<div class="ticket-details">📝 <strong>تفاصيل الطلب:</strong> ${details}</div>` : ''}
+          ${String(t.status).toLowerCase() === 'completed' && (t.solution || t.executedSolution || t.solutionText) ? `<div class="ticket-details" style="margin-top:8px;">✅ <strong>الحل المنفذ:</strong> ${t.solution || t.executedSolution || t.solutionText}</div>` : ''}
         </div>
       `;
     }).join('');
@@ -4180,14 +4748,31 @@ function closeDbDrawer() {
 
 // مُعالج تحميل التبويب
 async function loadDeptBoardView() {
-  if (!hasFullAccess()) {
+  // ✅ السماح لوكيل شؤون المدربين بالوصول للوحة
+  const role = normalizeRole((currentUser?.data?.role || '').trim());
+  const canAccess = hasFullAccess() || role === 'trainers_deputy';
+  
+  if (!canAccess) {
     document.getElementById('managementDeptBoard')?.classList.add('hidden');
     showError?.('لا تملك صلاحية عرض لوحة متابعة الأقسام');
     return;
   }
 
   const list = await loadAllTickets();
-  const tickets = Array.isArray(list) ? list : [];
+  let tickets = Array.isArray(list) ? list : [];
+
+  // ✅ فلترة الطلبات التدريبية فقط لوكيل شؤون المدربين
+  if (role === 'trainers_deputy') {
+    tickets = tickets.filter(t => {
+      const serviceType = String(t.serviceType || '').trim();
+      // فلترة صارمة: فقط الخدمات التدريبية
+      return serviceType === 'تدريبية' || 
+             serviceType === 'training' || 
+             serviceType === 'تدريبي' ||
+             serviceType === 'تعليمي';
+    });
+  }
+
 
   // أول مرة: نملأ أقسام الفلتر
   dbFillDepartmentsOptions(tickets);
@@ -4215,6 +4800,229 @@ async function loadDeptBoardView() {
 
   // ربط الفلاتر لإعادة التحميل
   dbBindFiltersOnce(tickets);
+}
+
+// ✅ ========== دالة تحميل لوحة وكيل شؤون المدربين ==========
+async function loadTrainersDeputyBoardView() {
+  const role = normalizeRole((currentUser?.data?.role || '').trim());
+  
+  if (role !== 'trainers_deputy') {
+    document.getElementById('trainersDeputyBoard')?.classList.add('hidden');
+    showError?.('هذه اللوحة متاحة فقط لوكيل شؤون المدربين');
+    return;
+  }
+
+  const list = await loadAllTickets();
+  let allTickets = Array.isArray(list) ? list : [];
+
+  // ✅ فلترة: فقط الطلبات التدريبية
+  allTickets = allTickets.filter(t => {
+    const serviceType = String(t.serviceType || '').trim();
+    return serviceType === 'تدريبية' || 
+           serviceType === 'training' || 
+           serviceType === 'تدريبي' ||
+           serviceType === 'تعليمي';
+  });
+
+  console.log('✅ لوحة وكيل شؤون المدربين - الطلبات التدريبية:', allTickets.length);
+
+  // أول مرة: نملأ أقسام الفلتر
+  tdFillDepartmentsOptions(allTickets);
+
+  const filters = tdReadFilters();
+  const view = tdFilterTickets(allTickets, filters);
+  tdRenderKpis('tdKpis', view);
+
+  const rows = tdAggregateByDept(view);
+  tdRenderTable(rows);
+
+  // تفعيل النقر على أرقام الجدول لفتح الدرور
+  const table = document.getElementById('tdTable');
+  if (table && !table.__tdBound) {
+    table.addEventListener('click', (ev) => {
+      const a = ev.target.closest('[data-td-click="open"]');
+      if (!a) return;
+      ev.preventDefault();
+      const dept = a.getAttribute('data-dept');
+      const kind = a.getAttribute('data-kind');
+      openTdDeptBucket(dept, kind, allTickets);
+    });
+    table.__tdBound = true;
+  }
+
+  // ربط الفلاتر لإعادة التحميل
+  tdBindFiltersOnce();
+}
+
+// ملء خيارات الأقسام
+function tdFillDepartmentsOptions(tickets) {
+  const sel = document.getElementById('tdDept');
+  if (!sel) return;
+  const set = new Set();
+  tickets.forEach(t => {
+    const d = (t.department || '').trim();
+    if (d) set.add(d);
+  });
+  const arr = Array.from(set).sort((a,b)=> a.localeCompare(b, 'ar'));
+  sel.innerHTML = arr.map(v => `<option value="${v}">${v}</option>`).join('');
+}
+
+// قراءة الفلاتر
+function tdReadFilters() {
+  const from = tryParseDate(document.getElementById('tdFrom')?.value || '');
+  const to   = tryParseDate(document.getElementById('tdTo')?.value || '');
+  const deptSel = document.getElementById('tdDept');
+  const selectedDepts = Array.from(deptSel?.selectedOptions || []).map(o => o.value);
+  const stPending   = document.getElementById('tdStPending')?.checked;
+  const stInProgress= document.getElementById('tdStInProgress')?.checked;
+  const stCompleted = document.getElementById('tdStCompleted')?.checked;
+  return { from, to, selectedDepts, stPending, stInProgress, stCompleted };
+}
+
+// فلترة التذاكر
+function tdFilterTickets(tickets, filters) {
+  return tickets.filter(t => {
+    const tDate = tryParseDate(t.date);
+    if (filters.from && tDate < filters.from) return false;
+    if (filters.to && tDate > filters.to) return false;
+    
+    const dept = (t.department || '').trim();
+    if (filters.selectedDepts.length && !filters.selectedDepts.includes(dept)) return false;
+    
+    const st = String(t.status || 'pending').toLowerCase();
+    if (st === 'pending' && !filters.stPending) return false;
+    if (st === 'in_progress' && !filters.stInProgress) return false;
+    if (st === 'completed' && !filters.stCompleted) return false;
+    
+    return true;
+  });
+}
+
+// عرض مؤشرات الأداء
+function tdRenderKpis(containerId, tickets) {
+  const container = document.getElementById(containerId);
+  if (!container) return;
+  
+  const total = tickets.length;
+  const completed = tickets.filter(t => String(t.status).toLowerCase() === 'completed').length;
+  const pending = tickets.filter(t => String(t.status).toLowerCase() === 'pending').length;
+  const inProgress = tickets.filter(t => String(t.status).toLowerCase() === 'in_progress').length;
+  const completionRate = total > 0 ? ((completed / total) * 100).toFixed(1) : 0;
+  
+  container.innerHTML = `
+    <div class="stat-card stat-card--primary">
+      <div class="stat-icon">📊</div>
+      <div class="stat-content">
+        <div class="stat-label">إجمالي التذاكر</div>
+        <div class="stat-value">${total}</div>
+      </div>
+    </div>
+    <div class="stat-card stat-card--success">
+      <div class="stat-icon">✅</div>
+      <div class="stat-content">
+        <div class="stat-label">مكتملة</div>
+        <div class="stat-value">${completed}</div>
+        <div class="stat-sub">${completionRate}% نسبة الإنجاز</div>
+      </div>
+    </div>
+    <div class="stat-card stat-card--warning">
+      <div class="stat-icon">⏱️</div>
+      <div class="stat-content">
+        <div class="stat-label">قيد التنفيذ</div>
+        <div class="stat-value">${inProgress}</div>
+      </div>
+    </div>
+    <div class="stat-card stat-card--info">
+      <div class="stat-icon">⏸️</div>
+      <div class="stat-content">
+        <div class="stat-label">معلّقة</div>
+        <div class="stat-value">${pending}</div>
+      </div>
+    </div>
+  `;
+}
+
+// تجميع البيانات حسب القسم
+function tdAggregateByDept(tickets) {
+  const map = {};
+  tickets.forEach(t => {
+    const dept = (t.department || 'غير محدد').trim();
+    if (!map[dept]) map[dept] = { new:0, pending:0, inProgress:0, completed:0 };
+    const st = String(t.status || 'pending').toLowerCase();
+    if (st === 'completed') map[dept].completed++;
+    else if (st === 'in_progress') map[dept].inProgress++;
+    else if (st === 'pending') map[dept].pending++;
+    else map[dept].new++;
+  });
+  return Object.entries(map).map(([dept, stats]) => ({
+    dept,
+    ...stats,
+    total: stats.new + stats.pending + stats.inProgress + stats.completed,
+    completionRate: ((stats.completed / (stats.new + stats.pending + stats.inProgress + stats.completed)) * 100).toFixed(1)
+  }));
+}
+
+// عرض الجدول
+function tdRenderTable(rows) {
+  const tbody = document.getElementById('tdTableBody');
+  if (!tbody) return;
+  
+  if (!rows.length) {
+    tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:20px;color:#999;">لا توجد بيانات</td></tr>';
+    return;
+  }
+  
+  tbody.innerHTML = rows.map(r => `
+    <tr style="border-bottom:1px solid var(--border);">
+      <td style="padding:10px;font-weight:600;color:var(--primary-blue);">${r.dept}</td>
+      <td style="padding:10px;text-align:center;">
+        <a href="#" data-td-click="open" data-dept="${r.dept}" data-kind="new" style="color:var(--info);font-weight:600;">${r.new}</a>
+      </td>
+      <td style="padding:10px;text-align:center;">
+        <a href="#" data-td-click="open" data-dept="${r.dept}" data-kind="in_progress" style="color:var(--warning);font-weight:600;">${r.inProgress}</a>
+      </td>
+      <td style="padding:10px;text-align:center;">
+        <a href="#" data-td-click="open" data-dept="${r.dept}" data-kind="pending" style="color:var(--info);font-weight:600;">${r.pending}</a>
+      </td>
+      <td style="padding:10px;text-align:center;">
+        <a href="#" data-td-click="open" data-dept="${r.dept}" data-kind="completed" style="color:var(--success);font-weight:600;">${r.completed}</a>
+      </td>
+      <td style="padding:10px;text-align:center;font-weight:600;">${r.completionRate}%</td>
+      <td style="padding:10px;text-align:center;">-</td>
+    </tr>
+  `).join('');
+}
+
+// فتح درج القسم
+function openTdDeptBucket(deptName, kind, allTickets) {
+  const filters = tdReadFilters();
+  let view = tdFilterTickets(allTickets, filters);
+  
+  view = view.filter(t => (t.department || '').trim() === deptName);
+  
+  if (kind === 'pending' || kind === 'in_progress' || kind === 'completed') {
+    view = view.filter(t => String(t.status || 'pending') === kind);
+  }
+  
+  const kindLabel =
+    kind === 'pending'     ? 'معلّقة' :
+    kind === 'in_progress' ? 'قيد التنفيذ' :
+    kind === 'completed'   ? 'مكتملة' : 'جديدة (ضمن الفترة)';
+  
+  const title = `${deptName} — ${kindLabel}`;
+  openDbDrawer(title, view);
+}
+
+// ربط الفلاتر
+function tdBindFiltersOnce() {
+  const ids = ['tdFrom','tdTo','tdDept','tdStPending','tdStInProgress','tdStCompleted'];
+  ids.forEach(id => {
+    const el = document.getElementById(id);
+    if (el && !el.__tdBound) {
+      el.addEventListener('change', () => loadTrainersDeputyBoardView());
+      el.__tdBound = true;
+    }
+  });
 }
 
 // ربط الفلاتر مرة واحدة
@@ -5703,6 +6511,49 @@ function loadScript(src) {
   });
 }
 </script>
+
+<!-- ✅ Modal الموافقة على السياسة -->
+<div id="consentModalOverlay" class="consent-modal-overlay">
+    <div class="consent-modal">
+        <div class="consent-modal-header">
+            <h2>📋 سياسة الخصوصية واتفاقية الاستخدام</h2>
+        </div>
+        <div class="consent-modal-body">
+            <p><strong>مرحباً بك في منصة سجل المواقف اليومية للمتدربين</strong></p>
+            <p>قبل البدء باستخدام المنصة، يرجى الموافقة على سياسة الخصوصية واتفاقية الاستخدام:</p>
+            
+            <ul>
+                <li>نحن نحترم خصوصيتك ونلتزم بحماية بياناتك الشخصية</li>
+                <li>سيتم استخدام بياناتك فقط لأغراض التدريب والإرشاد الأكاديمي</li>
+                <li>لن يتم مشاركة بياناتك مع أطراف خارجية دون موافقتك</li>
+                <li>يمكنك الاطلاع على السياسة الكاملة عبر الرابط أدناه</li>
+            </ul>
+
+            <a href="privacy-terms.html" target="_blank" class="consent-link">
+                📖 اقرأ سياسة الخصوصية واتفاقية الاستخدام كاملة
+            </a>
+        </div>
+        <div class="consent-modal-footer">
+            <div class="consent-checkbox-modal">
+                <input type="checkbox" id="consentCheckboxModal">
+                <label for="consentCheckboxModal">
+                    أوافق على سياسة الخصوصية واتفاقية الاستخدام
+                </label>
+            </div>
+            <div class="consent-modal-buttons">
+                <button class="btn btn-primary" id="btnAgreeConsent" disabled>
+                    ✅ أوافق وأتابع
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ✅ Footer: رابط سياسة الاستخدام -->
+<div class="footer-policy">
+    <p>باستخدامك لهذه المنصة، فإنك توافق على الشروط والأحكام</p>
+    <a href="privacy-terms.html" target="_blank">📖 اطّلع على سياسة الخصوصية واتفاقية الاستخدام</a>
+</div>
 
 </body>
 </html>
