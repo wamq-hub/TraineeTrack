@@ -78,6 +78,20 @@
             position: relative;
         }
 
+        @media (max-width: 768px) {
+            .header {
+                padding: 20px 15px;
+            }
+            
+            .header h1 {
+                font-size: 20px !important;
+            }
+            
+            .header p {
+                font-size: 14px !important;
+            }
+        }
+
         .header::before {
             content: '';
             position: absolute;
@@ -112,6 +126,12 @@
             padding: 40px;
         }
 
+        @media (max-width: 768px) {
+            .content {
+                padding: 20px;
+            }
+        }
+
         .login-form {
             max-width: 500px;
             margin: 0 auto;
@@ -121,6 +141,16 @@
         .form-group {
             margin-bottom: 25px;
             text-align: right;
+        }
+
+        @media (max-width: 768px) {
+            .form-group {
+                margin-bottom: 20px;
+            }
+            
+            .form-group textarea {
+                font-size: 16px !important;
+            }
         }
 
         .form-group label {
@@ -162,6 +192,15 @@
             cursor: pointer;
             transition: all 0.3s;
             margin: 5px;
+        }
+
+        @media (max-width: 768px) {
+            .btn {
+                padding: 12px 20px;
+                font-size: 14px;
+                width: 100%;
+                max-width: 300px;
+            }
         }
 
         .btn-primary {
@@ -742,6 +781,25 @@
             .info-row {
                 grid-template-columns: 1fr;
             }
+            
+            .service-buttons {
+                grid-template-columns: 1fr;
+            }
+            
+            .service-btn {
+                padding: 15px;
+                font-size: 15px;
+            }
+            
+            .btn {
+                width: 100%;
+                padding: 12px 20px;
+                font-size: 14px;
+            }
+            
+            .ticket-card {
+                padding: 15px;
+            }
         }
 
         /* ========== بطاقة تذكرة حديثة ========== */
@@ -1263,9 +1321,15 @@
                             <textarea id="requestDetails" rows="4" placeholder="اكتب تفاصيل الطلب"></textarea>
                         </div>
 
-                        <div style="display: flex; gap: 10px; justify-content: center; margin-top: 30px;">
+                        <div class="form-group">
+                            <label>الحل المنفذ</label>
+                            <textarea id="executedSolution" rows="4" placeholder="اكتب الحل المنفذ من قبل وحدة التوجيه والإرشاد"></textarea>
+                        </div>
+
+                        <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 30px;">
                         <button class="btn btn-success" onclick="completeTicket()">إنهاء الطلب</button>
-                        <button id="transferBtn" class="btn btn-warning hidden" onclick="showTransferOptions()">تحويل الطلب</button>
+                        <button id="transferBtn" class="btn btn-warning hidden" onclick="showTransferOptions()">تحويل الطلب (تدريبية)</button>
+                        <button id="transferToViceBtn" class="btn btn-warning hidden" onclick="showTransferToViceOptions()">تحويل إلى وكيل شؤون المتدربين</button>
                         </div>
 
                         <div id="transferOptions" class="hidden" style="margin-top: 20px;">
@@ -1938,15 +2002,33 @@
 
         // trainee_platform_live copy.html
         function refreshAdvisorTransferUI(){
-        const btn  = document.getElementById('transferBtn');
+        const transferBtn  = document.getElementById('transferBtn');
+        const transferToViceBtn  = document.getElementById('transferToViceBtn');
         const opts = document.getElementById('transferOptions');
-        if (!btn) return;
+        if (!transferBtn || !transferToViceBtn) return;
+        
         const roleOk = isAdvisoryUser();
         const checked = document.querySelector('input[name="serviceType"]:checked');
         const type = normalizeServiceType(checked ? checked.value : '');
-        const canTransfer = roleOk && type === 'training';
-        btn.classList.toggle('hidden', !canTransfer);
-        if (!canTransfer && opts) opts.classList.add('hidden');
+        
+        // إذا كانت الخدمة تدريبية، نُظهر زر التحويل للجهات المختلفة
+        const isTraining = type === 'training';
+        
+        if (roleOk && isTraining) {
+            // خدمة تدريبية: نُظهر زر التحويل العادي ونخفي زر وكيل شؤون المتدربين
+            transferBtn.classList.remove('hidden');
+            transferToViceBtn.classList.add('hidden');
+        } else if (roleOk && !isTraining && checked) {
+            // خدمة غير تدريبية: نُظهر زر التحويل لوكيل شؤون المتدربين فقط
+            transferBtn.classList.add('hidden');
+            transferToViceBtn.classList.remove('hidden');
+        } else {
+            // لا نُظهر أي زر تحويل
+            transferBtn.classList.add('hidden');
+            transferToViceBtn.classList.add('hidden');
+        }
+        
+        if (opts) opts.classList.add('hidden');
         }
         document.addEventListener('DOMContentLoaded', () => {
         document.querySelectorAll('input[name="serviceType"]').forEach(r=>{
@@ -3113,6 +3195,70 @@
             document.getElementById('transferOptions').classList.remove('hidden');
         }
 
+        function showTransferToViceOptions() {
+            // التحويل المباشر إلى وكيل شؤون المتدربين للخدمات غير التدريبية
+            if (!currentTraineeData) {
+                showError('الرجاء جلب بيانات المتدرب أولاً');
+                return;
+            }
+
+            const serviceTypeRadio = document.querySelector('input[name="serviceType"]:checked');
+            const details = (document.getElementById('requestDetails')?.value || '').trim();
+
+            if (!serviceTypeRadio || !details) {
+                showError('الرجاء إكمال جميع الحقول');
+                return;
+            }
+
+            const serviceType = serviceTypeRadio.value === 'أخرى'
+                ? (document.getElementById('otherService')?.value || '').trim()
+                : serviceTypeRadio.value;
+
+            if (serviceTypeRadio.value === 'أخرى' && !serviceType) {
+                showError('الرجاء تحديد نوع الخدمة');
+                return;
+            }
+
+            // تأكيد التحويل
+            if (!confirm('هل أنت متأكد من تحويل هذا الطلب إلى وكيل شؤون المتدربين؟')) {
+                return;
+            }
+
+            transferToTraineesVice(serviceType, details);
+        }
+
+        async function transferToTraineesVice(serviceType, details) {
+            const now = new Date();
+            const days = ['الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'];
+
+            const ticketData = {
+                traineeId:      currentTraineeData.id,
+                traineeName:    currentTraineeData.name,
+                department:     currentTraineeData.department,
+                specialization: currentTraineeData.specialization,
+                advisor:        currentTraineeData.advisor,
+                date:           now.toLocaleDateString('ar-SA'),
+                day:            days[now.getDay()],
+                serviceType,
+                requestDetails: details,
+                status:         'pending',
+                transferredTo:  'trainees_vice',
+                transferredBy:  currentUser.data.name,
+                transferredByRole: currentUser.data.role || 'unknown',
+                transferDate:   now.toLocaleDateString('ar-SA'),
+                createdBy:      currentUser.data.name
+            };
+
+            showLoading('جاري التحويل...');
+            const result = await saveNewTicket(ticketData);
+            hideLoading();
+            
+            if (result.success) {
+                resetTicketForm();
+                showSuccess('تم تحويل الطلب إلى وكيل شؤون المتدربين بنجاح');
+            }
+        }
+
         async function completeTicket() {
         if (!currentTraineeData) {
             showError('الرجاء جلب بيانات المتدرب أولاً');
@@ -3121,14 +3267,15 @@
 
         const serviceTypeRadio = document.querySelector('input[name="serviceType"]:checked');
         const details = (document.getElementById('requestDetails')?.value || '').trim();
+        const executedSolution = (document.getElementById('executedSolution')?.value || '').trim();
 
         if (!serviceTypeRadio || !details) {
             showError('الرجاء اختيار نوع الخدمة وكتابة تفاصيل الطلب');
             return;
         }
 
-        // تفاصيل الطلب = الحل المنفذ
-        const solutionText = details;
+        // الحل المنفذ هو المدخل من وحدة التوجيه والإرشاد، أو تفاصيل الطلب إذا لم يتم كتابة حل
+        const solutionText = executedSolution || details;
 
         const now  = new Date();
         const days = ['الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'];
@@ -3153,6 +3300,7 @@
             day:            days[now.getDay()],
             serviceType,
             requestDetails: details,
+            executedSolution: executedSolution,
             status:         'pending',
             createdBy:      currentUser.data.name
         };
@@ -3258,6 +3406,7 @@
             document.getElementById('traineeId').value = '';
             document.querySelectorAll('input[name="serviceType"]').forEach(btn => btn.checked = false);
             document.getElementById('requestDetails').value = '';
+            document.getElementById('executedSolution').value = '';
             document.getElementById('otherService').value = '';
             document.getElementById('traineeInfo').classList.add('hidden');
             document.getElementById('transferOptions').classList.add('hidden');
