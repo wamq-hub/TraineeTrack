@@ -297,6 +297,8 @@
             align-items: center;
             z-index: 10000;
             animation: fadeIn 0.3s ease;
+            padding: 20px;
+            overflow-y: auto;
         }
 
         .consent-modal-overlay.active {
@@ -307,11 +309,14 @@
             background: white;
             border-radius: 15px;
             max-width: 600px;
-            width: 90%;
-            max-height: 80vh;
+            width: 95%;
+            max-height: 90vh;
             overflow: hidden;
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
             animation: slideUp 0.4s ease;
+            display: flex;
+            flex-direction: column;
+            margin: auto;
         }
 
         @keyframes slideUp {
@@ -330,6 +335,7 @@
             color: white;
             padding: 20px;
             text-align: center;
+            flex-shrink: 0;
         }
 
         .consent-modal-header h2 {
@@ -341,6 +347,27 @@
             padding: 25px;
             max-height: 50vh;
             overflow-y: auto;
+            flex: 1;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        /* تحسين شريط التمرير للجوال */
+        .consent-modal-body::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .consent-modal-body::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+
+        .consent-modal-body::-webkit-scrollbar-thumb {
+            background: var(--tvtc-primary);
+            border-radius: 10px;
+        }
+
+        .consent-modal-body::-webkit-scrollbar-thumb:hover {
+            background: var(--tvtc-primary-700);
         }
 
         .consent-modal-body p {
@@ -371,6 +398,7 @@
             padding: 20px;
             border-top: 2px solid var(--border);
             background: var(--light-blue);
+            flex-shrink: 0;
         }
 
         .consent-checkbox-modal {
@@ -388,6 +416,8 @@
             width: 22px;
             height: 22px;
             cursor: pointer;
+            flex-shrink: 0;
+            accent-color: var(--tvtc-primary);
         }
 
         .consent-checkbox-modal label {
@@ -407,6 +437,103 @@
         .consent-modal-buttons .btn {
             flex: 1;
             max-width: 200px;
+        }
+
+        /* تحسينات خاصة للجوال */
+        @media (max-width: 768px) {
+            .consent-modal-overlay {
+                padding: 10px;
+                align-items: flex-start;
+            }
+
+            .consent-modal {
+                width: 100%;
+                max-width: 100%;
+                max-height: 95vh;
+                border-radius: 12px;
+                margin-top: 10px;
+            }
+
+            .consent-modal-header {
+                padding: 15px;
+            }
+
+            .consent-modal-header h2 {
+                font-size: 18px;
+            }
+
+            .consent-modal-body {
+                padding: 20px 15px;
+                max-height: 60vh;
+                font-size: 14px;
+            }
+
+            .consent-modal-body p {
+                font-size: 14px;
+                line-height: 1.6;
+            }
+
+            .consent-modal-body ul {
+                padding-right: 20px;
+            }
+
+            .consent-modal-body ul li {
+                font-size: 13px;
+                line-height: 1.6;
+            }
+
+            .consent-link {
+                font-size: 13px;
+            }
+
+            .consent-modal-footer {
+                padding: 15px;
+            }
+
+            .consent-checkbox-modal {
+                padding: 12px;
+                gap: 8px;
+            }
+
+            .consent-checkbox-modal input[type="checkbox"] {
+                width: 20px;
+                height: 20px;
+            }
+
+            .consent-checkbox-modal label {
+                font-size: 13px;
+                line-height: 1.5;
+            }
+
+            .consent-modal-buttons .btn {
+                max-width: 100%;
+                font-size: 14px;
+                padding: 12px;
+            }
+        }
+
+        /* للشاشات الصغيرة جداً */
+        @media (max-width: 480px) {
+            .consent-modal {
+                max-height: 90vh;
+            }
+
+            .consent-modal-body {
+                max-height: 55vh;
+                padding: 15px 12px;
+            }
+
+            .consent-modal-header h2 {
+                font-size: 16px;
+            }
+
+            .consent-checkbox-modal {
+                padding: 10px;
+            }
+
+            .consent-checkbox-modal label {
+                font-size: 12px;
+            }
         }
 
         .btn-success {
@@ -568,6 +695,27 @@
             display: flex;
             align-items: center;
             gap: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .alert {
+                padding: 12px 15px;
+                gap: 10px;
+                font-size: 13px;
+            }
+            
+            .alert h3 {
+                font-size: 16px !important;
+            }
+            
+            .alert ul {
+                font-size: 13px;
+                line-height: 1.6 !important;
+            }
+            
+            .alert > span {
+                font-size: 22px !important;
+            }
         }
 
         .alert-info {
@@ -1221,6 +1369,30 @@
                     </button>
                 </div>
 
+                <!-- 📌 رسالة توجيهية لوحدة التوجيه والإرشاد -->
+                <div class="alert alert-info" style="
+                    margin-bottom: 20px;
+                    background: linear-gradient(135deg, #E3F2FD 0%, #BBDEFB 100%);
+                    border: 2px solid #2196F3;
+                    border-radius: 12px;
+                    padding: 20px;
+                    display: flex;
+                    align-items: flex-start;
+                    gap: 15px;
+                    box-shadow: 0 4px 12px rgba(33, 150, 243, 0.15);
+                ">
+                    <span style="font-size: 28px;">📋</span>
+                    <div style="flex: 1;">
+                        <h3 style="color: #1976D2; margin: 0 0 10px 0; font-size: 18px;">تعليمات مهمة</h3>
+                        <ul style="margin: 0; padding-right: 20px; color: #0D47A1; line-height: 1.8;">
+                            <li><strong>للخدمات التدريبية:</strong> يجب تحويلها إلى الجهة المختصة (المرشد، رئيس القسم، إلخ)</li>
+                            <li><strong>للخدمات غير التدريبية:</strong> يتم تحويلها مباشرة إلى <strong>وكيل شؤون المتدربين</strong></li>
+                            <li><strong>حقل "الحل المنفذ":</strong> خاص بوحدة التوجيه والإرشاد لتوثيق الإجراء المتخذ</li>
+                            <li><strong>تفاصيل الطلب:</strong> يجب كتابة وصف دقيق لحالة المتدرب</li>
+                        </ul>
+                    </div>
+                </div>
+
                 <div class="tabs">
                     <button class="tab active" onclick="switchTab(event, 'newTicket')">تذكرة جديدة</button>
                     <button class="tab" onclick="switchTab(event, 'myRequests')">طلباتي</button>
@@ -1324,6 +1496,15 @@
                         <div class="form-group">
                             <label>الحل المنفذ</label>
                             <textarea id="executedSolution" rows="4" placeholder="اكتب الحل المنفذ من قبل وحدة التوجيه والإرشاد"></textarea>
+                        </div>
+
+                        <!-- حقل الرسالة التوجيهية (اختياري) -->
+                        <div id="guidanceMessageDiv" class="form-group hidden">
+                            <label>رسالة توجيهية للشخص المحول له (اختياري)</label>
+                            <textarea id="guidanceMessage" rows="3" placeholder="اكتب رسالة توجيهية أو تعليمات للشخص المحول له (اختياري)"></textarea>
+                            <small style="color: #666; font-size: 13px; display: block; margin-top: 5px;">
+                                💡 هذه الرسالة ستظهر للشخص المحول له مع تفاصيل التذكرة
+                            </small>
                         </div>
 
                         <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 30px;">
@@ -2005,6 +2186,7 @@
         const transferBtn  = document.getElementById('transferBtn');
         const transferToViceBtn  = document.getElementById('transferToViceBtn');
         const opts = document.getElementById('transferOptions');
+        const guidanceDiv = document.getElementById('guidanceMessageDiv');
         if (!transferBtn || !transferToViceBtn) return;
         
         const roleOk = isAdvisoryUser();
@@ -2018,14 +2200,17 @@
             // خدمة تدريبية: نُظهر زر التحويل العادي ونخفي زر وكيل شؤون المتدربين
             transferBtn.classList.remove('hidden');
             transferToViceBtn.classList.add('hidden');
+            if (guidanceDiv) guidanceDiv.classList.remove('hidden');
         } else if (roleOk && !isTraining && checked) {
             // خدمة غير تدريبية: نُظهر زر التحويل لوكيل شؤون المتدربين فقط
             transferBtn.classList.add('hidden');
             transferToViceBtn.classList.remove('hidden');
+            if (guidanceDiv) guidanceDiv.classList.remove('hidden');
         } else {
             // لا نُظهر أي زر تحويل
             transferBtn.classList.add('hidden');
             transferToViceBtn.classList.add('hidden');
+            if (guidanceDiv) guidanceDiv.classList.add('hidden');
         }
         
         if (opts) opts.classList.add('hidden');
@@ -3230,6 +3415,7 @@
         async function transferToTraineesVice(serviceType, details) {
             const now = new Date();
             const days = ['الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'];
+            const guidanceMessage = (document.getElementById('guidanceMessage')?.value || '').trim();
 
             const ticketData = {
                 traineeId:      currentTraineeData.id,
@@ -3241,6 +3427,7 @@
                 day:            days[now.getDay()],
                 serviceType,
                 requestDetails: details,
+                guidanceMessage: guidanceMessage,
                 status:         'pending',
                 transferredTo:  'trainees_vice',
                 transferredBy:  currentUser.data.name,
@@ -3342,6 +3529,7 @@
         const serviceTypeRadio = document.querySelector('input[name="serviceType"]:checked');
         const details = (document.getElementById('requestDetails')?.value || '').trim();
         const transferRadio = document.querySelector('input[name="transferTo"]:checked');
+        const guidanceMessage = (document.getElementById('guidanceMessage')?.value || '').trim();
 
         if (!serviceTypeRadio || !details || !transferRadio) {
             showError('الرجاء إكمال جميع الحقول');
@@ -3373,6 +3561,7 @@
             day:            days[now.getDay()],
             serviceType,
             requestDetails: details,
+            guidanceMessage: guidanceMessage,
             status:         'pending',
             transferredTo:  transferTo,
             transferredBy:  currentUser.data.name,
@@ -3407,9 +3596,11 @@
             document.querySelectorAll('input[name="serviceType"]').forEach(btn => btn.checked = false);
             document.getElementById('requestDetails').value = '';
             document.getElementById('executedSolution').value = '';
+            document.getElementById('guidanceMessage').value = '';
             document.getElementById('otherService').value = '';
             document.getElementById('traineeInfo').classList.add('hidden');
             document.getElementById('transferOptions').classList.add('hidden');
+            document.getElementById('guidanceMessageDiv').classList.add('hidden');
             document.getElementById('otherServiceDiv').classList.add('hidden');
             currentTraineeData = null;
         }
@@ -3560,6 +3751,13 @@ async function loadAdvisorTicketsView() {
             </div>
 
             ${details && details !== '-' ? `<div class="ticket-details">📝 <strong>تفاصيل الطلب:</strong> ${details}</div>` : ''}
+            ${t.guidanceMessage ? `<div class="ticket-details" style="margin-top:8px; background:#FFF3E0; border: 2px solid #FFA726; border-radius:8px; padding:12px;">
+                <div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
+                    <span style="font-size:20px;">💡</span>
+                    <strong style="color:#E65100;">رسالة توجيهية من وحدة الخدمات الإرشادية:</strong>
+                </div>
+                <div style="color:#5D4037; line-height:1.7;">${t.guidanceMessage}</div>
+            </div>` : ''}
             ${String(t.status).toLowerCase() === 'completed' && (t.solution || t.executedSolution || t.solutionText) ? `<div class="ticket-details" style="margin-top:8px;">✅ <strong>الحل المنفذ:</strong> ${t.solution || t.executedSolution || t.solutionText}</div>` : ''}
 
             ${isTransferredByMe ? `
@@ -3790,6 +3988,13 @@ async function loadAdvisorTicketsView() {
                 </div>
 
                 ${details && details !== '-' ? `<div class="ticket-details">📝 <strong>تفاصيل الطلب:</strong> ${details}</div>` : ''}
+                ${t.guidanceMessage ? `<div class="ticket-details" style="margin-top:8px; background:#FFF3E0; border: 2px solid #FFA726; border-radius:8px; padding:12px;">
+                    <div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
+                        <span style="font-size:20px;">💡</span>
+                        <strong style="color:#E65100;">رسالة توجيهية من وحدة الخدمات الإرشادية:</strong>
+                    </div>
+                    <div style="color:#5D4037; line-height:1.7;">${t.guidanceMessage}</div>
+                </div>` : ''}
                 ${isCompleted && (t.solution || t.executedSolution || t.solutionText) ? `<div class="ticket-details" style="margin-top:8px;">✅ <strong>الحل المنفذ:</strong> ${t.solution || t.executedSolution || t.solutionText}</div>` : ''}
 
                 ${isCompleted 
@@ -3995,6 +4200,13 @@ async function loadAdvisorTicketsView() {
                 </div>
 
                 ${details && details !== '-' ? `<div class="ticket-details">📝 <strong>تفاصيل الطلب:</strong> ${details}</div>` : ''}
+                ${t.guidanceMessage ? `<div class="ticket-details" style="margin-top:8px; background:#FFF3E0; border: 2px solid #FFA726; border-radius:8px; padding:12px;">
+                    <div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
+                        <span style="font-size:20px;">💡</span>
+                        <strong style="color:#E65100;">رسالة توجيهية من وحدة الخدمات الإرشادية:</strong>
+                    </div>
+                    <div style="color:#5D4037; line-height:1.7;">${t.guidanceMessage}</div>
+                </div>` : ''}
                 ${showSolution ? `<div class="ticket-details" style="margin-top:8px;">✅ <strong>الحل المنفذ:</strong> ${solution}</div>` : ''}
 
                 <div class="ticket-foot">
@@ -4530,6 +4742,13 @@ async function switchTab(event, tabName) {
                 <div class="ticket-row"><span class="k">المرشد:</span><span class="v">${ticket.advisor || '-'}</span></div>
             </div>
             ${details && details !== '-' ? `<div class="ticket-details">📝 <strong>تفاصيل الطلب:</strong> ${details}</div>` : ''}
+            ${ticket.guidanceMessage ? `<div class="ticket-details" style="margin-top:8px; background:#FFF3E0; border: 2px solid #FFA726; border-radius:8px; padding:12px;">
+                <div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
+                    <span style="font-size:20px;">💡</span>
+                    <strong style="color:#E65100;">رسالة توجيهية من وحدة الخدمات الإرشادية:</strong>
+                </div>
+                <div style="color:#5D4037; line-height:1.7;">${ticket.guidanceMessage}</div>
+            </div>` : ''}
             ${ticket.status === 'completed' && (ticket.solution || ticket.executedSolution || ticket.solutionText) ? `<div class="ticket-details" style="margin-top:8px;">✅ <strong>الحل المنفذ:</strong> ${ticket.solution || ticket.executedSolution || ticket.solutionText}</div>` : ''}
             <div class="ticket-foot">
                 ${ratingBadge}
@@ -4881,6 +5100,13 @@ function openDbDrawer(title, tickets) {
             <div class="ticket-row"><span class="k">المُسنَد:</span><span class="v">${t.assignedTo || '-'}</span></div>
           </div>
           ${details && details !== '-' ? `<div class="ticket-details">📝 <strong>تفاصيل الطلب:</strong> ${details}</div>` : ''}
+          ${t.guidanceMessage ? `<div class="ticket-details" style="margin-top:8px; background:#FFF3E0; border: 2px solid #FFA726; border-radius:8px; padding:12px;">
+              <div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
+                  <span style="font-size:20px;">💡</span>
+                  <strong style="color:#E65100;">رسالة توجيهية من وحدة الخدمات الإرشادية:</strong>
+              </div>
+              <div style="color:#5D4037; line-height:1.7;">${t.guidanceMessage}</div>
+          </div>` : ''}
           ${String(t.status).toLowerCase() === 'completed' && (t.solution || t.executedSolution || t.solutionText) ? `<div class="ticket-details" style="margin-top:8px;">✅ <strong>الحل المنفذ:</strong> ${t.solution || t.executedSolution || t.solutionText}</div>` : ''}
         </div>
       `;
