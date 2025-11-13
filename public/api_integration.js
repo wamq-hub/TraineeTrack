@@ -5,7 +5,7 @@
  */
 
 // رابط Google Apps Script Web App
-const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbyh21-h1E3FuKAZT2FVa9Ttu6qFgJ6gjp9GGH_1kKdRkjzOds0UOoxsXUsWDv_QOcJHRw/exec';
+const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbwgd9sVpUNWCu1N2KKxNGGa5yUs-noR7OsaSjLqKP_Pzz-Rrnr3fulSFwi8j3AU8cFMfA/exec';
 /**
  * إرسال طلب إلى Google Apps Script
  */
