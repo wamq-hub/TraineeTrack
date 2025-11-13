@@ -2567,7 +2567,7 @@
         if (r === 'advisory_unit' && advisoryCurrentMode === 'admin') {
             return true;
         }
-        return ['dean','trainees_vice','quality_vice'].includes(r);
+        return ['dean','trainees_vice','quality_vice','advisory_unit'].includes(r);
         }
 
 
@@ -4475,9 +4475,9 @@ async function loadAdvisorTicketsView() {
           
           // قائمة الأدور المسموح لها بالوصول
           const allowedRoles = [
-              'management', 'admin', 'quality_admin', 
-              'quality_vice', 'dean', 'trainees_vice'
-          ];
+            'management', 'admin', 'quality_admin', 
+            'quality_vice', 'dean', 'trainees_vice', 'advisory_unit'
+        ];
 
           if (!allowedRoles.includes(role)) {
               showError('⛔️ الوصول مقصور على الإدارة العليا فقط');
